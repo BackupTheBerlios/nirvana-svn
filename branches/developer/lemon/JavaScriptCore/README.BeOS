@@ -1,0 +1,17 @@
+BeOS readme notes
+
+Changes has been made:
+    o minor changes to PCRE
+    o added pthread_mutex'es from Haiku to KJS
+    o written BDictionary to transfer BINDINGS
+      from Mac OS X API to Be API. Actually
+      BINDINGS must be cross platform.
+    o added Sun headers for JavaVM
+
+TODO:
+    o BDictionary: Clone, Iterator (GetKeys), GetElements
+    o jni_jsobject.cpp: To port...
+    o grep all TODO marks...
+
+http://nirvana.berlios.de
+Maxim E. Sokhatsky (lemon) maxim@sokhatsky.com

@@ -1,0 +1,6 @@
+
+This version of WebCore is based on the KHTML library from KDE 3.0.2
+supplied with WebCore from Apple. Building Supported for now only in
+BeIDE.
+
+Maxim E. Sokhatsky (maxim@sokhatsky.com)
