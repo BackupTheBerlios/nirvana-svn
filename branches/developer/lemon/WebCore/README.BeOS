@@ -1,11 +1,13 @@
 
 This version of WebCore is based on the KHTML library from KDE 3.0.2
 supplied with WebCore from Apple. Building Supported for now only in
-BeIDE.
+BeIDE. Let us use this file now to fixup changes checkpoints.
 
-Status: some XML ECMA and almost full DOM are compiled (~1.5BM of objects)
+History
+
+Date: 29/06/2006 lemon - First
+Status: some CSS XML ECMA and almost full DOM are compiled (~1.5BM of objects)
 Problems: NSStringEncoding, NSDictionary, NSMutableDictionary...
-I wrote BDictionary, maybe I should should use STL, but ...
+Workarounds: I wrote BDictionary, maybe I should should use STL, but ...
 Todo: KWQCharsets to BDictionary
 
-Maxim E. Sokhatsky (maxim@sokhatsky.com)
