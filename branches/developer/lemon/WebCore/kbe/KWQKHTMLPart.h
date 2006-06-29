@@ -36,13 +36,13 @@
 #include "html_formimpl.h"
 #include "html_tableimpl.h"
 
-#import "WebCoreKeyboardAccess.h"
+#include "WebCoreKeyboardAccess.h"
 
 #include <CoreFoundation/CoreFoundation.h>
 
-#include <JavaVM/jni.h>
-#include <JavaScriptCore/jni_jsobject.h>
-#include <JavaScriptCore/runtime.h>
+#include <bindings/JavaVM/jni.h>
+#include <bindings/jni/jni_jsobject.h>
+#include <bindings/runtime.h>
 
 #include "KWQDict.h"
 
