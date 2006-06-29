@@ -23,6 +23,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
+/*
+	Changed NSString -> BString
+	Removed MS forwards
+	Added OS.h in includes
+*/
+
 #ifndef QPAINTER_H_
 #define QPAINTER_H_
 
@@ -134,7 +140,7 @@ private:
     
     void _drawPoints(const QPointArray &_points, bool winding, int index, int _npoints, bool fill);
 
-    void _updateRenderer(NSString **families);
+    void _updateRenderer(BString **families);
 
     QPainterPrivate *data;
     bool _isForPrinting;

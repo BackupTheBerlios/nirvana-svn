@@ -1,1 +1,1 @@
-#include <JavaScriptCore/internal.h>
+#include <kjs/internal.h>

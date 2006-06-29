@@ -1,1 +1,1 @@
-#include <JavaScriptCore/property_map.h>
+#include <kjs/property_map.h>

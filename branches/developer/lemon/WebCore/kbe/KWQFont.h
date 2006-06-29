@@ -23,15 +23,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
+/*
+	Changed NSFont -> BFont, NSString -> BString
+	Removed NSFont forwards
+	Added OS.h in includes
+*/
+
 #ifndef QFONT_H_
 #define QFONT_H_
 
+#include <OS.h>
 #include "KWQFontFamily.h"
 
 #ifdef __OBJC__
 @class NSFont;
 #else
-class NSFont;
+//class NSFont;
 #endif
 
 class QFont {
@@ -69,18 +76,18 @@ public:
     bool operator==(const QFont &x) const;
     bool operator!=(const QFont &x) const { return !(*this == x); }
     
-    NSString *getNSFamily() const { return _family.getNSFamily(); }
+    BString *getNSFamily() const { return _family.getNSFamily(); }
     int getNSTraits() const { return _trait; }
     float getNSSize() const { return _size; }
     
-    NSFont *getNSFont() const;
+    BFont *getNSFont() const;
 
 private:
     KWQFontFamily _family;
     int _trait;
     float _size;
     bool _isPrinterFont;
-    mutable NSFont *_NSFont;
+    mutable BFont *_NSFont;
 };
 
 #endif

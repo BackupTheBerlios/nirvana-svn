@@ -1,1 +1,1 @@
-#include <JavaScriptCore/interpreter.h>
+#include <kjs/interpreter.h>

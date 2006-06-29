@@ -1,1 +1,1 @@
-#include <JavaScriptCore/object.h>
+#include <kjs/object.h>

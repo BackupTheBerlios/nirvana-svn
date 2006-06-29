@@ -22,13 +22,20 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
+ 
+/*
+    Changed NSString -> BString
+    added OS.h
+    commented NSString forward
+*/
 
+#include <OS.h>
 #include "KWQString.h"
 
 #ifdef __OBJC__
 @class NSString;
 #else
-class NSString;
+//class NSString;
 #endif
 
 class KWQFontFamily {
@@ -43,7 +50,7 @@ public:
     QString family() const { return _family; }
     bool familyIsEmpty() const { return _family.isEmpty(); }
     
-    NSString *getNSFamily() const;
+    BString *getNSFamily() const;
 
     KWQFontFamily *next() { return _next; }
     const KWQFontFamily *next() const { return _next; }
@@ -67,7 +74,7 @@ private:
     QString _family;
     KWQFontFamily *_next;
     int _refCnt;
-    mutable NSString *_NSFamily;
+    mutable BString *_NSFamily;
 };
 
 
@@ -77,16 +84,16 @@ private:
 // and populates with a NSString * for each family name.  Null terminates
 // the array.
 #define CREATE_FAMILY_ARRAY(font,families)\
-int __numFamilies = 0;\
-{\
-    const KWQFontFamily *__ff = (font).firstFamily();\
-    while (__ff)\
-    {\
-        __numFamilies++;\
-        __ff = __ff->next();\
-    }\
-}\
-NSString *families[__numFamilies+1];\
+	int __numFamilies = 0; \
+	{ \
+	const KWQFontFamily *__ff = (font).firstFamily(); \
+	while (__ff) \
+	{ \
+	        __numFamilies++; \
+	        __ff = __ff->next();\
+	    }\
+	}\
+BString *families[__numFamilies+1];\
 {\
     int __i = 0;\
     const KWQFontFamily *__ff = (font).firstFamily();\

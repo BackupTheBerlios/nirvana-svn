@@ -30,7 +30,7 @@
 #include "KWQValueListImpl.h"
 
 #ifdef _KWQ_IOSTREAM_
-#include <ostream>
+#include <ostream.h>
 #endif
 
 template <class T> class QValueList;

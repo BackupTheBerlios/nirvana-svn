@@ -23,6 +23,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
+/*
+	Changed NSView -> BView
+*/
+
 #ifndef KWQKHTMLPart_H
 #define KWQKHTMLPart_H
 
@@ -244,7 +248,7 @@ public:
     QChar backslashAsCurrencySymbol() const;
 
     NSColor *bodyBackgroundColor() const;
-    
+    /// XXX
     WebCoreKeyboardUIMode keyboardUIMode() const;
 
     void setName(const QString &name);
@@ -269,11 +273,11 @@ private:
     
     void setPolicyBaseURL(const DOM::DOMString &);
     
-    NSView *mouseDownViewIfStillGood();
+    BView *mouseDownViewIfStillGood();
 
     QString generateFrameName();
 
-    NSView *nextKeyViewInFrame(DOM::NodeImpl *startingPoint, KWQSelectionDirection);
+    BView *nextKeyViewInFrame(DOM::NodeImpl *startingPoint, KWQSelectionDirection);
     static DOM::NodeImpl *nodeForWidget(const QWidget *);
     static KWQKHTMLPart *partForNode(DOM::NodeImpl *);
     static NSView *documentViewForNode(DOM::NodeImpl *);
@@ -284,7 +288,7 @@ private:
     KWQSignal _completed;
     KWQSignal _completedWithBool;
     
-    NSView *_mouseDownView;
+    BView *_mouseDownView;
     bool _mouseDownWasInSubframe;
     bool _sendingEventToSubview;
     bool _mouseDownMayStartDrag;

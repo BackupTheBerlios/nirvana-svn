@@ -1,1 +1,1 @@
-#include <JavaScriptCore/collector.h>
+#include <kjs/collector.h>

@@ -1,1 +1,1 @@
-#include <JavaScriptCore/lookup.h>
+#include <kjs/lookup.h>
