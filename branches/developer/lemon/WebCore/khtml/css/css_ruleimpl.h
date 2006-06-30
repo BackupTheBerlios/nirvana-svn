@@ -25,11 +25,11 @@
 #ifndef _CSS_css_ruleimpl_h_
 #define _CSS_css_ruleimpl_h_
 
-#include "dom/dom_string.h"
-#include "dom/css_rule.h"
-#include "css/css_base.h"
-#include "misc/loader_client.h"
-#include "misc/shared.h"
+#include "dom_string.h"
+#include "css_rule.h"
+#include "css_base.h"
+#include "loader_client.h"
+#include "shared.h"
 
 namespace khtml {
     class CachedCSSStyleSheet;

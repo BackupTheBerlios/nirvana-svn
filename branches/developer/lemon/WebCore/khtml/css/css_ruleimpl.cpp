@@ -20,20 +20,26 @@
  * the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  */
-#include "dom/css_rule.h"
-#include "dom/css_stylesheet.h"
-#include "dom/dom_exception.h"
-#include "dom/dom_string.h"
 
-#include "css/css_stylesheetimpl.h"
-#include "css/css_valueimpl.h"
-#include "css/cssparser.h"
-#include "css/css_ruleimpl.h"
+// dom
+#include "css_rule.h"
+#include "css_stylesheet.h"
+#include "dom_exception.h"
+#include "dom_string.h"
 
-#include "misc/loader.h"
-#include "misc/htmltags.h"
-#include "misc/htmlattrs.h"
-#include "xml/dom_docimpl.h"
+// css
+#include "css_stylesheetimpl.h"
+#include "css_valueimpl.h"
+#include "cssparser.h"
+#include "css_ruleimpl.h"
+
+// misc
+#include "loader.h"
+#include "htmltags.h"
+#include "htmlattrs.h"
+
+//xml
+#include "dom_docimpl.h"
 
 using namespace DOM;
 
