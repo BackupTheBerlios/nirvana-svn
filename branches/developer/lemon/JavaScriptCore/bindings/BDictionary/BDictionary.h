@@ -58,6 +58,7 @@ public:
 	//void SetDebug(bool new_state);
 
 	unsigned short Size; // number of slots
+	//friend bool operator==(const BDictionary &a, const BDictionary &b); 
 
 private:
 
@@ -67,8 +68,13 @@ private:
 	unsigned long hash(const char *value);
 	BDictionaryEntry *lookup_bucket(const char *value);
 
-    friend ostream &operator<<(ostream &stream, BDictionary &htable);
-};
+        friend ostream &operator<<(ostream &stream, BDictionary &htable);
+}
+
+inline bool BDictionary::operator==(const BDictionary &a, const BDictionary &b){
+    return (a == b);
+}
+
 
 #endif /* */
 

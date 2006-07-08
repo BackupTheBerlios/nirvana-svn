@@ -257,3 +257,8 @@ unsigned long BDictionary::hash(const char *key)
 	}
     return (hval % Size);
 }
+/*
+bool operator==(const BDictionary &a, const BDictionary &b) {
+    return true;
+}
+*/

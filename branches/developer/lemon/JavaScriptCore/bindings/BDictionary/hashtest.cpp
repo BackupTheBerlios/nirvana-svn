@@ -9,12 +9,14 @@ int main(void) {
 	char *one = "1";
 	char *two = "2";
 	BDictionary *dict = new BDictionary();
+	BDictionary *dict2 = new BDictionary();
 	printf("BDictionary Test.\n");
 	dict->AddItem("one", one);
 	dict->AddItem("two", two);
 	char *list = (char *)dict->ItemAt("one");
 	printf("%s",list);
 	list = (char *)dict->ItemAt("two");
+	if (dict == dict2) printf("equals");
 	printf("%s",list);
 	return 0;
 }
