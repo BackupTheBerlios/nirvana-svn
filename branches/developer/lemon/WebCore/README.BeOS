@@ -1,5 +1,5 @@
 
-This version of WebCore is based on the KHTML library from KDE 3.0.2
+This is BeOS version of WebCore is based on the KHTML library from KDE 3.0.2
 supplied with WebCore from Apple. Building Supported for now only in
 BeIDE. Let us use this file now to fixup changes checkpoints.
 
