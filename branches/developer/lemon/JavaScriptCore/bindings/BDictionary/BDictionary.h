@@ -2,10 +2,10 @@
 /
 /	File:			BDictionary.h
 /
-/	Description:	BDictionary class provides classical Hashtable storage for object.
+/	Description:	BDictionary class provides Hashtable.
 /					Not thread safe.
 /
-/	Copyright 2005 (c) Synergy Research Center, Inc.
+/	Copyright 2005 (c) SYNRC Research Center.
 /
 ******************************************************************************/
 
@@ -16,7 +16,6 @@
 #include <SupportDefs.h>
 #include <OS.h>
 #include <iostream.h>
-#include "BDictionary.h"
 
 class BDictionary;
 
@@ -34,8 +33,8 @@ private:
 	BDictionary *Parent;
 
 	friend ostream &operator<<(ostream &stream, BDictionaryEntry &bkt);
-    friend ostream &operator<<(ostream &stream, BDictionary &htable);
-    friend class BDictionary;
+	friend ostream &operator<<(ostream &stream, BDictionary &htable);
+        friend class BDictionary;
 };
 
 class BDictionary {
@@ -49,7 +48,7 @@ public:
 	BDictionary(uint16 sz = BDictionary::default_size);
 	~BDictionary();
 
-    void AddItem(const char *key, void *value);
+	void AddItem(const char *key, void *value);
 	void RemoveItem(const char *value);
 	int Lookup(const char *value); // 0 if value not in table
 	void *ItemAt(const char *value);

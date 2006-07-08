@@ -5,7 +5,7 @@
 /	Description:	BDictionary class provides classical Hashtable storage for object.
 /					Not thread safe.
 /
-/	Copyright 2005 (c) Synergy Research Center, Inc.
+/	Copyright 2005 (c) SYNRC Research Center.
 /
 ******************************************************************************/
 
@@ -14,7 +14,6 @@
 #include <string.h>
 #include <assert.h>
 #include "BDictionary.h"
-
 
 BDictionaryEntry::BDictionaryEntry() :
     Key(NULL),
