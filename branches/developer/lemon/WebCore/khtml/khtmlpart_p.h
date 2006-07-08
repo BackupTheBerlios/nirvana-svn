@@ -9,7 +9,7 @@
  *                     2000-2001 Simon Hausmann <hausmann@kde.org>
  *                     2000-2001 Dirk Mueller <mueller@kde.org>
  *                     2000 Stefan Schimanski <1Stein@gmx.de>
- * Copyright (C) 2003 Apple Computer, Inc.
+ * Copyright (C) 2004 Apple Computer, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -42,7 +42,9 @@
 #include "misc/decoder.h"
 #include "java/kjavaappletcontext.h"
 #include "ecma/kjs_proxy.h"
+#include "css/css_valueimpl.h"
 #include "dom/dom_misc.h"
+#include "xml/dom_selection.h"
 
 namespace KIO
 {
@@ -81,6 +83,7 @@ namespace khtml
     bool m_bNotify;
   };
 
+  class EditCommand;
 };
 
 class FrameList : public QValueList<khtml::ChildFrame>
@@ -119,14 +122,12 @@ public:
     m_bCleared = false;
     m_zoomFactor = 100;
     m_bDnd = true;
-    m_startOffset = m_endOffset = 0;
-    m_startBeforeEnd = true;
 #if !APPLE_CHANGES
     m_linkCursor = KCursor::handCursor();
-#endif
     m_loadedObjects = 0;
     m_totalObjectCount = 0;
     m_jobPercent = 0;
+#endif
     m_haveEncoding = false;
     m_activeFrame = 0L;
 #if !APPLE_CHANGES
@@ -152,7 +153,12 @@ public:
     m_bPluginsOverride = false;
     m_onlyLocalReferences = false;
 
-    m_inEditMode = DOM::FlagNone;
+    m_caretBlinkTimer = 0;
+    m_caretVisible = true;
+    m_caretBlinks = true;
+    m_caretPaint = true;
+    
+    m_typingStyle = 0;
 
     m_metaRefreshEnabled = true;
     m_bHTTPRefresh = false;
@@ -184,7 +190,6 @@ public:
             m_ssl_in_use = part->d->m_ssl_in_use;
 #endif
             m_onlyLocalReferences = part->d->m_onlyLocalReferences;
-            m_inEditMode = part->d->m_inEditMode;
             m_zoomFactor = part->d->m_zoomFactor;
         }
     }
@@ -210,6 +215,8 @@ public:
 #ifndef Q_WS_QWS
     delete m_javaContext;
 #endif
+    if (m_typingStyle)
+        m_typingStyle->deref();
   }
 
   FrameList m_frames;
@@ -318,8 +325,10 @@ public:
 
   int m_zoomFactor;
 
+#if !APPLE_CHANGES || KWIQ
   int m_findPos;
   DOM::NodeImpl *m_findNode;
+#endif
 
   QString m_strSelectedURL;
   QString m_strSelectedURLTarget;
@@ -340,23 +349,20 @@ public:
   bool m_bMousePressed;
   DOM::Node m_mousePressNode; //node under the mouse when the mouse was pressed (set in the mouse handler)
 
-#if APPLE_CHANGES
-  DOM::Node m_initialSelectionStart;
-  long m_initialSelectionStartOffset;
-  DOM::Node m_initialSelectionEnd;
-  long m_initialSelectionEndOffset;
-  bool m_selectionInitiatedWithDoubleClick:1;
-  bool m_selectionInitiatedWithTripleClick:1;
-  bool m_mouseMovedSinceLastMousePress:1;
-#endif
-  DOM::Node m_selectionStart;
-  long m_startOffset;
-  DOM::Node m_selectionEnd;
-  long m_endOffset;
+  DOM::Selection::ETextGranularity m_selectionGranularity;
+  bool m_beganSelectingText;
+#if !APPLE_CHANGES
   QString m_overURL;
   QString m_overURLTarget;
+#endif
 
-  bool m_startBeforeEnd:1;
+  DOM::Selection m_selection;
+  DOM::Selection m_dragCaret;
+  int m_caretBlinkTimer;
+
+  bool m_caretVisible:1;
+  bool m_caretBlinks:1;
+  bool m_caretPaint:1;
   bool m_bDnd:1;
   bool m_bFirstData:1;
   bool m_bClearing:1;
@@ -364,7 +370,9 @@ public:
   bool m_bSecurityInQuestion:1;
   bool m_focusNodeRestored:1;
 
-  TristateFlag m_inEditMode;
+  khtml::EditCommand m_lastEditCommand;
+  int m_xPosForVerticalArrowNavigation;
+  DOM::CSSStyleDeclarationImpl *m_typingStyle;
 
   int m_focusNodeNumber;
 
@@ -375,14 +383,12 @@ public:
 
 #if !APPLE_CHANGES
   QCursor m_linkCursor;
-#endif
   QTimer m_scrollTimer;
 
   unsigned long m_loadedObjects;
   unsigned long m_totalObjectCount;
   unsigned int m_jobPercent;
 
-#if !APPLE_CHANGES
   KHTMLFind *m_findDialog;
 
   struct findState

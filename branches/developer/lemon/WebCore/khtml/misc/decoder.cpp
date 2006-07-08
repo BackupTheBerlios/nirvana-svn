@@ -26,6 +26,7 @@
 #undef DECODE_DEBUG
 //#define DECODE_DEBUG
 
+#include <assert.h>
 #include "decoder.h"
 using namespace khtml;
 

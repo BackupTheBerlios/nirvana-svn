@@ -30,6 +30,8 @@
 #include <config.h>
 #endif
 
+#define KHTML_NO_XBL
+
 #include <time.h>
 
 #include "loader_client.h"
@@ -101,7 +103,10 @@ namespace khtml
 	enum Type {
 	    Image,
 	    CSSStyleSheet,
-	    Script
+	    Script,
+#ifndef KHTML_NO_XBL
+            XBL
+#endif
 	};
 
 	enum Status {
@@ -174,8 +179,8 @@ namespace khtml
         void setRequest(Request *_request);
 
 #if APPLE_CHANGES
-        void *response() { return m_response; }
-        void setResponse (void *response);
+        KWIQResponse *response() { return m_response; }
+        void setResponse (KWIQResponse *response);
 #endif
         bool canDelete() const { return (m_clients.count() == 0 && !m_request); }
 
@@ -201,7 +206,7 @@ namespace khtml
         QString m_accept;
         Request *m_request;
 #if APPLE_CHANGES
-        void *m_response;
+        KWIQResponse *m_response;
 #endif
 	Type m_type;
 	Status m_status;
@@ -359,6 +364,31 @@ namespace khtml
 #endif
     };
 
+#ifndef KHTML_NO_XBL
+    class CachedXBLDocument : public CachedObject
+    {
+    public:
+        CachedXBLDocument(DocLoader* dl, const DOM::DOMString &url, KIO::CacheControl cachePolicy, time_t _expireDate);
+        virtual ~CachedXBLDocument();
+        
+        XBL::XBLDocumentImpl* document() const { return m_document; }
+        
+        virtual void ref(CachedObjectClient *consumer);
+        virtual void deref(CachedObjectClient *consumer);
+        
+        virtual void data( QBuffer &buffer, bool eof );
+        virtual void error( int err, const char *text );
+        
+        virtual bool schedule() const { return true; }
+        
+        void checkNotify();
+        
+protected:
+        XBL::XBLDocumentImpl* m_document;
+        QTextCodec* m_codec;
+    };
+#endif
+
     /**
      * @internal
      *
@@ -373,6 +403,10 @@ namespace khtml
 	CachedImage *requestImage( const DOM::DOMString &url);
 	CachedCSSStyleSheet *requestStyleSheet( const DOM::DOMString &url, const QString& charset);
         CachedScript *requestScript( const DOM::DOMString &url, const QString& charset);
+
+#ifndef KHTML_NO_XBL
+        CachedXBLDocument* requestXBLDocument(const DOM::DOMString &url);
+#endif
 
 	bool autoloadImages() const { return m_bautoloadImages; }
         KIO::CacheControl cachePolicy() const { return m_cachePolicy; }
@@ -449,7 +483,7 @@ namespace khtml
 	void slotFinished( KIO::Job * );
 #if APPLE_CHANGES
 	void slotData( KIO::Job *, const char *data, int size );
-        void slotReceivedResponse ( KIO::Job *, void *response );
+        void slotReceivedResponse ( KIO::Job *, KWIQResponse *response );
 #else
 	void slotData( KIO::Job *, const QByteArray & );
 #endif
@@ -487,12 +521,19 @@ namespace khtml
          * Otherwise, it is automatically base-url expanded
 	 */
 	static CachedImage *requestImage( DocLoader* l, const DOM::DOMString &url, bool reload=false, time_t _expireDate=0);
+        static CachedImage *requestImage( DocLoader* l, const KURL &url, bool reload=false, time_t _expireDate=0);
 
 	/**
 	 * Ask the cache for some url. Will return a cachedObject, and
 	 * load the requested data in case it's not cached
 	 */
 	static CachedCSSStyleSheet *requestStyleSheet( DocLoader* l, const DOM::DOMString &url, bool reload=false, time_t _expireDate=0, const QString& charset = QString::null);
+
+#ifndef KHTML_NO_XBL
+        // Ask the cache for an XBL document.
+        static CachedXBLDocument* requestXBLDocument(DocLoader* l, const DOM::DOMString &url, 
+                                                     bool reload=false, time_t _expireDate=0);
+#endif
 
         /**
          * Pre-loads a stylesheet into the cache.
@@ -556,6 +597,9 @@ namespace khtml
             TypeStatistic movies;
             TypeStatistic styleSheets;
             TypeStatistic scripts;
+#ifndef KHTML_NO_XBL
+            TypeStatistic xblDocs;
+#endif
             TypeStatistic other;
         };
 

@@ -21,7 +21,7 @@
  */
 
 
-#include "xml_tokenizer.h"
+#include "xml/xml_tokenizer.h"
 #include "xml/dom_docimpl.h"
 #include "xml/dom_textimpl.h"
 #include "xml/dom_xmlimpl.h"

@@ -42,9 +42,9 @@
  * David R. Hanson, Software -- Practice and Experience, Vol. 20(1).
  */
 
-#include <OS.h>
 #include <stdlib.h>
 #include <string.h>
+#include <OS.h>
 #include "arena.h"
 #include <assert.h>
 
