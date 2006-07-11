@@ -1,7 +1,7 @@
 /*
  * This file is part of the DOM implementation for KDE.
  *
- * (C) 2001 Peter Kelly (pmk@post.com)
+ * Copyright (C) 2004 Apple Computer, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -19,32 +19,32 @@
  * Boston, MA 02111-1307, USA.
  *
  */
+#ifndef _DOM_AtomicStringList_h_
+#define _DOM_AtomicStringList_h_
 
-#ifndef _DOM_ViewsImpl_h_
-#define _DOM_ViewsImpl_h_
-
-#include "dom/dom_misc.h"
-#include "css/css_valueimpl.h"
-#include "misc/shared.h"
+#include "dom/dom_string.h"
+#include "dom_atomicstring.h"
 
 namespace DOM {
 
-class DocumentImpl;
-class CSSStyleDeclarationImpl;
-class ElementImpl;
-class DOMStringImpl;
-
-// Introduced in DOM Level 2:
-class AbstractViewImpl : public khtml::Shared<AbstractViewImpl>
-{
+class AtomicStringList {
 public:
-    AbstractViewImpl(DocumentImpl *_document);
-    ~AbstractViewImpl();
-    DocumentImpl *document() const { return m_document; }
-    CSSStyleDeclarationImpl *getComputedStyle(ElementImpl *elt, DOMStringImpl *pseudoElt);
-protected:
-    DocumentImpl *m_document;
+    AtomicStringList() :m_next(0) {}
+    AtomicStringList(const AtomicString& str, AtomicStringList* n = 0) :m_string(str), m_next(n) {}
+    ~AtomicStringList() { delete m_next; }
+    
+    AtomicStringList* next() const { return m_next; }
+    void setNext(AtomicStringList* n) { m_next = n; }
+    const AtomicString& string() const { return m_string; }
+    void setString(const AtomicString& str) { m_string = str; }
+
+    AtomicStringList* clone() { return new AtomicStringList(m_string, m_next ? m_next->clone() : 0); }
+    void clear() { m_string = nullAtom; delete m_next; m_next = 0; }
+    
+private:
+    AtomicString m_string;
+    AtomicStringList* m_next;
 };
 
-}; //namespace
+}
 #endif

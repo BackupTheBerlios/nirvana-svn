@@ -48,7 +48,7 @@ class CharacterDataImpl;
  */
 class CharacterData : public Node
 {
-#if APPLE_CHANGES
+#if APPLE_CHANGE && !KWIQ //Why not
     friend class CharacterDataImpl;
 #endif
 
@@ -270,7 +270,7 @@ class TextImpl;
 class Text : public CharacterData
 {
     friend class Document;
-#if APPLE_CHANGES
+#if APPLE_CHANGES && !KWIQ //Why not
     friend class TextImpl;
 #endif
 public:

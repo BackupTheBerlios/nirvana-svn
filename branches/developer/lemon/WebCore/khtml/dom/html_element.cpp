@@ -116,20 +116,6 @@ void HTMLElement::setClassName( const DOMString &value )
     if(impl) ((ElementImpl *)impl)->setAttribute(ATTR_CLASS, value);
 }
 
-void HTMLElement::removeCSSProperty( const DOMString &property )
-{
-    int id = getPropertyID(property.string().lower().ascii(), property.length());
-    if(id && impl)
-        static_cast<HTMLElementImpl*>(impl)->removeCSSProperty(id);
-}
-
-void HTMLElement::addCSSProperty( const DOMString &property, const DOMString &value )
-{
-    int id = getPropertyID(property.string().lower().ascii(), property.length());
-    if(id && impl)
-        static_cast<HTMLElementImpl*>(impl)->addCSSProperty(id, value);
-}
-
 DOMString HTMLElement::innerHTML() const
 {
     if ( !impl ) return DOMString();
@@ -142,7 +128,11 @@ void HTMLElement::setInnerHTML( const DOMString &html )
     if( impl )
 	ok = ((HTMLElementImpl *)impl)->setInnerHTML( html );
     if ( !ok )
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::NO_MODIFICATION_ALLOWED_ERR; return; }
+#else
 	throw DOMException(DOMException::NO_MODIFICATION_ALLOWED_ERR);
+#endif    
 }
 
 DOMString HTMLElement::innerText() const
@@ -157,7 +147,49 @@ void HTMLElement::setInnerText( const DOMString &text )
     if( impl )
 	ok = ((HTMLElementImpl *)impl)->setInnerText( text );
     if ( !ok )
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::NO_MODIFICATION_ALLOWED_ERR; return; }
+#else
 	throw DOMException(DOMException::NO_MODIFICATION_ALLOWED_ERR);
+#endif    
+}
+
+DOMString HTMLElement::outerHTML() const
+{
+    if ( !impl ) return DOMString();
+    return ((HTMLElementImpl *)impl)->outerHTML();
+}
+
+void HTMLElement::setOuterHTML( const DOMString &html )
+{
+    bool ok = false;
+    if( impl )
+	ok = ((HTMLElementImpl *)impl)->setOuterHTML( html );
+    if ( !ok )
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::NO_MODIFICATION_ALLOWED_ERR; return; }
+#else
+	throw DOMException(DOMException::NO_MODIFICATION_ALLOWED_ERR);
+#endif    
+}
+
+DOMString HTMLElement::outerText() const
+{
+    if ( !impl ) return DOMString();
+    return ((HTMLElementImpl *)impl)->outerText();
+}
+
+void HTMLElement::setOuterText( const DOMString &text )
+{
+    bool ok = false;
+    if( impl )
+	ok = ((HTMLElementImpl *)impl)->setOuterText( text );
+    if ( !ok )
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::NO_MODIFICATION_ALLOWED_ERR; return; }
+#else
+	throw DOMException(DOMException::NO_MODIFICATION_ALLOWED_ERR);
+#endif    
 }
 
 HTMLCollection HTMLElement::children() const
@@ -189,12 +221,11 @@ DOMString HTMLElement::contentEditable() const {
 
 void HTMLElement::setContentEditable(const DOMString &enabled) {
     if(!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return ; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
-    if (enabled == "inherit") {
-        int exceptionCode;
-        static_cast<HTMLElementImpl *>(impl)->removeAttribute(ATTR_CONTENTEDITABLE, exceptionCode);
-    }
-    else
-        static_cast<HTMLElementImpl *>(impl)->setAttribute(ATTR_CONTENTEDITABLE, enabled.isEmpty() ? "true" : enabled);
+#endif
+    static_cast<HTMLElementImpl *>(impl)->setContentEditable(enabled);
 }
 

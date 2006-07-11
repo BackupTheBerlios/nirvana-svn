@@ -5,7 +5,7 @@
  * (C) 2000 Gunnstein Lye (gunnstein@netcom.no)
  * (C) 2000 Frederik Holljen (frederik.holljen@hig.no)
  * (C) 2001 Peter Kelly (pmk@post.com)
- * Copyright (C) 2003 Apple Computer, Inc.
+ * Copyright (C) 2004 Apple Computer, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -23,11 +23,13 @@
  * Boston, MA 02111-1307, USA.
  *
  */
+
 #include "dom/dom_exception.h"
+
 #include "xml/dom_docimpl.h"
 #include "xml/dom2_rangeimpl.h"
 
-using namespace DOM;
+namespace DOM {
 
 Range::Range()
 {
@@ -55,12 +57,20 @@ Range::Range(const Range &other)
 Range::Range(const Node startContainer, const long startOffset, const Node endContainer, const long endOffset)
 {
     if (startContainer.isNull() || endContainer.isNull()) {
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::NOT_FOUND_ERR; return; }
+#else
         throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
     }
 
     if (!startContainer.handle()->getDocument() ||
         startContainer.handle()->getDocument() != endContainer.handle()->getDocument()) {
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::WRONG_DOCUMENT_ERR; return; }
+#else
         throw DOMException(DOMException::WRONG_DOCUMENT_ERR);
+#endif    
     }
 
     impl = new RangeImpl(startContainer.handle()->docPtr(),startContainer.handle(),startOffset,endContainer.handle(),endOffset);
@@ -91,7 +101,11 @@ Range::~Range()
 Node Range::startContainer() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     NodeImpl *r = impl->startContainer(exceptioncode);
@@ -102,7 +116,11 @@ Node Range::startContainer() const
 long Range::startOffset() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     long r = impl->startOffset(exceptioncode);
@@ -114,7 +132,11 @@ long Range::startOffset() const
 Node Range::endContainer() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     NodeImpl *r = impl->endContainer(exceptioncode);
@@ -125,7 +147,11 @@ Node Range::endContainer() const
 long Range::endOffset() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     long r = impl->endOffset(exceptioncode);
@@ -136,7 +162,11 @@ long Range::endOffset() const
 bool Range::collapsed() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     bool r = impl->collapsed(exceptioncode);
@@ -147,7 +177,11 @@ bool Range::collapsed() const
 Node Range::commonAncestorContainer()
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return Node(); }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     NodeImpl *r = impl->commonAncestorContainer(exceptioncode);
@@ -158,7 +192,11 @@ Node Range::commonAncestorContainer()
 void Range::setStart( const Node &refNode, long offset )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     impl->setStart(refNode.handle(),offset,exceptioncode);
@@ -168,7 +206,11 @@ void Range::setStart( const Node &refNode, long offset )
 void Range::setEnd( const Node &refNode, long offset )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     impl->setEnd(refNode.handle(),offset,exceptioncode);
@@ -178,7 +220,11 @@ void Range::setEnd( const Node &refNode, long offset )
 void Range::setStartBefore( const Node &refNode )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
 
     int exceptioncode = 0;
@@ -189,7 +235,11 @@ void Range::setStartBefore( const Node &refNode )
 void Range::setStartAfter( const Node &refNode )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     impl->setStartAfter(refNode.handle(),exceptioncode);
@@ -199,7 +249,11 @@ void Range::setStartAfter( const Node &refNode )
 void Range::setEndBefore( const Node &refNode )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     impl->setEndBefore(refNode.handle(),exceptioncode);
@@ -209,7 +263,11 @@ void Range::setEndBefore( const Node &refNode )
 void Range::setEndAfter( const Node &refNode )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     impl->setEndAfter(refNode.handle(),exceptioncode);
@@ -219,7 +277,11 @@ void Range::setEndAfter( const Node &refNode )
 void Range::collapse( bool toStart )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     impl->collapse(toStart,exceptioncode);
@@ -229,7 +291,11 @@ void Range::collapse( bool toStart )
 void Range::selectNode( const Node &refNode )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     impl->selectNode(refNode.handle(),exceptioncode);
@@ -239,7 +305,11 @@ void Range::selectNode( const Node &refNode )
 void Range::selectNodeContents( const Node &refNode )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     impl->selectNodeContents(refNode.handle(),exceptioncode);
@@ -249,7 +319,11 @@ void Range::selectNodeContents( const Node &refNode )
 short Range::compareBoundaryPoints( CompareHow how, const Range &sourceRange )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     short r = impl->compareBoundaryPoints(how,sourceRange.handle(),exceptioncode);
@@ -260,7 +334,11 @@ short Range::compareBoundaryPoints( CompareHow how, const Range &sourceRange )
 bool Range::boundaryPointsValid(  )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return impl->boundaryPointsValid();
 }
@@ -268,7 +346,11 @@ bool Range::boundaryPointsValid(  )
 void Range::deleteContents(  )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     impl->deleteContents(exceptioncode);
@@ -278,7 +360,11 @@ void Range::deleteContents(  )
 DocumentFragment Range::extractContents(  )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     DocumentFragmentImpl *r = impl->extractContents(exceptioncode);
@@ -289,7 +375,11 @@ DocumentFragment Range::extractContents(  )
 DocumentFragment Range::cloneContents(  )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     DocumentFragmentImpl *r = impl->cloneContents(exceptioncode);
@@ -300,7 +390,11 @@ DocumentFragment Range::cloneContents(  )
 void Range::insertNode( const Node &newNode )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     impl->insertNode(newNode.handle(),exceptioncode);
@@ -310,7 +404,11 @@ void Range::insertNode( const Node &newNode )
 void Range::surroundContents( const Node &newParent )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     impl->surroundContents(newParent.handle(),exceptioncode);
@@ -320,7 +418,11 @@ void Range::surroundContents( const Node &newParent )
 Range Range::cloneRange(  )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     RangeImpl *r = impl->cloneRange(exceptioncode);
@@ -331,7 +433,11 @@ Range Range::cloneRange(  )
 DOMString Range::toString(  )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return DOMString(); }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     DOMString r = impl->toString(exceptioncode);
@@ -343,7 +449,11 @@ DOMString Range::toString(  )
 DOMString Range::toHTML(  )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return DOMString(); }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return impl->toHTML();
 }
@@ -351,7 +461,11 @@ DOMString Range::toHTML(  )
 DocumentFragment Range::createContextualFragment( DOMString &html )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     DocumentFragmentImpl *r = impl->createContextualFragment(html, exceptioncode);
@@ -363,7 +477,11 @@ DocumentFragment Range::createContextualFragment( DOMString &html )
 void Range::detach(  )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     impl->detach(exceptioncode);
@@ -373,7 +491,11 @@ void Range::detach(  )
 bool Range::isDetached() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return impl->isDetached();
 }
@@ -394,11 +516,26 @@ void Range::throwException(int exceptioncode) const
         return;
 
     // ### also check for CSS & other exceptions?
+#if KHTML_NO_EXCEPTIONS
+    if (exceptioncode >= RangeException::_EXCEPTION_OFFSET && exceptioncode <= RangeException::_EXCEPTION_MAX)
+        _exceptioncode = exceptioncode - RangeException::_EXCEPTION_OFFSET;
+    else
+        _exceptioncode = exceptioncode;
+#else
     if (exceptioncode >= RangeException::_EXCEPTION_OFFSET && exceptioncode <= RangeException::_EXCEPTION_MAX)
         throw RangeException(static_cast<RangeException::RangeExceptionCode>(exceptioncode-RangeException::_EXCEPTION_OFFSET));
     else
         throw DOMException(exceptioncode);
+#endif    
+    
 }
 
+bool operator==(const Range &a, const Range &b)
+{
+    return a.startContainer() == b.startContainer()
+        && a.endContainer() == b.endContainer()
+        && a.startOffset() == b.startOffset()
+        && a.endOffset() == b.endOffset();
+}
 
-
+}

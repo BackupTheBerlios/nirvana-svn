@@ -2,7 +2,7 @@
  * This file is part of the DOM implementation for KDE.
  *
  * (C) 1999 Lars Knoll (knoll@kde.org)
- * Copyright (C) 2003 Apple Computer, Inc.
+ * Copyright (C) 2004 Apple Computer, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -187,10 +187,17 @@ unsigned long CSSStyleSheet::insertRule( const DOMString &rule, unsigned long in
     int exceptioncode = 0;
     if(!impl) return 0;
     unsigned long retval = ((CSSStyleSheetImpl *)impl)->insertRule( rule, index, exceptioncode );
+#if KHTML_NO_EXCEPTIONS
+    if ( exceptioncode >= CSSException::_EXCEPTION_OFFSET )
+        {_exceptioncode =  exceptioncode - CSSException::_EXCEPTION_OFFSET; return 0; }
+    if ( exceptioncode )
+        { _exceptioncode =  exceptioncode ; return 0; }
+#else
     if ( exceptioncode >= CSSException::_EXCEPTION_OFFSET )
         throw CSSException( exceptioncode - CSSException::_EXCEPTION_OFFSET );
     if ( exceptioncode )
-        throw DOMException( exceptioncode );
+        throw DOMException( exceptioncode );    
+#endif
     return retval;
 }
 
@@ -199,10 +206,36 @@ void CSSStyleSheet::deleteRule( unsigned long index )
     int exceptioncode = 0;
     if(impl)
         ((CSSStyleSheetImpl *)impl)->deleteRule( index, exceptioncode );
+#if KHTML_NO_EXCEPTIONS
+    if ( exceptioncode >= CSSException::_EXCEPTION_OFFSET )
+        {_exceptioncode =  exceptioncode - CSSException::_EXCEPTION_OFFSET; return; }
+    if ( exceptioncode )
+        { _exceptioncode =  exceptioncode ; return; }
+#else
     if ( exceptioncode >= CSSException::_EXCEPTION_OFFSET )
         throw CSSException( exceptioncode - CSSException::_EXCEPTION_OFFSET );
     if ( exceptioncode )
-        throw DOMException( exceptioncode );
+        throw DOMException( exceptioncode );    
+#endif
+}
+
+void CSSStyleSheet::addRule( const DOMString &selector, const DOMString &style, long index )
+{
+    if (!impl)
+        return;
+    int exceptioncode = 0;
+    static_cast<CSSStyleSheetImpl *>(impl)->addRule( selector, style, index, exceptioncode );
+#if KHTML_NO_EXCEPTIONS
+    if ( exceptioncode >= CSSException::_EXCEPTION_OFFSET )
+        {_exceptioncode =  exceptioncode - CSSException::_EXCEPTION_OFFSET; return; }
+    if ( exceptioncode )
+        { _exceptioncode =  exceptioncode ; return; }
+#else
+    if ( exceptioncode >= CSSException::_EXCEPTION_OFFSET )
+        throw CSSException( exceptioncode - CSSException::_EXCEPTION_OFFSET );
+    if ( exceptioncode )
+        throw DOMException( exceptioncode );    
+#endif
 }
 
 

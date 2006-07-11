@@ -1,7 +1,7 @@
-/*
+/**
  * This file is part of the DOM implementation for KDE.
  *
- * (C) 2001 Peter Kelly (pmk@post.com)
+ * Copyright (C) 2004 Apple Computer, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -17,34 +17,30 @@
  * along with this library; see the file COPYING.LIB.  If not, write to
  * the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
- *
  */
 
-#ifndef _DOM_ViewsImpl_h_
-#define _DOM_ViewsImpl_h_
+#include <qdict.h>
+#include "dom/dom_string.h"
 
-#include "dom/dom_misc.h"
-#include "css/css_valueimpl.h"
-#include "misc/shared.h"
+namespace DOM
+{    
+struct XmlNamespaceEntry;
 
-namespace DOM {
-
-class DocumentImpl;
-class CSSStyleDeclarationImpl;
-class ElementImpl;
-class DOMStringImpl;
-
-// Introduced in DOM Level 2:
-class AbstractViewImpl : public khtml::Shared<AbstractViewImpl>
+class XmlNamespaceTable
 {
 public:
-    AbstractViewImpl(DocumentImpl *_document);
-    ~AbstractViewImpl();
-    DocumentImpl *document() const { return m_document; }
-    CSSStyleDeclarationImpl *getComputedStyle(ElementImpl *elt, DOMStringImpl *pseudoElt);
-protected:
-    DocumentImpl *m_document;
+    static int getNamespaceID(const DOMString& uri, bool readonly = true);
+    static DOMString getNamespaceURI(int id);
+    
+    static QDict<XmlNamespaceEntry>* gNamespaceTable;
 };
 
-}; //namespace
-#endif
+struct XmlNamespaceEntry
+{
+    XmlNamespaceEntry(int id, const DOMString& uri) :m_id(id), m_uri(uri) {}
+    
+    int m_id;
+    DOMString m_uri;
+};
+
+}

@@ -32,7 +32,7 @@ namespace khtml {
 
 namespace DOM {
 
-class DOMStringImpl;
+//class DOMStringImpl;
 
 /**
  * This class implements the basic string we use in the DOM. We do not use
@@ -48,6 +48,10 @@ class DOMString
     friend class CharacterDataImpl;
     friend bool operator==( const DOMString &a, const char *b );
     friend bool operator==( const DOMString &a, const DOMString &b );
+
+protected:
+    DOMStringImpl *impl;
+    
 public:
     /**
      * default constructor. Gives an empty DOMString
@@ -120,8 +124,7 @@ public:
     operator NSString *() const;
 #endif
 
-protected:
-    DOMStringImpl *impl;
+
 };
 
 DOMString operator + (const DOMString &a, const DOMString &b);

@@ -115,7 +115,11 @@ long HTMLTableCellElement::cellIndex() const
 
 void HTMLTableCellElement::setCellIndex( long /*_cellIndex*/ )
 {
+#if KHTML_NO_EXCEPTIONS    
+    { _exceptioncode = DOMException::NO_MODIFICATION_ALLOWED_ERR; return; }
+#else
     throw DOMException(DOMException::NO_MODIFICATION_ALLOWED_ERR);
+#endif    
 }
 
 DOMString HTMLTableCellElement::abbr() const
@@ -609,7 +613,11 @@ HTMLElement HTMLTableElement::insertRow( long index )
     int exceptioncode = 0;
     HTMLElementImpl* ret = ((HTMLTableElementImpl *)impl)->insertRow( index, exceptioncode );
     if (exceptioncode)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = exceptioncode; return 0; }
+#else
         throw DOMException(exceptioncode);
+#endif    
     return ret;
 }
 
@@ -619,7 +627,11 @@ void HTMLTableElement::deleteRow( long index )
     if(impl)
         ((HTMLTableElementImpl *)impl)->deleteRow( index, exceptioncode );
     if (exceptioncode)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = exceptioncode; return; }
+#else
         throw DOMException(exceptioncode);
+#endif    
 }
 
 // --------------------------------------------------------------------------
@@ -660,7 +672,11 @@ long HTMLTableRowElement::rowIndex() const
 
 void HTMLTableRowElement::setRowIndex( long /*_rowIndex*/ )
 {
+#if KHTML_NO_EXCEPTIONS    
+    { _exceptioncode = DOMException::NO_MODIFICATION_ALLOWED_ERR; return; }
+#else
     throw DOMException(DOMException::NO_MODIFICATION_ALLOWED_ERR);
+#endif    
 }
 
 long HTMLTableRowElement::sectionRowIndex() const
@@ -671,7 +687,11 @@ long HTMLTableRowElement::sectionRowIndex() const
 
 void HTMLTableRowElement::setSectionRowIndex( long /*_sectionRowIndex*/ )
 {
+#if KHTML_NO_EXCEPTIONS    
+    { _exceptioncode = DOMException::NO_MODIFICATION_ALLOWED_ERR; return; }
+#else
     throw DOMException(DOMException::NO_MODIFICATION_ALLOWED_ERR);
+#endif    
 }
 
 HTMLCollection HTMLTableRowElement::cells() const
@@ -682,7 +702,11 @@ HTMLCollection HTMLTableRowElement::cells() const
 
 void HTMLTableRowElement::setCells( const HTMLCollection & /*_cells*/ )
 {
+#if KHTML_NO_EXCEPTIONS    
+    { _exceptioncode = DOMException::NO_MODIFICATION_ALLOWED_ERR; return; }
+#else
     throw DOMException(DOMException::NO_MODIFICATION_ALLOWED_ERR);
+#endif    
 }
 
 DOMString HTMLTableRowElement::align() const
@@ -746,7 +770,11 @@ HTMLElement HTMLTableRowElement::insertCell( long index )
     int exceptioncode = 0;
     HTMLElementImpl* ret = ((HTMLTableRowElementImpl *)impl)->insertCell( index, exceptioncode );
     if (exceptioncode)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = exceptioncode; return 0; }
+#else
         throw DOMException(exceptioncode);
+#endif    
     return ret;
 }
 
@@ -756,7 +784,11 @@ void HTMLTableRowElement::deleteCell( long index )
     if(impl)
         ((HTMLTableRowElementImpl *)impl)->deleteCell( index, exceptioncode );
     if (exceptioncode)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = exceptioncode; return; }
+#else
         throw DOMException(exceptioncode);
+#endif    
 }
 
 // --------------------------------------------------------------------------
@@ -853,7 +885,11 @@ HTMLElement HTMLTableSectionElement::insertRow( long index )
     int exceptioncode = 0;
     HTMLElementImpl* ret = ((HTMLTableSectionElementImpl *)impl)->insertRow( index, exceptioncode );
     if (exceptioncode)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = exceptioncode; return 0; }
+#else
         throw DOMException(exceptioncode);
+#endif    
     return ret;
 }
 
@@ -863,6 +899,10 @@ void HTMLTableSectionElement::deleteRow( long index )
     if(impl)
         ((HTMLTableSectionElementImpl *)impl)->deleteRow( index, exceptioncode );
     if (exceptioncode)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = exceptioncode; return; }
+#else
         throw DOMException(exceptioncode);
+#endif    
 }
 

@@ -67,7 +67,11 @@ AbstractView &AbstractView::operator = (const AbstractView &other)
 Document AbstractView::document() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return Document(); }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return impl->document();
 }
@@ -75,7 +79,11 @@ Document AbstractView::document() const
 CSSStyleDeclaration AbstractView::getComputedStyle(const Element &elt, const DOMString &pseudoElt)
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return impl->getComputedStyle(static_cast<ElementImpl*>(elt.handle()),pseudoElt.implementation());
 }

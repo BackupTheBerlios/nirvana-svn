@@ -70,12 +70,16 @@ DOMString CharacterData::data() const
 void CharacterData::setData( const DOMString &str )
 {
     if (!impl)
-	return; // ### enable throw DOMException(DOMException::NOT_FOUND_ERR);
+	return; // ### enable { _exceptioncode = DOMException::NOT_FOUND_ERR; return 0; }  or  throw DOMException(DOMException::NOT_FOUND_ERR);
 
     int exceptioncode = 0;
     ((CharacterDataImpl *)impl)->setData(str, exceptioncode);
     if ( exceptioncode )
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = exceptioncode; return; }
+#else
 	throw DOMException( exceptioncode );
+#endif    
     return;
 }
 
@@ -89,57 +93,77 @@ unsigned long CharacterData::length() const
 DOMString CharacterData::substringData( const unsigned long offset, const unsigned long count )
 {
     if (!impl)
-	return DOMString(); // ### enable throw DOMException(DOMException::NOT_FOUND_ERR);
+	return DOMString(); // ### enable { _exceptioncode = DOMException::NOT_FOUND_ERR; return 0; } or throw DOMException(DOMException::NOT_FOUND_ERR);
 
     int exceptioncode = 0;
     DOMString str = ((CharacterDataImpl *)impl)->substringData(offset, count, exceptioncode);
     if ( exceptioncode )
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode =  exceptioncode ; return DOMString(); }
+#else
 	throw DOMException( exceptioncode );
+#endif    
     return str;
 }
 
 void CharacterData::appendData( const DOMString &arg )
 {
     if (!impl)
-	return; // ### enable throw DOMException(DOMException::NOT_FOUND_ERR);
+	return; // ### enable { _exceptioncode = DOMException::NOT_FOUND_ERR; return 0; } or throw DOMException(DOMException::NOT_FOUND_ERR);
 
     int exceptioncode = 0;
     ((CharacterDataImpl *)impl)->appendData(arg, exceptioncode);
     if ( exceptioncode )
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode =  exceptioncode ; return; }
+#else
 	throw DOMException( exceptioncode );
+#endif    
 }
 
 void CharacterData::insertData( const unsigned long offset, const DOMString &arg )
 {
     if (!impl)
-	return; // ### enable throw DOMException(DOMException::NOT_FOUND_ERR);
+	return; // ### enable { _exceptioncode = DOMException::NOT_FOUND_ERR; return 0; } or throw DOMException(DOMException::NOT_FOUND_ERR);
 
     int exceptioncode = 0;
     ((CharacterDataImpl *)impl)->insertData(offset, arg, exceptioncode);
     if ( exceptioncode )
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode =  exceptioncode ; return; }
+#else
 	throw DOMException( exceptioncode );
+#endif    
 }
 
 void CharacterData::deleteData( const unsigned long offset, const unsigned long count )
 {
     if (!impl)
-	return; // ### enable throw DOMException(DOMException::NOT_FOUND_ERR);
+	return; // ### enable { _exceptioncode = DOMException::NOT_FOUND_ERR; return 0; } or  throw DOMException(DOMException::NOT_FOUND_ERR);
 
     int exceptioncode = 0;
     ((CharacterDataImpl *)impl)->deleteData(offset, count, exceptioncode);
     if ( exceptioncode )
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode =  exceptioncode ; return; }
+#else
 	throw DOMException( exceptioncode );
+#endif    
 }
 
 void CharacterData::replaceData( const unsigned long offset, const unsigned long count, const DOMString &arg )
 {
     if (!impl)
-	return; // ### enable throw DOMException(DOMException::NOT_FOUND_ERR);
+	return; // ### enable { _exceptioncode = DOMException::NOT_FOUND_ERR; return 0; } or  throw DOMException(DOMException::NOT_FOUND_ERR);
 
     int exceptioncode = 0;
     ((CharacterDataImpl *)impl)->replaceData(offset, count, arg, exceptioncode);
     if ( exceptioncode )
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode =  exceptioncode ; return; }
+#else
 	throw DOMException( exceptioncode );
+#endif    
 }
 
 CharacterData::CharacterData(CharacterDataImpl *i) : Node(i)
@@ -223,12 +247,16 @@ Text::~Text()
 Text Text::splitText( const unsigned long offset )
 {
     if (!impl)
-	return 0; // ### enable throw DOMException(DOMException::NOT_FOUND_ERR);
+	return 0; // ### enable { _exceptioncode = DOMException::NOT_FOUND_ERR; return 0; } or throw DOMException(DOMException::NOT_FOUND_ERR);
 
     int exceptioncode = 0;
     TextImpl *newText = static_cast<TextImpl *>(impl)->splitText(offset, exceptioncode );
     if ( exceptioncode )
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode =  exceptioncode ; return 0; }
+#else
 	throw DOMException( exceptioncode );
+#endif    
     return newText;
 }
 

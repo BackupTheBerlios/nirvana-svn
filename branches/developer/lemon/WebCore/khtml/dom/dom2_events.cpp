@@ -82,7 +82,11 @@ Event &Event::operator = (const Event &other)
 DOMString Event::type() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+    { _exceptioncode = DOMException::INVALID_STATE_ERR; return DOMString(); }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return impl->type();
 }
@@ -90,7 +94,11 @@ DOMString Event::type() const
 Node Event::target() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return impl->target();
 }
@@ -98,7 +106,11 @@ Node Event::target() const
 Node Event::currentTarget() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return impl->currentTarget();
 }
@@ -106,7 +118,11 @@ Node Event::currentTarget() const
 unsigned short Event::eventPhase() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return impl->eventPhase();
 }
@@ -114,7 +130,11 @@ unsigned short Event::eventPhase() const
 bool Event::bubbles() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return impl->bubbles();
 }
@@ -122,7 +142,11 @@ bool Event::bubbles() const
 bool Event::cancelable() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return impl->cancelable();
 }
@@ -130,7 +154,11 @@ bool Event::cancelable() const
 DOMTimeStamp Event::timeStamp() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return impl->timeStamp();
 }
@@ -138,7 +166,11 @@ DOMTimeStamp Event::timeStamp() const
 void Event::stopPropagation()
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     impl->stopPropagation();
 }
@@ -146,7 +178,11 @@ void Event::stopPropagation()
 void Event::preventDefault()
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return;  }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     impl->preventDefault();
 }
@@ -154,7 +190,11 @@ void Event::preventDefault()
 void Event::initEvent(const DOMString &eventTypeArg, bool canBubbleArg, bool cancelableArg)
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     impl->initEvent(eventTypeArg,canBubbleArg,cancelableArg);
 }
@@ -172,7 +212,11 @@ bool Event::isNull() const
 void Event::setCancelBubble(bool cancel)
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     impl->setCancelBubble(cancel);
 }
@@ -180,7 +224,11 @@ void Event::setCancelBubble(bool cancel)
 void Event::setDefaultPrevented(bool defaultPrevented)
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+    { _exceptioncode = DOMException::INVALID_STATE_ERR; return; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     impl->setDefaultPrevented(defaultPrevented);
 }
@@ -188,7 +236,11 @@ void Event::setDefaultPrevented(bool defaultPrevented)
 bool Event::getCancelBubble() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+    { _exceptioncode = DOMException::INVALID_STATE_ERR; return false; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return impl->getCancelBubble();
 }
@@ -196,7 +248,11 @@ bool Event::getCancelBubble() const
 bool Event::defaultPrevented() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+    { _exceptioncode = DOMException::INVALID_STATE_ERR; return false; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
     
     return impl->defaultPrevented();
 }
@@ -267,7 +323,11 @@ UIEvent::~UIEvent()
 AbstractView UIEvent::view() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return static_cast<UIEventImpl*>(impl)->view();
 }
@@ -275,7 +335,11 @@ AbstractView UIEvent::view() const
 long UIEvent::detail() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return static_cast<UIEventImpl*>(impl)->detail();
 }
@@ -283,11 +347,14 @@ long UIEvent::detail() const
 int UIEvent::keyCode() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
     
-    KeyboardEventImpl *keyEvent = dynamic_cast<KeyboardEventImpl*>(impl);
-    if (keyEvent)
-        return keyEvent->keyCode();
+    if (impl->isKeyboardEvent())
+        return static_cast<KeyboardEventImpl*>(impl)->keyCode();
     else
         return 0;
 }
@@ -295,11 +362,14 @@ int UIEvent::keyCode() const
 int UIEvent::charCode() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+    { _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
     
-    KeyboardEventImpl *keyEvent = dynamic_cast<KeyboardEventImpl*>(impl);
-    if (keyEvent)
-        return keyEvent->charCode();
+    if (impl->isKeyboardEvent())
+        return static_cast<KeyboardEventImpl*>(impl)->charCode();
     else
         return 0;
 }
@@ -307,11 +377,14 @@ int UIEvent::charCode() const
 int UIEvent::pageX() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
     
-    MouseEventImpl *mouseEvent = dynamic_cast<MouseEventImpl*>(impl);
-    if (mouseEvent)
-        return mouseEvent->clientX();
+    if (impl->isMouseEvent())
+        return static_cast<MouseEventImpl*>(impl)->clientX();
     else
         return 0;
 }
@@ -319,11 +392,14 @@ int UIEvent::pageX() const
 int UIEvent::pageY() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
     
-    MouseEventImpl *mouseEvent = dynamic_cast<MouseEventImpl*>(impl);
-    if (mouseEvent)
-        return  mouseEvent->clientY();
+    if (impl->isMouseEvent())
+        return static_cast<MouseEventImpl*>(impl)->clientY();
     else
         return 0;
 }
@@ -331,11 +407,14 @@ int UIEvent::pageY() const
 int UIEvent::layerX() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
     
-    MouseEventImpl *mouseEvent = dynamic_cast<MouseEventImpl*>(impl);
-    if (mouseEvent)
-        return mouseEvent->layerX();
+    if (impl->isMouseEvent())
+        return static_cast<MouseEventImpl*>(impl)->layerX();
     else
         return 0;
 }
@@ -343,11 +422,14 @@ int UIEvent::layerX() const
 int UIEvent::layerY() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
     
-    MouseEventImpl *mouseEvent = dynamic_cast<MouseEventImpl*>(impl);
-    if (mouseEvent)
-        return  mouseEvent->layerY();
+    if (impl->isMouseEvent())
+        return static_cast<MouseEventImpl*>(impl)->layerY();
     else
         return 0;
 }
@@ -355,22 +437,24 @@ int UIEvent::layerY() const
 int UIEvent::which() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     // Note: This property supports both key events and mouse events
 
     // Netscape's "which" returns a virtual key code for keydown and keyup, and a character code for keypress.
     // That's exactly what IE's "keyCode" returns.
-    KeyboardEventImpl *keyEvent = dynamic_cast<KeyboardEventImpl*>(impl);
-    if (keyEvent)
-        return keyEvent->keyCode();
+    if (impl->isKeyboardEvent())
+        return static_cast<KeyboardEventImpl*>(impl)->keyCode();
 
     // For khtml, the return values for left, middle and right mouse buttons are 0, 1, 2, respectively.
     // For the Netscape "which" property, the return values for left, middle and right mouse buttons are 1, 2, 3, respectively. 
     // So we can just add 1 to the value returned by calling button().
-    MouseEventImpl *mouseEvent = dynamic_cast<MouseEventImpl*>(impl);
-    if (mouseEvent)
-        return mouseEvent->button() + 1;
+    if (impl->isMouseEvent())
+        return static_cast<MouseEventImpl*>(impl)->button() + 1;
 
     return 0;
 }
@@ -383,7 +467,11 @@ void UIEvent::initUIEvent(const DOMString &typeArg,
                                  long detailArg)
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     static_cast<UIEventImpl*>(impl)->initUIEvent(typeArg,canBubbleArg,cancelableArg,
 						 viewArg,detailArg);
@@ -433,7 +521,11 @@ MouseEvent::~MouseEvent()
 long MouseEvent::screenX() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return static_cast<MouseEventImpl*>(impl)->screenX();
 }
@@ -441,7 +533,11 @@ long MouseEvent::screenX() const
 long MouseEvent::screenY() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return static_cast<MouseEventImpl*>(impl)->screenY();
 }
@@ -449,7 +545,11 @@ long MouseEvent::screenY() const
 long MouseEvent::clientX() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return static_cast<MouseEventImpl*>(impl)->clientX();
 }
@@ -457,7 +557,11 @@ long MouseEvent::clientX() const
 long MouseEvent::clientY() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return static_cast<MouseEventImpl*>(impl)->clientY();
 }
@@ -465,7 +569,11 @@ long MouseEvent::clientY() const
 bool MouseEvent::ctrlKey() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return static_cast<MouseEventImpl*>(impl)->ctrlKey();
 }
@@ -473,7 +581,11 @@ bool MouseEvent::ctrlKey() const
 bool MouseEvent::shiftKey() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return static_cast<MouseEventImpl*>(impl)->shiftKey();
 }
@@ -481,7 +593,11 @@ bool MouseEvent::shiftKey() const
 bool MouseEvent::altKey() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return static_cast<MouseEventImpl*>(impl)->altKey();
 }
@@ -489,7 +605,11 @@ bool MouseEvent::altKey() const
 bool MouseEvent::metaKey() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return static_cast<MouseEventImpl*>(impl)->metaKey();
 }
@@ -497,7 +617,11 @@ bool MouseEvent::metaKey() const
 unsigned short MouseEvent::button() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return static_cast<MouseEventImpl*>(impl)->button();
 }
@@ -505,7 +629,11 @@ unsigned short MouseEvent::button() const
 Node MouseEvent::relatedTarget() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return static_cast<MouseEventImpl*>(impl)->relatedTarget();
 }
@@ -527,7 +655,11 @@ void MouseEvent::initMouseEvent(const DOMString &typeArg,
                                     const Node &relatedTargetArg)
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     static_cast<MouseEventImpl*>(impl)->initMouseEvent(typeArg,canBubbleArg,
 	cancelableArg,viewArg,detailArg,screenXArg,screenYArg,clientXArg,
@@ -581,7 +713,11 @@ MutationEvent::~MutationEvent()
 Node MutationEvent::relatedNode() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return static_cast<MutationEventImpl*>(impl)->relatedNode();
 }
@@ -589,7 +725,11 @@ Node MutationEvent::relatedNode() const
 DOMString MutationEvent::prevValue() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return DOMString(); }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return static_cast<MutationEventImpl*>(impl)->prevValue();
 }
@@ -597,7 +737,11 @@ DOMString MutationEvent::prevValue() const
 DOMString MutationEvent::newValue() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return DOMString(); }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return static_cast<MutationEventImpl*>(impl)->newValue();
 }
@@ -605,7 +749,11 @@ DOMString MutationEvent::newValue() const
 DOMString MutationEvent::attrName() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return DOMString(); }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return static_cast<MutationEventImpl*>(impl)->attrName();
 }
@@ -613,7 +761,11 @@ DOMString MutationEvent::attrName() const
 unsigned short MutationEvent::attrChange() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return static_cast<MutationEventImpl*>(impl)->attrChange();
 }
@@ -628,7 +780,11 @@ void MutationEvent::initMutationEvent(const DOMString &typeArg,
                                        unsigned short attrChangeArg)
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     static_cast<MutationEventImpl*>(impl)->initMutationEvent(typeArg,
 	canBubbleArg,cancelableArg,relatedNodeArg,prevValueArg,
@@ -637,6 +793,11 @@ void MutationEvent::initMutationEvent(const DOMString &typeArg,
 
 
 // -----------------------------------------------------------------------------
+const unsigned long KeyboardEvent::DOM_KEY_LOCATION_STANDARD      = 0x00;
+const unsigned long KeyboardEvent::DOM_KEY_LOCATION_LEFT          = 0x01;
+const unsigned long KeyboardEvent::DOM_KEY_LOCATION_RIGHT         = 0x02;
+const unsigned long KeyboardEvent::DOM_KEY_LOCATION_NUMPAD        = 0x03;
+const unsigned long KeyboardEvent::DOM_KEY_LOCATION_UNKNOWN       = 0x04;
 
 KeyboardEvent::KeyboardEvent()
 {
@@ -680,7 +841,11 @@ KeyboardEvent::~KeyboardEvent()
 DOMString KeyboardEvent::keyIdentifier() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+    { _exceptioncode = DOMException::INVALID_STATE_ERR; return DOMString(); }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return static_cast<KeyboardEventImpl*>(impl)->keyIdentifier();
 }
@@ -688,7 +853,11 @@ DOMString KeyboardEvent::keyIdentifier() const
 unsigned long KeyboardEvent::keyLocation() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+    { _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return static_cast<KeyboardEventImpl*>(impl)->keyLocation();
 }
@@ -696,7 +865,11 @@ unsigned long KeyboardEvent::keyLocation() const
 bool KeyboardEvent::ctrlKey() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return false; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return static_cast<KeyboardEventImpl*>(impl)->ctrlKey();
 }
@@ -704,7 +877,11 @@ bool KeyboardEvent::ctrlKey() const
 bool KeyboardEvent::shiftKey() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+    { _exceptioncode = DOMException::INVALID_STATE_ERR; return false; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return static_cast<KeyboardEventImpl*>(impl)->shiftKey();
 }
@@ -712,7 +889,11 @@ bool KeyboardEvent::shiftKey() const
 bool KeyboardEvent::altKey() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+    { _exceptioncode = DOMException::INVALID_STATE_ERR; return false; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return static_cast<KeyboardEventImpl*>(impl)->altKey();
 }
@@ -720,7 +901,11 @@ bool KeyboardEvent::altKey() const
 bool KeyboardEvent::metaKey() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+    { _exceptioncode = DOMException::INVALID_STATE_ERR; return false; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return static_cast<KeyboardEventImpl*>(impl)->metaKey();
 }
@@ -728,7 +913,11 @@ bool KeyboardEvent::metaKey() const
 bool KeyboardEvent::altGraphKey() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+    { _exceptioncode = DOMException::INVALID_STATE_ERR; return false; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return static_cast<KeyboardEventImpl*>(impl)->altGraphKey();
 }
@@ -746,7 +935,11 @@ void KeyboardEvent::initKeyboardEvent(const DOMString &typeArg,
                                         bool altGraphKeyArg)
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+    { _exceptioncode = DOMException::INVALID_STATE_ERR; return;}
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     static_cast<KeyboardEventImpl*>(impl)->initKeyboardEvent(typeArg,canBubbleArg,
 	cancelableArg,viewArg,keyIdentifierArg,keyLocationArg,ctrlKeyArg,altKeyArg,

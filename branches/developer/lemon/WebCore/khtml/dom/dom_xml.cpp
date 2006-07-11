@@ -277,7 +277,11 @@ void ProcessingInstruction::setData( const DOMString &_data )
     int exceptioncode = 0;
     ((ProcessingInstructionImpl*)impl)->setData(_data, exceptioncode);
     if (exceptioncode)
+#if KHTML_NO_EXCEPTIONS     
+	_exceptioncode = exceptioncode;
+#else
 	throw DOMException(exceptioncode);
+#endif    
 }
 
 ProcessingInstruction::ProcessingInstruction(ProcessingInstructionImpl *i) : Node(i)

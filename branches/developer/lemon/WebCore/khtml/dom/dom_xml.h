@@ -261,7 +261,7 @@ protected:
 class ProcessingInstruction : public Node
 {
     friend class Document;
-#if APPLE_CHANGES
+#if APPLE_CHANGES && !KWIQ //Why not
     friend class ProcessingInstructionImpl;
 #endif
 public:

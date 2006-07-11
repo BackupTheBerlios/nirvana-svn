@@ -20,26 +20,20 @@
  * the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  */
+#include "dom/css_rule.h"
+#include "dom/css_stylesheet.h"
+#include "dom/dom_exception.h"
+#include "dom/dom_string.h"
 
-// dom
-#include "css_rule.h"
-#include "css_stylesheet.h"
-#include "dom_exception.h"
-#include "dom_string.h"
+#include "css/css_stylesheetimpl.h"
+#include "css/css_valueimpl.h"
+#include "css/cssparser.h"
+#include "css/css_ruleimpl.h"
 
-// css
-#include "css_stylesheetimpl.h"
-#include "css_valueimpl.h"
-#include "cssparser.h"
-#include "css_ruleimpl.h"
-
-// misc
-#include "loader.h"
-#include "htmltags.h"
-#include "htmlattrs.h"
-
-//xml
-#include "dom_docimpl.h"
+#include "misc/loader.h"
+#include "misc/htmltags.h"
+#include "misc/htmlattrs.h"
+#include "xml/dom_docimpl.h"
 
 using namespace DOM;
 
@@ -326,12 +320,9 @@ CSSStyleRuleImpl::~CSSStyleRuleImpl()
 
 DOM::DOMString CSSStyleRuleImpl::selectorText() const
 {
-    if ( m_selector && m_selector->first() ) {
-        // ### m_selector will be a single selector hopefully. so ->first() will disappear
-        CSSSelector* cs = m_selector->first();
-        //cs->print(); // debug
-        return cs->selectorText();
-    }
+    // FIXME: Handle all the selectors in the chain for comma-separated selectors.
+    if (m_selector)
+        return m_selector->selectorText();
     return DOMString();
 }
 
@@ -352,15 +343,6 @@ void CSSStyleRuleImpl::setDeclaration( CSSStyleDeclarationImpl *style)
         if(m_style) m_style->deref();
         m_style = style;
         if(m_style) m_style->ref();
-    }
-}
-
-void CSSStyleRuleImpl::setNonCSSHints()
-{
-    CSSSelector *s = m_selector->first();
-    while ( s ) {
-	s->nonCSSHint = true;
-	s = m_selector->next();
     }
 }
 
@@ -390,4 +372,3 @@ unsigned long CSSRuleListImpl::insertRule( CSSRuleImpl *rule,
     // ### Should throw INDEX_SIZE_ERR exception instead! (TODO)
     return 0;
 }
-

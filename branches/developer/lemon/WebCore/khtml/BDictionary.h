@@ -67,7 +67,7 @@ private:
 	unsigned long hash(const char *value);
 	BDictionaryEntry *lookup_bucket(const char *value);
 
-    friend ostream &operator<<(ostream &stream, BDictionary &htable);
+	friend ostream &operator<<(ostream &stream, BDictionary &htable);
 };
 
 #endif /* */

@@ -221,9 +221,14 @@ public:
      * @internal
      * not part of the DOM
      */
+#if KHTML_NO_EXCEPTIONS
+    NamedNodeMapImpl *handle() const;
+    bool isNull() const;
+#else
     NamedNodeMapImpl *handle() const throw();
     bool isNull() const throw();
-
+#endif
+    
 protected:
     NamedNodeMap( NamedNodeMapImpl *i);
     NamedNodeMapImpl *impl;
@@ -231,7 +236,7 @@ protected:
     friend class Node;
     friend class DocumentType;
     friend class NodeImpl;
-#if APPLE_CHANGES
+#if APPLE_CHANGES && !KWIQ //Why not
     friend class NamedNodeMapImpl;
 #endif
 };
@@ -868,12 +873,17 @@ public:
     unsigned long index() const;
     QString toHTML();
     void applyChanges();
-    void getCursor(int offset, int &_x, int &_y, int &height);
     /**
      * not part of the DOM.
      * @returns the exact coordinates and size of this element.
      */
     QRect getRect();
+
+    /**
+     * not part of the DOM.
+     * @returns whether this node is contenteditable.
+     */
+    bool isContentEditable() const;
 
 protected:
     NodeImpl *impl;
@@ -897,7 +907,7 @@ class NodeList
     friend class Node;
     friend class Document;
     friend class HTMLDocument;
-#if APPLE_CHANGES
+#if APPLE_CHANGES && !KWIQ //Why not
     friend class NodeListImpl;
 #endif
 
@@ -950,6 +960,10 @@ protected:
  */
 typedef unsigned long long DOMTimeStamp;
 
+#if KHTML_NO_EXCEPTIONS
+extern int _exceptioncode;
+#endif
 
 }; //namespace
+
 #endif

@@ -31,6 +31,10 @@
 
 using namespace DOM;
 
+#if KHTML_NO_EXCEPTIONS    
+int DOM::_exceptioncode = 0;
+#endif    
+
 NamedNodeMap::NamedNodeMap()
 {
     impl = 0;
@@ -92,21 +96,37 @@ Node NamedNodeMap::getNamedItemNS( const DOMString &namespaceURI, const DOMStrin
 
 Node NamedNodeMap::setNamedItemNS( const Node &arg )
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return Node(); }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
     int exceptioncode = 0;
     Node r = impl->setNamedItem(arg.impl, exceptioncode);
     if (exceptioncode)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = exceptioncode; return Node(); }
+#else
         throw DOMException(exceptioncode);
+#endif    
     return r;
 }
 
 Node NamedNodeMap::removeNamedItemNS( const DOMString &namespaceURI, const DOMString &localName )
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return Node(); }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
     int exceptioncode = 0;
     Node r = impl->removeNamedItem(impl->mapId(namespaceURI, localName, true), exceptioncode);
     if (exceptioncode)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = exceptioncode; return Node(); }
+#else
         throw DOMException(exceptioncode);
+#endif    
     return r;
 }
 
@@ -116,12 +136,20 @@ unsigned long NamedNodeMap::length() const
     return impl->length();
 }
 
+#if KHTML_NO_EXCEPTIONS    
+NamedNodeMapImpl *NamedNodeMap::handle() const
+#else
 NamedNodeMapImpl *NamedNodeMap::handle() const throw()
+#endif    
 {
     return impl;
 }
 
+#if KHTML_NO_EXCEPTIONS    
+bool NamedNodeMap::isNull() const
+#else
 bool NamedNodeMap::isNull() const throw()
+#endif    
 {
     return (impl == 0);
 }
@@ -185,23 +213,39 @@ DOMString Node::nodeValue() const
 
 void Node::setNodeValue( const DOMString &_str )
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return; }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
 
     int exceptioncode = 0;
     if(impl) impl->setNodeValue( _str,exceptioncode );
     if (exceptioncode)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = exceptioncode; return; }
+#else
 	throw DOMException(exceptioncode);
+#endif    
 }
 
 unsigned short Node::nodeType() const
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return 0; }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
     return impl->nodeType();
 }
 
 Node Node::parentNode() const
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return Node(); }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
     return impl->parentNode();
 }
 
@@ -213,25 +257,41 @@ NodeList Node::childNodes() const
 
 Node Node::firstChild() const
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return Node(); }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
     return impl->firstChild();
 }
 
 Node Node::lastChild() const
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return Node(); }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
     return impl->lastChild();
 }
 
 Node Node::previousSibling() const
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return Node(); }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
     return impl->previousSibling();
 }
 
 Node Node::nextSibling() const
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return Node(); }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
     return impl->nextSibling();
 }
 
@@ -254,47 +314,83 @@ Document Node::ownerDocument() const
 
 Node Node::insertBefore( const Node &newChild, const Node &refChild )
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return Node(); }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
     int exceptioncode = 0;
     NodeImpl *r = impl->insertBefore( newChild.impl, refChild.impl, exceptioncode );
     if (exceptioncode)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = exceptioncode; return Node(); }
+#else
 	throw DOMException(exceptioncode);
+#endif    
     return r;
 }
 
 Node Node::replaceChild( const Node &newChild, const Node &oldChild )
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return Node(); }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
     int exceptioncode = 0;
     NodeImpl *r = impl->replaceChild( newChild.impl, oldChild.impl, exceptioncode );
     if (exceptioncode)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = exceptioncode; return Node(); }
+#else
 	throw DOMException(exceptioncode);
+#endif    
     return r;
 }
 
 Node Node::removeChild( const Node &oldChild )
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return Node(); }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
     int exceptioncode = 0;
     NodeImpl *r = impl->removeChild( oldChild.impl, exceptioncode );
     if (exceptioncode)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = exceptioncode; return Node(); }
+#else
 	throw DOMException(exceptioncode);
+#endif    
     return r;
 }
 
 Node Node::appendChild( const Node &newChild )
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return Node(); }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
     int exceptioncode = 0;
     NodeImpl *r = impl->appendChild( newChild.impl, exceptioncode );
     if (exceptioncode)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = exceptioncode; return Node(); }
+#else
 	throw DOMException(exceptioncode);
+#endif    
     return r;
 }
 
 bool Node::hasAttributes()
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return false; }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
     if (!impl->isElementNode()) return false;
     ElementImpl* e = static_cast<ElementImpl*>(impl);
     return e->attributes(true) && e->attributes(true)->length();
@@ -341,11 +437,19 @@ DOMString Node::prefix(  ) const
 
 void Node::setPrefix(const DOMString &prefix )
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return; }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
     int exceptioncode = 0;
     impl->setPrefix(prefix,exceptioncode);
     if (exceptioncode)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = exceptioncode; return; }
+#else
         throw DOMException(exceptioncode);
+#endif    
 }
 
 DOMString Node::localName(  ) const
@@ -373,12 +477,20 @@ void Node::removeEventListener(const DOMString &type,
 bool Node::dispatchEvent(const Event &evt)
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return false; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     bool r = impl->dispatchEvent(evt.handle(),exceptioncode);
     if (exceptioncode)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = exceptioncode; return false; }
+#else
 	throw DOMException(exceptioncode);
+#endif    
     return r;
 }
 
@@ -407,15 +519,13 @@ void Node::applyChanges()
     impl->recalcStyle( NodeImpl::Inherit );
 }
 
-void Node::getCursor(int offset, int &_x, int &_y, int &height)
-{
-    if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
-    impl->getCursor(offset, _x, _y, height);
-}
-
 QRect Node::getRect()
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return QRect(); }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
     return impl->getRect();
 }
 
@@ -427,6 +537,12 @@ bool Node::isNull() const
 NodeImpl *Node::handle() const
 {
     return impl;
+}
+
+bool Node::isContentEditable() const
+{
+    if (!impl) return false;
+    return impl->isContentEditable();
 }
 
 //-----------------------------------------------------------------------------

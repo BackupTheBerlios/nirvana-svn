@@ -24,7 +24,6 @@
 #ifndef HTML_LAYOUT_H
 #define HTML_LAYOUT_H
 
-
 /*
  * this namespace contains definitions for various types needed for
  * layouting.
@@ -41,9 +40,10 @@ namespace khtml
     /*
      * %multiLength and %Length
      */
-    enum LengthType { Variable = 0, Relative, Percent, Fixed, Static };
+    enum LengthType { Variable = 0, Relative, Percent, Fixed, Static, Intrinsic, MinIntrinsic };
     struct Length
     {
+#if !KWIQ
 	Length() { *((Q_UINT32 *)this) = 0; }
         Length(LengthType t) { type = t; value = 0; quirk = false; }
         Length(int v, LengthType t, bool q=false) : value(v), type(t), quirk(q) {}
@@ -56,8 +56,23 @@ namespace khtml
             { return *((Q_UINT32 *)this) == *((Q_UINT32 *)&o); }
         bool operator!=(const Length& o) const
             { return *((Q_UINT32 *)this) != *((Q_UINT32 *)&o); }
+#else   // Modifications to make things more portable (work with ARM)
+	// let compiler generate
+	//   Length& Length(const Length&) {...}
+	//   Length& operator=(const Length&) {...}
+	// According to quick tests, they're actually atleast as efficient and they work for arm too	
+	Length(): value(0),type(Variable),quirk(0) { };
+        Length(LengthType t) : value(0),type(t),quirk(false) {};
+        Length(int v, LengthType t, bool q=false) : value(v), type(t), quirk(q) {}
+	
+	bool operator==(const Length& o) const
+	{ return (type == o.type && value==o.value && quirk==o.quirk);}
+	bool operator!=(const Length& o) const
+	{ return !(*this==o); }
+#endif
 
-
+	int length() const { return value; }
+      
 	/*
 	 * works only for Fixed and Percent, returns -1 otherwise
 	 */
@@ -100,7 +115,11 @@ namespace khtml
         int value : 28;
         LengthType type : 3;
         bool quirk : 1;
+#if !KWIQ
     };
+#else
+    } Q_PACKED;
+#endif
 
 };
 

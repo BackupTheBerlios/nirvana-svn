@@ -24,6 +24,9 @@
 #include "xml/dom_docimpl.h"
 #include "xml/dom_elementimpl.h"
 
+// FIXME: Remove when .style gets moved to html_element.cpp.
+#include "html/html_elementimpl.h"
+
 using namespace DOM;
 
 Attr::Attr() : Node()
@@ -65,7 +68,11 @@ Attr::~Attr()
 
 DOMString Attr::name() const
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return DOMString(); }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
     return impl->getDocument()->attrName(
         static_cast<AttrImpl*>(impl)->attrImpl()->id());
 }
@@ -85,7 +92,11 @@ Element Attr::ownerElement() const
 
 DOMString Attr::value() const
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return DOMString(); }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
     return impl->nodeValue();
 }
 
@@ -97,7 +108,11 @@ void Attr::setValue( const DOMString &newValue )
   int exceptioncode = 0;
   ((AttrImpl *)impl)->setValue(newValue,exceptioncode);
   if (exceptioncode)
+#if KHTML_NO_EXCEPTIONS    
+    { _exceptioncode = exceptioncode; return; }
+#else
     throw DOMException(exceptioncode);
+#endif    
 }
 
 // ---------------------------------------------------------------------------
@@ -139,7 +154,11 @@ Element::~Element()
 
 DOMString Element::tagName() const
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return DOMString(); }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
     return static_cast<ElementImpl*>(impl)->tagName();
 }
 
@@ -170,17 +189,28 @@ Attr Element::setAttributeNode( const Attr &newAttr )
 
 Attr Element::removeAttributeNode( const Attr &oldAttr )
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl || oldAttr.isNull() || oldAttr.ownerElement() != *this)
+        { _exceptioncode = DOMException::NOT_FOUND_ERR; return 0; }
+    if (impl->getDocument() != oldAttr.handle()->getDocument())
+        { _exceptioncode = DOMException::WRONG_DOCUMENT_ERR; return 0; }
+#else
     if (!impl || oldAttr.isNull() || oldAttr.ownerElement() != *this)
         throw DOMException(DOMException::NOT_FOUND_ERR);
     if (impl->getDocument() != oldAttr.handle()->getDocument())
         throw DOMException(DOMException::WRONG_DOCUMENT_ERR);
+#endif    
 
     NodeImpl::Id attrName = static_cast<AttrImpl*>(oldAttr.handle())->attrImpl()->id();
 
     int exceptioncode = 0;
     Attr r = static_cast<ElementImpl*>(impl)->attributes(true)->removeNamedItem(attrName, exceptioncode);
     if ( exceptioncode )
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = exceptioncode; return 0; }
+#else
         throw DOMException( exceptioncode );
+#endif    
     return r;
 }
 
@@ -202,18 +232,23 @@ NodeList Element::getElementsByTagNameNS( const DOMString &namespaceURI,
 DOMString Element::getAttributeNS( const DOMString &namespaceURI,
                                    const DOMString &localName)
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return DOMString(); }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
-    NodeImpl::Id id = impl->getDocument()->attrId(namespaceURI.implementation(),
-                                                 localName.implementation(), true);
-    if (!id) return DOMString();
-    return static_cast<ElementImpl*>(impl)->getAttribute(id);
+#endif    
+    return static_cast<ElementImpl*>(impl)->getAttributeNS(namespaceURI, localName).domString();
 }
 
 void Element::setAttributeNS( const DOMString &namespaceURI,
                               const DOMString &qualifiedName,
                               const DOMString &value)
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return; }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
 
     int colonpos = qualifiedName.find(':');
     DOMString localName = qualifiedName;
@@ -221,19 +256,31 @@ void Element::setAttributeNS( const DOMString &namespaceURI,
         localName.remove(0, colonpos+1);
         // ### extract and set new prefix
     }
+#if KHTML_NO_EXCEPTIONS    
+    if (!DocumentImpl::isValidName(localName)) { _exceptioncode = DOMException::INVALID_CHARACTER_ERR; return ; }
+#else
     if (!DocumentImpl::isValidName(localName)) throw DOMException(DOMException::INVALID_CHARACTER_ERR);
+#endif    
     NodeImpl::Id id = impl->getDocument()->attrId(namespaceURI.implementation(),
                                                     localName.implementation(), false /* allocate */);
     int exceptioncode = 0;
     static_cast<ElementImpl*>(impl)->setAttribute(id, value.implementation(), exceptioncode);
     if (exceptioncode)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = exceptioncode; return; }
+#else
         throw DOMException(exceptioncode);
+#endif    
 }
 
 void Element::removeAttributeNS( const DOMString &namespaceURI,
                                  const DOMString &localName )
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return; }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
     NodeImpl::Id id = impl->getDocument()->attrId(namespaceURI.implementation(),
                                                     localName.implementation(), true);
     if (!id) return;
@@ -241,13 +288,21 @@ void Element::removeAttributeNS( const DOMString &namespaceURI,
     int exceptioncode = 0;
     ((ElementImpl *)impl)->removeAttribute(id, exceptioncode);
     if ( exceptioncode )
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = exceptioncode; return; }
+#else
         throw DOMException( exceptioncode );
+#endif    
 }
 
 Attr Element::getAttributeNodeNS( const DOMString &namespaceURI,
                                   const DOMString &localName )
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return 0; }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
     NodeImpl::Id id = impl->getDocument()->attrId(namespaceURI.implementation(),
                                                     localName.implementation(), true);
     if (!id) return 0;
@@ -261,12 +316,20 @@ Attr Element::getAttributeNodeNS( const DOMString &namespaceURI,
 Attr Element::setAttributeNodeNS( const Attr &newAttr )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::NOT_FOUND_ERR; return 0; }
+#else
         throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
 
     int exceptioncode = 0;
     Attr r = static_cast<ElementImpl*>(impl)->attributes(false)->setNamedItem(newAttr.handle(), exceptioncode);
     if ( exceptioncode )
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = exceptioncode; return 0; }
+#else
         throw DOMException( exceptioncode );
+#endif    
     return r;
 }
 
@@ -294,9 +357,11 @@ bool Element::isHTMLElement() const
     return ((ElementImpl *)impl)->isHTMLElement();
 }
 
+// FIXME: This should move down to HTMLElement.
 CSSStyleDeclaration Element::style()
 {
-    if (impl) return ((ElementImpl *)impl)->styleRules();
+    if (isHTMLElement())
+        return ((HTMLElementImpl *)impl)->getInlineStyleDecl();
     return 0;
 }
 

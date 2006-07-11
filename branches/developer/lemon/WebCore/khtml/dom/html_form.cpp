@@ -860,7 +860,8 @@ void HTMLSelectElement::setTabIndex( long _tabIndex )
 
 void HTMLSelectElement::add( const HTMLElement &element, const HTMLElement &before )
 {
-    if(impl) static_cast<HTMLSelectElementImpl*>(impl)->add( element, before );
+    if(impl) static_cast<HTMLSelectElementImpl*>(impl)->add( 
+        static_cast<HTMLElementImpl *>(element.handle()), static_cast<HTMLElementImpl *>(before.handle()) );
 }
 
 void HTMLSelectElement::remove( long index )
@@ -1109,7 +1110,11 @@ long HTMLOptionElement::index() const
 
 void HTMLOptionElement::setIndex( long /*_index*/ )
 {
+#if KHTML_NO_EXCEPTIONS
+    _exceptioncode = DOMException::NO_MODIFICATION_ALLOWED_ERR;
+#else
     throw DOMException(DOMException::NO_MODIFICATION_ALLOWED_ERR);
+#endif
 }
 
 bool HTMLOptionElement::disabled() const

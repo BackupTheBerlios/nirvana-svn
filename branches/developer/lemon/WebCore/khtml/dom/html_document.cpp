@@ -144,7 +144,11 @@ void HTMLDocument::setBody(const HTMLElement &_body)
     int exceptioncode = 0;
     ((HTMLDocumentImpl *)impl)->setBody(static_cast<HTMLElementImpl *>(_body.handle()), exceptioncode);
     if ( exceptioncode )
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = exceptioncode; return; }
+#else
         throw DOMException( exceptioncode );
+#endif    
     return;
 }
 
@@ -158,6 +162,12 @@ HTMLCollection HTMLDocument::applets() const
 {
     if(!impl) return HTMLCollection();
     return HTMLCollection(impl, HTMLCollectionImpl::DOC_APPLETS);
+}
+
+HTMLCollection HTMLDocument::embeds() const
+{
+    if(!impl) return HTMLCollection();
+    return HTMLCollection(impl, HTMLCollectionImpl::DOC_EMBEDS);
 }
 
 HTMLCollection HTMLDocument::links() const
@@ -236,16 +246,3 @@ NodeList HTMLDocument::getElementsByName( const DOMString &elementName )
     if(!impl) return 0;
     return new NameNodeListImpl(impl, elementName);
 }
-
-DOMString HTMLDocument::designMode() const
-{
-    if(!impl) return "inherit";
-    return ((HTMLDocumentImpl *)impl)->designMode();
-}
-
-void HTMLDocument::setDesignMode(const DOMString &s)
-{
-    if(impl)
-        ((HTMLDocumentImpl *)impl)->setDesignMode(s);
-}
-

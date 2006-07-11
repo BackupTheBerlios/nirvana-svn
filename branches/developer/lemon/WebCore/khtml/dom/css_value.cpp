@@ -338,10 +338,17 @@ void CSSPrimitiveValue::setFloatValue( unsigned short unitType, float floatValue
     if(!impl) return;
     int exceptioncode = 0;
     ((CSSPrimitiveValueImpl *)impl)->setFloatValue( unitType, floatValue, exceptioncode );
+#if KHTML_NO_EXCEPTIONS
+    if ( exceptioncode >= CSSException::_EXCEPTION_OFFSET )
+	{ _exceptioncode =  exceptioncode - CSSException::_EXCEPTION_OFFSET; return; }
+    if ( exceptioncode )
+	{ _exceptioncode =  exceptioncode ; return; }
+#else
     if ( exceptioncode >= CSSException::_EXCEPTION_OFFSET )
 	throw CSSException( exceptioncode - CSSException::_EXCEPTION_OFFSET );
     if ( exceptioncode )
 	throw DOMException( exceptioncode );
+#endif
 }
 
 float CSSPrimitiveValue::getFloatValue( unsigned short unitType )
@@ -349,7 +356,11 @@ float CSSPrimitiveValue::getFloatValue( unsigned short unitType )
     if(!impl) return 0;
     // ### add unit conversion
     if(primitiveType() != unitType)
+#if KHTML_NO_EXCEPTIONS
+	{ _exceptioncode = CSSException::SYNTAX_ERR; return 0; }
+#else
 	throw CSSException(CSSException::SYNTAX_ERR);
+#endif
     return ((CSSPrimitiveValueImpl *)impl)->getFloatValue( unitType );
 }
 
@@ -358,10 +369,17 @@ void CSSPrimitiveValue::setStringValue( unsigned short stringType, const DOMStri
     int exceptioncode = 0;
     if(impl)
         ((CSSPrimitiveValueImpl *)impl)->setStringValue( stringType, stringValue, exceptioncode );
+#if KHTML_NO_EXCEPTIONS
+    if ( exceptioncode >= CSSException::_EXCEPTION_OFFSET )
+	{ _exceptioncode =  exceptioncode - CSSException::_EXCEPTION_OFFSET; return; }
+    if ( exceptioncode )
+	{ _exceptioncode =  exceptioncode ; return; }
+#else
     if ( exceptioncode >= CSSException::_EXCEPTION_OFFSET )
 	throw CSSException( exceptioncode - CSSException::_EXCEPTION_OFFSET );
     if ( exceptioncode )
 	throw DOMException( exceptioncode );
+#endif
 
 }
 

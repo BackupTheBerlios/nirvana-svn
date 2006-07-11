@@ -72,7 +72,7 @@ DOMImplementation::~DOMImplementation()
 bool DOMImplementation::hasFeature( const DOMString &feature, const DOMString &version )
 {
     if (!impl)
-	return false; // ### enable throw DOMException(DOMException::NOT_FOUND_ERR);
+        return false; // ### enable throw DOMException(DOMException::NOT_FOUND_ERR); or { _exceptioncode = DOMException::NOT_FOUND_ERR; return false; }
 
     return impl->hasFeature(feature,version);
 }
@@ -82,12 +82,20 @@ DocumentType DOMImplementation::createDocumentType ( const DOMString &qualifiedN
                                                      const DOMString &systemId )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::NOT_FOUND_ERR; return 0; }
+#else
 	throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
 
     int exceptioncode = 0;
     DocumentTypeImpl *r = impl->createDocumentType(qualifiedName, publicId, systemId, exceptioncode);
     if ( exceptioncode )
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode =  exceptioncode ; return 0; }
+#else
         throw DOMException( exceptioncode );
+#endif    
     return r;
 }
 
@@ -96,18 +104,30 @@ Document DOMImplementation::createDocument ( const DOMString &namespaceURI,
                                              const DocumentType &doctype )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::NOT_FOUND_ERR; return Document(); }
+#else
 	throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
 
     int exceptioncode = 0;
     DocumentImpl *r = impl->createDocument(namespaceURI, qualifiedName, doctype, exceptioncode );
     if ( exceptioncode )
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode =  exceptioncode ; return Document(); }
+#else
         throw DOMException( exceptioncode );
+#endif    
     return r;
 }
 
 HTMLDocument DOMImplementation::createHTMLDocument( const DOMString& title )
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return HTMLDocument(); }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
 
     HTMLDocumentImpl* r = impl->createHTMLDocument( 0 /* ### create a view otherwise it doesn't work */);
 
@@ -122,7 +142,11 @@ HTMLDocument DOMImplementation::createHTMLDocument( const DOMString& title )
 DOMImplementation DOMImplementation::getInterface(const DOMString &feature) const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::NOT_FOUND_ERR; return 0; }
+#else
         throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
 
     return impl->getInterface(feature);
 }
@@ -130,13 +154,21 @@ DOMImplementation DOMImplementation::getInterface(const DOMString &feature) cons
 CSSStyleSheet DOMImplementation::createCSSStyleSheet(const DOMString &title, const DOMString &media)
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::NOT_FOUND_ERR; return 0; }
+#else
         throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
 
     int exceptioncode = 0;
     CSSStyleSheetImpl *r = impl->createCSSStyleSheet(title.implementation(), media.implementation(),
                                                      exceptioncode);
     if ( exceptioncode )
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode =  exceptioncode ; return 0; }
+#else
         throw DOMException( exceptioncode );
+#endif    
     return r;
 }
 
@@ -238,7 +270,11 @@ Element Document::createElement( const DOMString &tagName )
     int exceptioncode = 0;
     ElementImpl *e = ((DocumentImpl *)impl)->createElement(tagName, exceptioncode);
     if (exceptioncode) {
+#if KHTML_NO_EXCEPTIONS    
+        _exceptioncode = exceptioncode; return 0;
+#else
         throw DOMException(exceptioncode);
+#endif    
     }
     return e;
 }
@@ -249,7 +285,11 @@ Element Document::createElementNS( const DOMString &namespaceURI, const DOMStrin
     int exceptioncode = 0;
     ElementImpl *e = ((DocumentImpl *)impl)->createElementNS(namespaceURI, qualifiedName, exceptioncode);
     if (exceptioncode) {
+#if KHTML_NO_EXCEPTIONS    
+        _exceptioncode = exceptioncode; return 0;
+#else
         throw DOMException(exceptioncode);
+#endif    
     }
     return e;
 }
@@ -292,8 +332,13 @@ Attr Document::createAttribute( const DOMString &name )
 
 Attr Document::createAttributeNS( const DOMString &namespaceURI, const DOMString &qualifiedName )
 {
+#if KHTML_NO_EXCEPTIONS    
+    if (!impl) { _exceptioncode = DOMException::NOT_FOUND_ERR; return 0; }
+    if (qualifiedName.isNull()) { _exceptioncode = DOMException::NAMESPACE_ERR; return 0; }
+#else
     if (!impl) throw DOMException(DOMException::NOT_FOUND_ERR);
     if (qualifiedName.isNull()) throw DOMException(DOMException::NAMESPACE_ERR);
+#endif    
 
     DOMString localName(qualifiedName.copy());
     DOMString prefix;
@@ -304,7 +349,11 @@ Attr Document::createAttributeNS( const DOMString &namespaceURI, const DOMString
         localName.remove(0, colonpos+1);
     }
 
+#if KHTML_NO_EXCEPTIONS    
+    if (!DocumentImpl::isValidName(localName))  { _exceptioncode = DOMException::INVALID_CHARACTER_ERR ; return Attr(); }
+#else
     if (!DocumentImpl::isValidName(localName)) throw DOMException(DOMException::INVALID_CHARACTER_ERR);
+#endif    
     // ### check correctness of namespace, prefix?
 
     NodeImpl::Id id = static_cast<DocumentImpl*>(impl)->attrId(namespaceURI.implementation(), localName.implementation(), false /* allocate */);
@@ -313,7 +362,11 @@ Attr Document::createAttributeNS( const DOMString &namespaceURI, const DOMString
     if (r.handle() && prefix.implementation())
         r.handle()->setPrefix(prefix.implementation(), exceptioncode);
     if (exceptioncode)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = exceptioncode; return 0; }
+#else
         throw DOMException(exceptioncode);
+#endif    
     return r;
 }
 
@@ -346,12 +399,20 @@ NodeList Document::getElementsByTagNameNS( const DOMString &namespaceURI, const 
 Node Document::importNode( const Node & importedNode, bool deep )
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     NodeImpl *r = static_cast<DocumentImpl*>(impl)->importNode(importedNode.handle(), deep, exceptioncode);
     if (exceptioncode)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = exceptioncode; return 0; }
+#else
 	throw DOMException(exceptioncode);
+#endif    
     return r;
 }
 
@@ -367,43 +428,78 @@ Range Document::createRange()
     return 0;
 }
 
-NodeIterator Document::createNodeIterator(Node root, unsigned long whatToShow,
-                                    NodeFilter filter, bool entityReferenceExpansion)
+NodeIterator Document::createNodeIterator(const Node &root, unsigned long whatToShow,
+    const NodeFilter &filter, bool expandEntityReferences)
 {
     if (!impl)
-	throw DOMException(DOMException::INVALID_STATE_ERR);
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
+        throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
-    NodeIteratorImpl *r = static_cast<DocumentImpl*>(impl)->createNodeIterator(root.handle(),
-			  whatToShow,filter,entityReferenceExpansion,exceptioncode);
+    NodeIteratorImpl *result = static_cast<DocumentImpl*>(impl)->createNodeIterator(root.handle(), whatToShow, 
+        filter.handle(), expandEntityReferences, exceptioncode);
     if (exceptioncode)
-	throw DOMException(exceptioncode);
-    return r;
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = exceptioncode; return 0; }
+#else
+        throw DOMException(exceptioncode);
+#endif    
+    return result;
 }
 
-TreeWalker Document::createTreeWalker(Node root, unsigned long whatToShow, NodeFilter filter,
-                                bool entityReferenceExpansion)
+TreeWalker Document::createTreeWalker(const Node &root, unsigned long whatToShow, 
+    const NodeFilter &filter, bool expandEntityReferences)
 {
-    if (impl) return ((DocumentImpl *)impl)->createTreeWalker(root,whatToShow,filter,entityReferenceExpansion);
-    return 0;
+    if (!impl)
+#if KHTML_NO_EXCEPTIONS
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
+        throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
+
+    int exceptioncode = 0;
+    TreeWalkerImpl *result = static_cast<DocumentImpl*>(impl)->createTreeWalker(root.handle(), whatToShow, 
+        filter.handle(), expandEntityReferences, exceptioncode);
+    if (exceptioncode)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = exceptioncode; return 0Lu; }
+#else
+        throw DOMException(exceptioncode);
+#endif    
+    return result;
 }
 
 Event Document::createEvent(const DOMString &eventType)
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     EventImpl *r = ((DocumentImpl *)impl)->createEvent(eventType,exceptioncode);
     if (exceptioncode)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = exceptioncode; return 0; }
+#else
 	throw DOMException(exceptioncode);
+#endif    
     return r;
 }
 
 AbstractView Document::defaultView() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return ((DocumentImpl *)impl)->defaultView();
 }
@@ -411,7 +507,11 @@ AbstractView Document::defaultView() const
 StyleSheetList Document::styleSheets() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return ((DocumentImpl *)impl)->styleSheets();
 }
@@ -419,7 +519,11 @@ StyleSheetList Document::styleSheets() const
 DOMString Document::preferredStylesheetSet()
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return DOMString(); }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return ((DocumentImpl*)impl)->preferredStylesheetSet();
 }
@@ -427,7 +531,11 @@ DOMString Document::preferredStylesheetSet()
 DOMString Document::selectedStylesheetSet()
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; DOMString(); }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return ((DocumentImpl*)impl)->selectedStylesheetSet();
 }
@@ -435,7 +543,11 @@ DOMString Document::selectedStylesheetSet()
 void Document::setSelectedStylesheetSet(const DOMString& aString)
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::INVALID_STATE_ERR; return; }
+#else
         throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     return ((DocumentImpl*)impl)->setSelectedStylesheetSet(aString);
 }
@@ -464,7 +576,11 @@ DOMString Document::completeURL(const DOMString& url)
 DOMString Document::toString() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode = DOMException::NOT_FOUND_ERR; return DOMString(); }
+#else
 	throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
 
     return static_cast<DocumentImpl*>(impl)->toString();
 }
@@ -473,13 +589,93 @@ DOMString Document::toString() const
 CSSStyleDeclaration Document::getOverrideStyle(const Element &elt, const DOMString &pseudoElt)
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::INVALID_STATE_ERR; return 0; }
+#else
 	throw DOMException(DOMException::INVALID_STATE_ERR);
+#endif    
 
     int exceptioncode = 0;
     CSSStyleDeclarationImpl *r = ((DocumentImpl *)impl)->getOverrideStyle(static_cast<ElementImpl*>(elt.handle()),pseudoElt.implementation());
     if (exceptioncode)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = exceptioncode; return 0; }
+#else
 	throw DOMException(exceptioncode);
+#endif    
     return r;
+}
+
+bool Document::execCommand(const DOMString &command, bool userInterface, const DOMString &value)
+{
+    if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode =DOMException::NOT_FOUND_ERR; return false; }
+#else
+	throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif       
+
+    return static_cast<DocumentImpl*>(impl)->execCommand(command, userInterface, value);
+}
+
+bool Document::queryCommandEnabled(const DOMString &command)
+{
+    if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode =DOMException::NOT_FOUND_ERR; return false; }
+#else
+	throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif       
+
+    return static_cast<DocumentImpl*>(impl)->queryCommandEnabled(command);
+}
+
+bool Document::queryCommandIndeterm(const DOMString &command)
+{
+    if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode =DOMException::NOT_FOUND_ERR; return false; }
+#else
+	throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif       
+
+    return static_cast<DocumentImpl*>(impl)->queryCommandIndeterm(command);
+}
+
+bool Document::queryCommandState(const DOMString &command)
+{
+    if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode =DOMException::NOT_FOUND_ERR; return false; }
+#else
+	throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif       
+
+    return static_cast<DocumentImpl*>(impl)->queryCommandState(command);
+}
+
+bool Document::queryCommandSupported(const DOMString &command)
+{
+    if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode =DOMException::NOT_FOUND_ERR; return false; }
+#else
+	throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif       
+
+    return static_cast<DocumentImpl*>(impl)->queryCommandSupported(command);
+}
+
+DOMString Document::queryCommandValue(const DOMString &command)
+{
+    if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+        { _exceptioncode =DOMException::NOT_FOUND_ERR; return DOMString(); }
+#else
+	throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif       
+
+    return static_cast<DocumentImpl*>(impl)->queryCommandValue(command);
 }
 
 // ----------------------------------------------------------------------------
@@ -563,7 +759,7 @@ DocumentType::~DocumentType()
 DOMString DocumentType::name() const
 {
     if (!impl)
-	return DOMString(); // ### enable throw DOMException(DOMException::NOT_FOUND_ERR);
+	return DOMString(); // ### enable { _exceptioncode = DOMException::NOT_FOUND_ERR; return 0; } or throw DOMException(DOMException::NOT_FOUND_ERR);
 
     return static_cast<DocumentTypeImpl*>(impl)->name();
 }
@@ -571,7 +767,7 @@ DOMString DocumentType::name() const
 NamedNodeMap DocumentType::entities() const
 {
     if (!impl)
-	return 0; // ### enable throw DOMException(DOMException::NOT_FOUND_ERR);
+	return 0; // ### enable { _exceptioncode = DOMException::NOT_FOUND_ERR; return 0; } or throw DOMException(DOMException::NOT_FOUND_ERR);
 
     return static_cast<DocumentTypeImpl*>(impl)->entities();
 }
@@ -579,7 +775,7 @@ NamedNodeMap DocumentType::entities() const
 NamedNodeMap DocumentType::notations() const
 {
     if (!impl)
-	return 0; // ### enable throw DOMException(DOMException::NOT_FOUND_ERR);
+	return 0; // ### enable { _exceptioncode = DOMException::NOT_FOUND_ERR; return 0; } or throw DOMException(DOMException::NOT_FOUND_ERR;)
 
     return static_cast<DocumentTypeImpl*>(impl)->notations();
 }
@@ -587,7 +783,11 @@ NamedNodeMap DocumentType::notations() const
 DOMString DocumentType::publicId() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::NOT_FOUND_ERR; DOMString(); }
+#else
 	throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
 
     return static_cast<DocumentTypeImpl*>(impl)->publicId();
 }
@@ -595,7 +795,11 @@ DOMString DocumentType::publicId() const
 DOMString DocumentType::systemId() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::NOT_FOUND_ERR; DOMString(); }
+#else
 	throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
 
     return static_cast<DocumentTypeImpl*>(impl)->systemId();
 }
@@ -603,7 +807,11 @@ DOMString DocumentType::systemId() const
 DOMString DocumentType::internalSubset() const
 {
     if (!impl)
+#if KHTML_NO_EXCEPTIONS    
+	{ _exceptioncode = DOMException::NOT_FOUND_ERR; DOMString(); }
+#else
 	throw DOMException(DOMException::NOT_FOUND_ERR);
+#endif    
 
     return static_cast<DocumentTypeImpl*>(impl)->internalSubset();
 }

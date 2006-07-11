@@ -681,11 +681,11 @@ public:
     virtual ~KeyboardEvent();
 
     // KeyLocationCode
-    static const unsigned long DOM_KEY_LOCATION_STANDARD      = 0x00;
-    static const unsigned long DOM_KEY_LOCATION_LEFT          = 0x01;
-    static const unsigned long DOM_KEY_LOCATION_RIGHT         = 0x02;
-    static const unsigned long DOM_KEY_LOCATION_NUMPAD        = 0x03;
-    static const unsigned long DOM_KEY_LOCATION_UNKNOWN       = 0x04;
+    static const unsigned long DOM_KEY_LOCATION_STANDARD;
+    static const unsigned long DOM_KEY_LOCATION_LEFT;
+    static const unsigned long DOM_KEY_LOCATION_RIGHT;
+    static const unsigned long DOM_KEY_LOCATION_NUMPAD;
+    static const unsigned long DOM_KEY_LOCATION_UNKNOWN;
     
     /**
      * Holds the identifier of the key.

@@ -33,6 +33,9 @@
 
 #include "html/html_baseimpl.h"
 #include "html/html_blockimpl.h"
+#if !KWIQ // canvas is apple proprietary extension
+#include "html/html_canvasimpl.h"
+#endif
 #include "html/html_documentimpl.h"
 #include "html/html_elementimpl.h"
 #include "html/html_formimpl.h"
@@ -399,7 +402,7 @@ bool KHTMLParser::insertNode(NodeImpl *n, bool flat)
 		    for (unsigned long l = 0; map && l < map->length(); ++l) {
 			AttributeImpl* it = map->attributeItem(l);
 			changed = !bmap->getAttributeItem(it->id());
-			bmap->insertAttribute(new AttributeImpl(it->id(), it->val()));
+			bmap->insertAttribute(it->clone(false));
 		    }
 		    if ( changed )
 			doc()->recalcStyle( NodeImpl::Inherit );
@@ -445,7 +448,7 @@ bool KHTMLParser::insertNode(NodeImpl *n, bool flat)
                 for (unsigned long l = 0; map && l < map->length(); ++l) {
                     AttributeImpl* it = map->attributeItem(l);
                     changed = !bmap->getAttributeItem(it->id());
-                    bmap->insertAttribute(new AttributeImpl(it->id(), it->val()));
+                    bmap->insertAttribute(it->clone(false));
                 }
                 if ( changed )
                     doc()->recalcStyle( NodeImpl::Inherit );
@@ -656,8 +659,7 @@ bool KHTMLParser::insertNode(NodeImpl *n, bool flat)
         case ID_OL:
         case ID_DIR:
         case ID_MENU:
-            e = new HTMLLIElementImpl(document);
-            e->addCSSProperty(CSS_PROP_LIST_STYLE_TYPE, CSS_VAL_NONE);
+            e = new HTMLDivElementImpl(document);
             insertNode(e);
             handled = true;
             break;
@@ -797,7 +799,7 @@ NodeImpl *KHTMLParser::getElement(Token* t)
             // no site actually relying on that detail (Dirk)
             if (static_cast<HTMLDocumentImpl*>(document->document())->body())
                 static_cast<HTMLDocumentImpl*>(document->document())->body()
-                    ->addCSSProperty(CSS_PROP_DISPLAY, "none");
+                    ->setAttribute(ATTR_STYLE, "display:none");
             inBody = false;
         }
         if ( (haveContent || haveFrameSet) && current->id() == ID_HTML)
@@ -949,6 +951,13 @@ NodeImpl *KHTMLParser::getElement(Token* t)
         n = new HTMLAnchorElementImpl(document);
         break;
 
+// canvas
+#if APPLE_CHANGES && !KWIQ      
+    case ID_CANVAS:
+        n = new HTMLCanvasElementImpl(document);
+        break;
+#endif
+        
 // images
     case ID_IMG:
         n = new HTMLImageElementImpl(document);
@@ -1595,13 +1604,15 @@ NodeImpl *KHTMLParser::handleIsindex( Token *t )
     NodeImpl *child = new HTMLHRElementImpl( document );
     n->addChild( child );
     AttributeImpl* a = t->attrs ? t->attrs->getAttributeItem(ATTR_PROMPT) : 0;
-#if APPLE_CHANGES
+#if APPLE_CHANGES && !KWIQ
     DOMString text = searchableIndexIntroduction();
+#elif KWIQ // FIXME: KWIQ: Internationalization. Hardcoded string.
+    DOMString text = "This is a searchable index. Enter search keywords: ";
 #else
     DOMString text = i18n("This is a searchable index. Enter search keywords: ");
 #endif
     if (a)
-        text = a->value() + " ";
+        text = DOMString(a->value()) + " ";
     child = new TextImpl(document, text);
     n->addChild( child );
     child = new HTMLIsIndexElementImpl(document, myform);
