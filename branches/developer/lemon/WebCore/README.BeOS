@@ -11,8 +11,7 @@ Problems: NSStringEncoding, NSDictionary, NSMutableDictionary...
 Workarounds: I wrote BDictionary, maybe I should should use STL, but ...
 Todo: KWQCharsets to BDictionary
 
-Date: 08/07/2006 lemon - Second Round
-Status: CSS XML DOM MISC and FRONT-END are compiled
+Date: 12/07/2006 lemon - Second Round
+Status: CSS XML DOM MISC RENDER and FRONT-END are compiled
 Problems: webkit.opendarwing.org, our project now is not so actual.
-Todo: GTK Widgets replacement in KWQUBE, RENDERING
-
+Todo: KWQUBE Qt->BeOS Wrappers
