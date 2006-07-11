@@ -52,7 +52,7 @@ public:
     KURL(const char *);
     KURL(const KURL &, const QString &, const QTextCodec * = 0);
     KURL(const QString &);
-#if !KWIQ
+#if !KWQUBE
     KURL(NSURL *);
 #endif
     
@@ -87,7 +87,7 @@ public:
 
     QString prettyURL() const;
 
-#if !KWIQ    
+#if !KWQUBE  
     NSURL *getNSURL() const;
     NSData *getNSData() const;
 #endif
@@ -97,7 +97,7 @@ public:
     static QString decode_string(const QString &, const QTextCodec * codec = 0);
     static QString encode_string(const QString &);
     
-    friend bool operator==(const KURL &, const KURL &);
+    bool operator==(const KURL &);//, const KURL &);
 
 private:
     void parse(const char *url, const QString *originalString);

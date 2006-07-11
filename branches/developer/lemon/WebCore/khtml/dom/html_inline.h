@@ -29,7 +29,7 @@
 #ifndef HTML_INLINE_H
 #define HTML_INLINE_H
 
-#include <dom/html_element.h>
+#include "dom/html_element.h"
 
 namespace DOM {
 class HTMLGenericElementImpl;

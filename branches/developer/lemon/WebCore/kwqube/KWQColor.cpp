@@ -223,7 +223,7 @@ void QColor::getGdkColor(GdkColor * color) const
     color->blue = blue() *256;
 }
 
-#if !KWIQ
+#if !KWQUBE
 NSColor *QColor::getNSColor() const
 {
     unsigned c = color & 0xFFFFFFFF;

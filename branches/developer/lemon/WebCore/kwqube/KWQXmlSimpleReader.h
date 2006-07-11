@@ -48,7 +48,8 @@ struct KWQXmlNamespace {
     }
     
     QString uriForPrefix(const QString& prefix) {
-        if (prefix == m_prefix)
+    	// LEMON
+        if (QString::equals(m_prefix,prefix))
             return m_uri;
         if (m_parent)
             return m_parent->uriForPrefix(prefix);

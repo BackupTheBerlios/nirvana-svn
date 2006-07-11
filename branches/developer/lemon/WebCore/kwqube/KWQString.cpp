@@ -778,7 +778,7 @@ QString QString::number(double n)
     return qs;
 }
 
-#if !KWIQ
+#if !KWQUBE
 void QString::setBufferFromCFString(CFStringRef cfs)
 {
     if (!cfs) {
@@ -1202,7 +1202,7 @@ bool QString::endsWith(const QString& s) const
     return true;
 }
 
-#if !KWIQ
+#if !KWQUBE
 QCString QString::utf8() const
 {
     uint len = dataHandle[0]->_length;
@@ -2775,7 +2775,7 @@ void QString::reserve(uint length)
     }
 }
 
-bool operator==(const QString &s1, const QString &s2)
+bool QString::equals(const QString &s1, const QString &s2)
 {
     if (s1.dataHandle[0]->_isAsciiValid && s2.dataHandle[0]->_isAsciiValid) {
         return strcmp(s1.ascii(), s2.ascii()) == 0;
@@ -2784,7 +2784,7 @@ bool operator==(const QString &s1, const QString &s2)
         && memcmp(s1.unicode(), s2.unicode(), s1.dataHandle[0]->_length * sizeof(QChar)) == 0;
 }
 
-bool operator==(const QString &s1, const char *chs)
+bool QString::equals(const QString &s1, const char *chs)
 {
     if (!chs)
         return s1.isNull();
@@ -2806,6 +2806,16 @@ bool operator==(const QString &s1, const char *chs)
         }
     }
     return chs[len] == '\0';
+}
+
+bool operator==(const QString &s1, const QString &s2)
+{
+    return QString::equals(s1,s2);
+}
+
+bool operator==(const QString &s1, const char *chs)
+{
+    return QString::equals(s2,chs);
 }
 
 // Golden ratio - arbitrary start value to avoid mapping all 0's to all 0's

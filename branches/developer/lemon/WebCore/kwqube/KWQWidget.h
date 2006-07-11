@@ -25,7 +25,7 @@
 
 #ifndef QWIDGET_H_
 #define QWIDGET_H_
-#include <gdk/gdk.h>
+//#include <gdk/gdk.h>
 
 #include "KWQObject.h"
 #include "KWQPaintDevice.h"

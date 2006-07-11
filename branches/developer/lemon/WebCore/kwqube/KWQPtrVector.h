@@ -32,7 +32,7 @@
 #include "KWQVectorImpl.h"
 
 #ifdef _KWQ_IOSTREAM_
-#include <ostream>
+#include <ostream.h>
 #endif
 
 class QGVector : public QPtrCollection

@@ -25,7 +25,7 @@
 
 #ifndef QEVENT_H_
 #define QEVENT_H_
-#include <gdk/gdk.h>
+//#include <gdk/gdk.h>
 #include "KWQNamespace.h"
 #include "KWQRegion.h"
 #include "KWQPointArray.h"

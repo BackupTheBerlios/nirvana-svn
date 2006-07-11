@@ -29,8 +29,8 @@
 #ifndef HTML_HEAD_H
 #define HTML_HEAD_H
 
-#include <dom/html_element.h>
-#include <dom/css_stylesheet.h>
+#include "dom/html_element.h"
+#include "dom/css_stylesheet.h"
 
 namespace DOM {
 

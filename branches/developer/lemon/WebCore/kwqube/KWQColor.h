@@ -66,8 +66,8 @@ public:
     QColor light(int f = 150) const;
     QColor dark(int f = 200) const;
 
-    friend bool operator==(const QColor &a, const QColor &b);
-    friend bool operator!=(const QColor &a, const QColor &b);
+    bool operator==(const QColor &a) const { return color == a.color && valid == a.valid; } //, const QColor &b);
+    bool operator!=(const QColor &a) const { return color != a.color || valid != a.valid; } //, const QColor &b);
 
 	// BEOS_CHANGES
     //GdkColor* getAsGdkColor() const;
@@ -83,7 +83,7 @@ private:
     QRgb color;
     bool valid : 1;
 };
-
+/*
 inline bool operator==(const QColor &a, const QColor &b)
 {
     return a.color == b.color && a.valid == b.valid;
@@ -93,5 +93,6 @@ inline bool operator!=(const QColor &a, const QColor &b)
 {
     return a.color != b.color || a.valid != b.valid;
 }
+*/
 
 #endif

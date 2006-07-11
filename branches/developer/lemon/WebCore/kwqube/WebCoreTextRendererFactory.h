@@ -1,7 +1,7 @@
 #ifndef WebCoreTextRendererFactory_h
 #define WebCoreTextRendererFactory_h
 
-#include <glib.h>
+//#include <glib.h>
 #include "WebCoreFoundation.h"
 
 class WebCoreTextRenderer;

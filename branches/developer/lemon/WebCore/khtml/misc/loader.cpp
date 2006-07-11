@@ -500,7 +500,9 @@ static bool crossDomain(const QString &a, const QString &b)
 
     while(l2.count() >= 2)
     {
-        if (l1 == l2)
+    	// LEMON
+        //if (l1 == l2)
+        if (QStringList::equals(l1,l2))
            return false;
 
         l1.pop_front();

@@ -29,7 +29,7 @@
 #ifndef HTML_MISC_H
 #define HTML_MISC_H
 
-#include <dom/html_element.h>
+#include "dom/html_element.h"
 
 namespace DOM {
 

@@ -69,11 +69,11 @@ void qWarning(const char *msg, ...);
 
 #define Q_ASSERT(arg) do {} while(0)
 
-#ifndef NDEBUG
-#define _KWQ_IOSTREAM_
-#endif
+//#ifndef NDEBUG
+//#define _KWQ_IOSTREAM_
+//#endif
 
-#if KWIQ
+#if KWQUBE
 
 #if defined(_KWQ_IOSTREAM_)
 #undef _KWQ_IOSTREAM_

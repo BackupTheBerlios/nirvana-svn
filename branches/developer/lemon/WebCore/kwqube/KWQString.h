@@ -411,6 +411,7 @@ public:
     static QString fromLatin1(const char *, int len);
     static QString fromUtf8(const char *);
     static QString fromUtf8(const char *, int len);
+    
 #if !KWQUBE
     static QString fromCFString(CFStringRef);
     static QString fromNSString(NSString *);
@@ -440,6 +441,8 @@ public:
     QChar at(uint) const;
 
     int compare(const QString &) const;
+    static bool equals(const QString &, const QString &);
+    static bool equals(const QString &, const char *);
     int compare(const char *) const;
 
     bool startsWith(const QString &) const;
@@ -562,6 +565,11 @@ public:
     void setLength(uint newlen);
 #endif
 
+    friend bool operator==(const QString &, const QString &);
+    friend bool operator==(const QString &, const char *);
+    friend bool operator==(const QString &, char *);
+    friend bool operator!=(const QString &, const char *);
+
 private:
     // Used by QConstString.
     QString(KWQStringData *constData, bool /*dummy*/);
@@ -571,6 +579,7 @@ private:
     void detachInternal();
     void deref();
     QChar *forceUnicode();
+    
 #ifndef KWQUBE
     void setLength(uint);
 #endif
@@ -582,9 +591,6 @@ private:
     static KWQStringData *makeSharedNull();
     static KWQStringData **shared_null_handle;
     static KWQStringData **makeSharedNullHandle();
-
-    friend bool operator==(const QString &, const QString &);
-    friend bool operator==(const QString &, const char *);
 
     friend class QConstString;
     friend class QGDict;
@@ -598,7 +604,16 @@ QString operator+(const QString &, char);
 QString operator+(const char *, const QString &);
 QString operator+(QChar, const QString &);
 QString operator+(char, const QString &);
-
+/*
+QString operator==(const QString &, const QString &);
+QString operator==(const QString &, QString);
+QString operator==(const QString &, const char *);
+QString operator==(const QString &, char *);
+QString operator!=(const QString &, const QString &);
+QString operator!=(const QString &, QString &);
+QString operator!=(const QString &, const char *);
+QString operator!=(const QString &, char *);
+*/
 inline char *KWQStringData::ascii()
 {
     return _isAsciiValid ? _ascii : makeAscii();
@@ -666,7 +681,8 @@ inline const QChar QString::operator[](int index) const
     return at(index);
 }
 
-inline bool operator==(const char *chs, const QString &qs)
+
+inline bool operator==(const QString &qs, const char *chs)
 {
     return qs == chs;
 }
@@ -681,10 +697,12 @@ inline bool operator!=(const QString &qs, const char *chs)
     return !(qs == chs);
 }
 
+/*
 inline bool operator!=(const char *chs, const QString &qs)
 {
     return !(qs == chs);
 }
+*/
 
 inline bool operator<(const QString &qs1, const QString &qs2)
 {
@@ -745,6 +763,7 @@ inline bool operator>=(const char *chs, const QString &qs)
 {
     return qs.compare(chs) <= 0;
 }
+
 
 class QConstString : private QString {
 public:

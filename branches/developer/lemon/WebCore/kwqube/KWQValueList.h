@@ -124,12 +124,16 @@ public:
     QValueList &operator+=(const T &value) { impl.appendNode(new QValueListNode<T>(value)); return *this; }
     QValueList &operator<<(const T &value) { impl.appendNode(new QValueListNode<T>(value)); return *this; }
     
+    static bool equals(const QValueList<T> &, const QValueList<T> &);
+    
+    /*
 #if __VC32__ //VC gets error from this - vc bug?
-	friend bool operator==(const QValueList<T> &, const QValueList<T> &);
+    friend bool operator==(const QValueList<T> &, const QValueList<T> &);
 #else
     //friend bool operator==<>(const QValueList<T> &, const QValueList<T> &);
     friend bool operator==(const QValueList<T> &, const QValueList<T> &);
 #endif
+*/
     
 private:
     KWQValueListImpl impl;
@@ -143,6 +147,12 @@ private:
 
 template<class T>
 inline bool operator==(const QValueList<T> &a, const QValueList<T> &b)
+{
+    return a.impl.isEqual(b.impl, QValueList<T>::nodesEqual);
+}
+
+template<class T>
+inline bool equals(const QValueList<T> &a, const QValueList<T> &b)
 {
     return a.impl.isEqual(b.impl, QValueList<T>::nodesEqual);
 }

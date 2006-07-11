@@ -39,7 +39,7 @@ extern KWQLogChannel KWQLogLoading;
 extern KWQLogChannel KWQLogPopupBlocking;
 extern KWQLogChannel KWQLogEvents;
 extern KWQLogChannel KWQLogEditing;
-#if KWIQ
+#if KWQUBE
 extern KWQLogChannel KWQLogKwiqLog;
 #endif
 
