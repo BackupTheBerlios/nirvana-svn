@@ -31,15 +31,15 @@
 #include "rendering/render_replaced.h"
 #include "rendering/render_canvas.h"
 #include "rendering/render_table.h"
-#include "render_flexbox.h"
-#include "render_arena.h"
+#include "rendering/render_flexbox.h"
+#include "rendering/render_arena.h"
 
 #include "misc/htmlhashes.h"
 #include "xml/dom_nodeimpl.h"
 #include "xml/dom_docimpl.h"
-#include "render_line.h"
+#include "rendering/render_line.h"
 
-#include <khtmlview.h>
+#include "khtmlview.h"
 #include <kdebug.h>
 #include <assert.h>
 
@@ -341,7 +341,7 @@ void RenderBox::paintBackgroundExtended(QPainter *p, const QColor &c, CachedImag
     }
     
     // no progressive loading of the background image
-    if(bg && bg->pixmap_size() == bg->valid_rect().size() && !bg->isTransparent() && !bg->isErrorImage()) {
+    if(bg && QSize::equals(bg->pixmap_size(),bg->valid_rect().size()) && !bg->isTransparent() && !bg->isErrorImage()) {
         //kdDebug( 6040 ) << "painting bgimage at " << _tx << "/" << _ty << endl;
         // ### might need to add some correct offsets
         // ### use paddingX/Y

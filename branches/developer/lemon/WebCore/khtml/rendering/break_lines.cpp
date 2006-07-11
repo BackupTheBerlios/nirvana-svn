@@ -30,7 +30,7 @@ namespace khtml {
 */
 bool isBreakable( const QChar *s, int pos, int len)
 {
-#if !APPLE_CHANGES || KWIQ
+#if !APPLE_CHANGES || KWQUBE
     const QChar *c = s+pos;
     unsigned short ch = c->unicode();
     if ( ch > 0xff ) {

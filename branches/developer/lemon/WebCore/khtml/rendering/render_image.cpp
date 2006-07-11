@@ -415,7 +415,7 @@ void RenderImage::paint(PaintInfo& i, int _tx, int _ty)
                 // of rounding errors. if the image is fully loaded, we
                 // make sure that we don't do unnecessary resizes during painting
                 QSize s(scaledrect.size());
-                if(image->valid_rect().size() == QSize( intrinsicWidth(), intrinsicHeight() )) // fully loaded
+                if(QSize::equals(image->valid_rect().size(),QSize( intrinsicWidth(), intrinsicHeight() ))) // fully loaded
                     s = QSize(cWidth, cHeight);
                 if(QABS(s.width() - cWidth) < 2) // rounding errors
                     s.setWidth(cWidth);

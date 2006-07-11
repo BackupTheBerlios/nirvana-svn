@@ -65,6 +65,11 @@ QSize operator+(const QSize &a, const QSize &b)
     return QSize(a.w + b.w, a.h + b.h);
 }
 
+bool QSize::equals(const QSize &a, const QSize &b)
+{
+    return a.w == b.w && a.h == b.h;
+}
+
 bool operator==(const QSize &a, const QSize &b)
 {
     return a.w == b.w && a.h == b.h;

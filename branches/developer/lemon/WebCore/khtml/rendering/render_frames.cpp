@@ -731,10 +731,10 @@ void RenderPartObject::updateWidget()
           if (child->id() == ID_PARAM) {
               HTMLParamElementImpl *p = static_cast<HTMLParamElementImpl *>( child );
               QString name = p->name().lower();
-              if (url.isEmpty() && (name == "src" || name == "movie"|| name == "code")) {
+              if (url.isEmpty() && (QString::equals(name,"src") || QString::equals(name,"movie") || QString::equals(name,"code"))) {
                   url = p->value();
               }
-              if (serviceType.isEmpty() && name == "type") {
+              if (serviceType.isEmpty() && QString::equals(name,"type")) {
                   serviceType = p->value();
               }
               
@@ -815,7 +815,7 @@ void RenderPartObject::updateWidget()
 	  url = "about:blank";
       KHTMLView *v = static_cast<KHTMLView *>(m_view);
       bool requestSucceeded = v->part()->requestFrame( this, url, o->name.string(), QStringList(), true );
-      if (requestSucceeded && url == "about:blank") {
+      if (requestSucceeded && QString::equals(url,"about:blank")) {
 	  KHTMLPart *newPart = v->part()->findFrame( o->name.string() );
 	  if (newPart && newPart->xmlDocImpl()) {
 	      newPart->xmlDocImpl()->setBaseURL( v->part()->baseURL().url() );

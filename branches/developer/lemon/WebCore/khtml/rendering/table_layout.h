@@ -25,7 +25,7 @@
 #define TABLE_LAYOUT_H
 
 #include <qmemarray.h>
-#include <misc/khtmllayout.h>
+#include "misc/khtmllayout.h"
 
 namespace khtml {
 

@@ -47,7 +47,7 @@
 
 #if APPLE_CHANGES 
 #include "KWQFileButton.h"
-#if !KWIQ
+#if !KWQUBE
 #include "KWQSlider.h"
 #endif
 #endif
@@ -58,7 +58,7 @@ using namespace DOM;
 RenderFormElement::RenderFormElement(HTMLGenericFormElementImpl *element)
     : RenderWidget(element)
 {
-#if KWIQ    
+#if KWQUBE    
     QOBJECT_TYPE(RenderFormElement);
 #endif    
     // init RenderObject attributes
@@ -261,7 +261,7 @@ void RenderFormElement::addIntrinsicMarginsIfAllowed(RenderStyle* _style)
 RenderButton::RenderButton(HTMLGenericFormElementImpl *element)
     : RenderFormElement(element)
 {
-#if KWIQ
+#if KWQUBE
     QOBJECT_TYPE(RenderButton);
 #endif
 }
@@ -280,7 +280,7 @@ short RenderButton::baselinePosition( bool f, bool isRootLineBox ) const
 RenderCheckBox::RenderCheckBox(HTMLInputElementImpl *element)
     : RenderButton(element)
 {
-#if KWIQ
+#if KWQUBE
     QOBJECT_TYPE(RenderCheckBox);
 #endif    
     QCheckBox* b = new QCheckBox(view()->viewport());
@@ -328,7 +328,7 @@ void RenderCheckBox::slotStateChanged(int state)
 RenderRadioButton::RenderRadioButton(HTMLInputElementImpl *element)
     : RenderButton(element)
 {
-#if KWIQ
+#if KWQUBE
     QOBJECT_TYPE(RenderRadioButton);
 #endif
     QRadioButton* b = new QRadioButton(view()->viewport());
@@ -546,7 +546,7 @@ bool LineEditWidget::event( QEvent *e )
 RenderLineEdit::RenderLineEdit(HTMLInputElementImpl *element)
     : RenderFormElement(element), m_updating(false)
 {
-#if KWIQ
+#if KWQUBE
     QOBJECT_TYPE(RenderLineEdit);
 #endif
 #if APPLE_CHANGES
@@ -884,7 +884,7 @@ void RenderFieldset::setStyle(RenderStyle* _style)
 RenderFileButton::RenderFileButton(HTMLInputElementImpl *element)
     : RenderFormElement(element)
 {
-#if KWIQ
+#if KWQUBE
     QOBJECT_TYPE(RenderFileButton);
 #endif
 
@@ -1088,7 +1088,7 @@ bool ComboBoxWidget::eventFilter(QObject *dest, QEvent *e)
 RenderSelect::RenderSelect(HTMLSelectElementImpl *element)
     : RenderFormElement(element)
 {
-#if KWIQ
+#if KWQUBE
     QOBJECT_TYPE(RenderSelect);
 #endif    
     m_ignoreSelectEvents = false;
@@ -1512,7 +1512,7 @@ bool TextAreaWidget::event( QEvent *e )
 RenderTextArea::RenderTextArea(HTMLTextAreaElementImpl *element)
     : RenderFormElement(element)
 {
-#if KWIQ
+#if KWQUBE
     QOBJECT_TYPE(RenderTextArea);
 #endif
     TextAreaWidget *edit = new TextAreaWidget(element->wrap(), view());
@@ -1656,7 +1656,7 @@ void RenderTextArea::select()
 
 // ---------------------------------------------------------------------------
 
-#if APPLE_CHANGES && !KWIQ
+#if APPLE_CHANGES && !KWQUBE
 RenderSlider::RenderSlider(HTMLInputElementImpl* element)
 :RenderFormElement(element)
 {

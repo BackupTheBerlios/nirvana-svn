@@ -31,7 +31,7 @@
 #include "KWQSignal.h"
 
 #include "KWQButtonGroup.h"
-#include <glib.h> /* gulong */
+//#include <glib.h> /* gulong */
 
 
 class QButton : public QWidget {

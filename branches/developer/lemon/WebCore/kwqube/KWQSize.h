@@ -55,6 +55,8 @@ public:
     
     //operator NSSize() const;
     operator BPoint() const;
+    
+    static bool equals(const QSize &, const QSize &);
 
     friend QSize operator+(const QSize &, const QSize &);
     friend bool operator==(const QSize &, const QSize &);

@@ -57,7 +57,7 @@ using namespace khtml;
 static void *baseOfRenderObjectBeingDeleted;
 #endif
 
-#if defined(NDEBUG) && KWIQ // Needed anyway?
+#if defined(NDEBUG) && KWQUBE // Needed anyway?
 static void *baseOfRenderObjectBeingDeleted=0;
 #endif
 
@@ -70,7 +70,7 @@ void* RenderObject::operator new(size_t sz, RenderArena* renderArena) throw()
 void RenderObject::operator delete(void* ptr, size_t sz)
 {
  
-#if KWIQ
+#if KWQUBE
     baseOfRenderObjectBeingDeleted = ptr;
 #endif    
     assert(baseOfRenderObjectBeingDeleted == ptr);
@@ -1765,7 +1765,7 @@ void RenderObject::detach()
     arenaDelete(document()->renderArena(), this);
 }
 
-#if KWIQ
+#if KWQUBE
 void RenderObject::arenaDelete(RenderArena *arena, void *base)
 {
     if (m_style->backgroundImage())
@@ -1805,7 +1805,7 @@ void RenderObject::arenaDelete(RenderArena *arena, void *base)
 
 void RenderObject::arenaDelete(RenderArena *arena)
 {
-#if KWIQ //KWIQ: removed dynamic cast
+#if KWQUBE //KWIQ: removed dynamic cast
     arenaDelete(arena, static_cast<void *>(this));
 #else
     arenaDelete(arena, dynamic_cast<void *>(this));
@@ -2230,7 +2230,7 @@ void RenderObject::setPixmap(const QPixmap&, const QRect&, CachedImage *image)
     // subclasses). It would be even better to find a more elegant way of doing this that
     // would avoid putting this function and the CachedObjectClient base class into RenderObject.
 
-    if (image && image->pixmap_size() == image->valid_rect().size() && parent()) {
+    if (image && QSize::equals(image->pixmap_size(),image->valid_rect().size()) && parent()) {
         if (element() && (element()->id() == ID_HTML || element()->id() == ID_BODY))
             canvas()->repaint();    // repaint the entire canvas since the background gets propagated up
         else

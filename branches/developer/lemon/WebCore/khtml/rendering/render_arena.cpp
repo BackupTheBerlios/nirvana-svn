@@ -34,6 +34,7 @@
 
 #include "render_arena.h"
 
+#include <assert.h>
 #include <string.h> // for memset
 
 #ifndef NDEBUG

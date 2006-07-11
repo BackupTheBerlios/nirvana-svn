@@ -36,11 +36,11 @@
 #include "xml/dom_position.h"
 #include "xml/dom_selection.h"
 #include "html/html_formimpl.h"
-#include "render_block.h"
+#include "rendering/render_block.h"
 
 #include "khtmlview.h"
 #include "khtml_part.h"
-#include "htmltags.h"
+#include "misc/htmltags.h"
 
 using namespace DOM;
 
