@@ -64,6 +64,7 @@
 #if APPLE_CHANGES
 #include "KWQAssertions.h"
 #include "KWQLoader.h"
+#include "KWQString.h"
 #endif
 
 using namespace khtml;
@@ -114,7 +115,6 @@ void CachedObject::finish()
 #endif
 }
 
-
 void CachedObject::setExpireDate(time_t _expireDate, bool changeHttpCache)
 {
     if ( _expireDate == m_expireDate)
@@ -140,8 +140,8 @@ bool CachedObject::isExpired() const
 
 void CachedObject::setResponse(KWIQResponse *response)
 {
-    KWQRetainResponse((KWIQResponse*)response);
-    KWQReleaseResponse((KWIQResponse*)m_response);
+    KWQRetainResponse(response);
+    KWQReleaseResponse(m_response);
     m_response = response;
 }
 
@@ -188,12 +188,8 @@ void CachedObject::setSize(int size)
 
 // -------------------------------------------------------------------------------------------
 
-CachedCSSStyleSheet::CachedCSSStyleSheet(
-	DocLoader* dl,
-	const DOMString &url,
-	KIO::CacheControl _cachePolicy,
-	time_t _expireDate,
-	const QString& charset) : CachedObject(url, CSSStyleSheet, _cachePolicy, _expireDate)
+CachedCSSStyleSheet::CachedCSSStyleSheet(DocLoader* dl, const DOMString &url, KIO::CacheControl _cachePolicy, time_t _expireDate, const QString& charset)
+    : CachedObject(url, CSSStyleSheet, _cachePolicy, _expireDate)
 {
     // It's css we want.
     setAccept( QString::fromLatin1("text/css") );
@@ -435,7 +431,7 @@ void ImageSource::sendTo(QDataSink* sink, int n)
 void ImageSource::setEOF( bool state )
 {
     eof = state;
-#if KWIQ
+#if KWQUBE
     if (eof)
 	QDataSource::eof();
 #endif    
@@ -521,7 +517,7 @@ CachedImage::CachedImage(DocLoader* dl, const DOMString &url, KIO::CacheControl 
     , m_dataSize(0)
 #endif
 {
-#if KWIQ
+#if KWQUBE
     QOBJECT_TYPE(khtml::CachedImage);
 #endif
 #if !APPLE_CHANGES
@@ -532,7 +528,7 @@ CachedImage::CachedImage(DocLoader* dl, const DOMString &url, KIO::CacheControl 
     p = 0;
     pixPart = 0;
     bg = 0;
-#if !APPLE_CHANGES || KWIQ
+#if !APPLE_CHANGES || KWQUBE
     bgColor = qRgba( 0, 0, 0, 0xFF );
     typeChecked = false;
 #endif
@@ -1287,7 +1283,7 @@ void DocLoader::removeCachedObject( CachedObject* o ) const
 
 Loader::Loader() : QObject()
 {
-#if KWIQ
+#if KWQUBE
     QOBJECT_TYPE(khtml::Loader);
 #endif
     m_requestsPending.setAutoDelete( true );

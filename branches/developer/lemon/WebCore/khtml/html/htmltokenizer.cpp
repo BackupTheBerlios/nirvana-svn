@@ -1016,7 +1016,7 @@ void HTMLTokenizer::parseTag(TokenizerString &src)
                             // being bogus HTML.  They do not honor the "/" for other tags.  This behavior
                             // also deviates from WinIE, but in this case we'll just copy Moz and Opera.
                             if (currToken.id == ID_SCRIPT && curchar == '>' &&
-                                attrName == "/")
+                                QString::equals(attrName,"/"))
                                 currToken.flat = true;
                         }
                         

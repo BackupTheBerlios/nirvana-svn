@@ -4,7 +4,7 @@
  * Copyright (C) 1999 Lars Knoll (knoll@kde.org)
  *           (C) 1999 Antti Koivisto (koivisto@kde.org)
  *           (C) 2000 Dirk Mueller (mueller@kde.org)
- * Copyright (C) 2003 Apple Computer, Inc.
+ * Copyright (C) 2004 Apple Computer, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -45,15 +45,22 @@
 
 #include <kdebug.h>
 
-#if APPLE_CHANGES
+#if APPLE_CHANGES 
 #include "KWQFileButton.h"
+#if !KWIQ
+#include "KWQSlider.h"
+#endif
 #endif
 
 using namespace khtml;
+using namespace DOM;
 
 RenderFormElement::RenderFormElement(HTMLGenericFormElementImpl *element)
     : RenderWidget(element)
 {
+#if KWIQ    
+    QOBJECT_TYPE(RenderFormElement);
+#endif    
     // init RenderObject attributes
     setInline(true);   // our object is Inline
 
@@ -202,6 +209,27 @@ void RenderFormElement::slotClicked()
     deref(arena);
 }
 
+Qt::AlignmentFlags RenderFormElement::textAlignment() const
+{
+    switch (style()->textAlign()) {
+        case LEFT:
+        case KHTML_LEFT:
+            return AlignLeft;
+        case RIGHT:
+        case KHTML_RIGHT:
+            return AlignRight;
+        case CENTER:
+        case KHTML_CENTER:
+            return AlignHCenter;
+        case JUSTIFY:
+            // Just fall into the auto code for justify.
+        case TAAUTO:
+            return style()->direction() == RTL ? AlignRight : AlignLeft;
+    }
+    assert(false); // Should never be reached.
+    return AlignLeft;
+}
+
 #if APPLE_CHANGES
 
 void RenderFormElement::addIntrinsicMarginsIfAllowed(RenderStyle* _style)
@@ -233,6 +261,9 @@ void RenderFormElement::addIntrinsicMarginsIfAllowed(RenderStyle* _style)
 RenderButton::RenderButton(HTMLGenericFormElementImpl *element)
     : RenderFormElement(element)
 {
+#if KWIQ
+    QOBJECT_TYPE(RenderButton);
+#endif
 }
 
 short RenderButton::baselinePosition( bool f, bool isRootLineBox ) const
@@ -249,6 +280,9 @@ short RenderButton::baselinePosition( bool f, bool isRootLineBox ) const
 RenderCheckBox::RenderCheckBox(HTMLInputElementImpl *element)
     : RenderButton(element)
 {
+#if KWIQ
+    QOBJECT_TYPE(RenderCheckBox);
+#endif    
     QCheckBox* b = new QCheckBox(view()->viewport());
     b->setAutoMask(true);
     b->setMouseTracking(true);
@@ -294,6 +328,9 @@ void RenderCheckBox::slotStateChanged(int state)
 RenderRadioButton::RenderRadioButton(HTMLInputElementImpl *element)
     : RenderButton(element)
 {
+#if KWIQ
+    QOBJECT_TYPE(RenderRadioButton);
+#endif
     QRadioButton* b = new QRadioButton(view()->viewport());
     b->setAutoMask(true);
     b->setMouseTracking(true);
@@ -509,8 +546,24 @@ bool LineEditWidget::event( QEvent *e )
 RenderLineEdit::RenderLineEdit(HTMLInputElementImpl *element)
     : RenderFormElement(element), m_updating(false)
 {
+#if KWIQ
+    QOBJECT_TYPE(RenderLineEdit);
+#endif
 #if APPLE_CHANGES
-    KLineEdit *edit = new KLineEdit(view()->viewport());
+    QLineEdit::Type type;
+    switch (element->inputType()) {
+        case HTMLInputElementImpl::PASSWORD:
+            type = QLineEdit::Password;
+            break;
+        case HTMLInputElementImpl::SEARCH:
+            type = QLineEdit::Search;
+            break;
+        default:
+            type = QLineEdit::Normal;
+    }
+    KLineEdit *edit = new KLineEdit(type);
+    if (type == QLineEdit::Search)
+        edit->setLiveSearch(false);
 #else
     LineEditWidget *edit = new LineEditWidget(view()->viewport());
 #endif
@@ -518,10 +571,14 @@ RenderLineEdit::RenderLineEdit(HTMLInputElementImpl *element)
     connect(edit,SIGNAL(textChanged(const QString &)),this,SLOT(slotTextChanged(const QString &)));
     connect(edit,SIGNAL(clicked()),this,SLOT(slotClicked()));
 
+#if APPLE_CHANGES
+    connect(edit,SIGNAL(performSearch()), this, SLOT(slotPerformSearch()));
+#endif
+
+#if !APPLE_CHANGES
     if(element->inputType() == HTMLInputElementImpl::PASSWORD)
         edit->setEchoMode( QLineEdit::Password );
 
-#if !APPLE_CHANGES
     if ( element->autoComplete() ) {
         QStringList completions = view()->formCompletionItems(element->name().string());
         if (completions.count()) {
@@ -552,6 +609,20 @@ void RenderLineEdit::slotReturnPressed()
     if ( fe )
         fe->submitClick();
 }
+
+#if APPLE_CHANGES
+void RenderLineEdit::slotPerformSearch()
+{
+    // Fire the "search" DOM event.
+    element()->dispatchHTMLEvent(EventImpl::SEARCH_EVENT, true, false);
+}
+
+void RenderLineEdit::addSearchResult()
+{
+    if (widget())
+        widget()->addSearchResult();
+}
+#endif
 
 void RenderLineEdit::handleFocusOut()
 {
@@ -595,8 +666,7 @@ void RenderLineEdit::setStyle(RenderStyle *s)
     RenderFormElement::setStyle(s);
 
     KLineEdit *w = widget();
-
-    w->setAlignment(style()->direction() == RTL ? Qt::AlignRight : Qt::AlignLeft);
+    w->setAlignment(textAlignment());
 #if APPLE_CHANGES
     w->setWritingDirection(style()->direction() == RTL ? QPainter::RTL : QPainter::LTR);
 #endif
@@ -634,6 +704,16 @@ void RenderLineEdit::updateFromElement()
     }
     w->setReadOnly(element()->readOnly());
     
+#if APPLE_CHANGES
+    // Handle updating the search attributes.
+    if (w->type() == QLineEdit::Search) {
+        w->setLiveSearch(!element()->getAttribute(ATTR_INCREMENTAL).isNull());
+        w->setAutoSaveName(element()->getAttribute(ATTR_AUTOSAVE).string());
+        w->setMaxResults(element()->maxResults());
+        w->setPlaceholderString(element()->getAttribute(ATTR_PLACEHOLDER).string());
+    }
+#endif
+
     RenderFormElement::updateFromElement();
 }
 
@@ -649,6 +729,9 @@ void RenderLineEdit::slotTextChanged(const QString &string)
     QString newText = string.isNull() ? "" : string;
     newText.replace(backslashAsCurrencySymbol(), '\\');
     element()->m_value = newText;
+    
+    // Fire the "input" DOM event.
+    element()->dispatchHTMLEvent(EventImpl::INPUT_EVENT, true, false);
 }
 
 void RenderLineEdit::select()
@@ -692,8 +775,7 @@ RenderObject* RenderFieldset::findLegend()
     return 0;
 }
 
-void RenderFieldset::paintBoxDecorations(QPainter *p,int _x, int _y,
-                                         int _w, int _h, int _tx, int _ty)
+void RenderFieldset::paintBoxDecorations(PaintInfo& i, int _tx, int _ty)
 {
     //kdDebug( 6040 ) << renderName() << "::paintDecorations()" << endl;
 
@@ -701,20 +783,20 @@ void RenderFieldset::paintBoxDecorations(QPainter *p,int _x, int _y,
     int h = height() + borderTopExtra() + borderBottomExtra();
     RenderObject* legend = findLegend();
     if (!legend)
-        return RenderBlock::paintBoxDecorations(p, _x, _y, _w, _h, _tx, _ty);
+        return RenderBlock::paintBoxDecorations(i, _tx, _ty);
 
     int yOff = (legend->yPos() > 0) ? 0 : (legend->height()-borderTop())/2;
     h -= yOff;
     _ty += yOff - borderTopExtra();
 
-    int my = QMAX(_ty,_y);
-    int end = QMIN( _y + _h,  _ty + h );
+    int my = kMax(_ty, i.r.y());
+    int end = kMin(i.r.y() + i.r.height(),  _ty + h);
     int mh = end - my;
 
-    paintBackground(p, style()->backgroundColor(), style()->backgroundImage(), my, mh, _tx, _ty, w, h);
+    paintBackground(i.p, style()->backgroundColor(), style()->backgroundImage(), my, mh, _tx, _ty, w, h);
 
     if (style()->hasBorder())
-        paintBorderMinusLegend(p, _tx, _ty, w, h, style(), legend->xPos(), legend->width());
+        paintBorderMinusLegend(i.p, _tx, _ty, w, h, style(), legend->xPos(), legend->width());
 }
 
 void RenderFieldset::paintBorderMinusLegend(QPainter *p, int _tx, int _ty, int w, int h,
@@ -802,6 +884,10 @@ void RenderFieldset::setStyle(RenderStyle* _style)
 RenderFileButton::RenderFileButton(HTMLInputElementImpl *element)
     : RenderFormElement(element)
 {
+#if KWIQ
+    QOBJECT_TYPE(RenderFileButton);
+#endif
+
 #if APPLE_CHANGES
     KWQFileButton *w = new KWQFileButton(view()->part());
     connect(w, SIGNAL(textChanged(const QString &)),this,SLOT(slotTextChanged(const QString &)));
@@ -919,7 +1005,7 @@ void RenderFileButton::select()
 
 void RenderFileButton::click()
 {
-    static_cast<KWQFileButton *>(widget())->click();
+    static_cast<KWQFileButton *>(widget())->clicked();
 }
 
 #endif
@@ -986,7 +1072,7 @@ bool ComboBoxWidget::eventFilter(QObject *dest, QEvent *e)
 	    // we re-use ke here to store the reference to the generated event.
 	    ke = new QKeyEvent(QEvent::KeyPress, Key_Escape, 0, 0);
 	    QApplication::sendEvent(dest,ke);
-	    focusNextPrevChild(forward);
+//	    focusNextPrevChild(forward);
 	    delete ke;
 	    return true;
 	default:
@@ -1002,6 +1088,9 @@ bool ComboBoxWidget::eventFilter(QObject *dest, QEvent *e)
 RenderSelect::RenderSelect(HTMLSelectElementImpl *element)
     : RenderFormElement(element)
 {
+#if KWIQ
+    QOBJECT_TYPE(RenderSelect);
+#endif    
     m_ignoreSelectEvents = false;
     m_multiple = element->multiple();
     m_size = element->size();
@@ -1075,57 +1164,57 @@ void RenderSelect::updateFromElement()
         QMemArray<HTMLGenericFormElementImpl*> listItems = element()->listItems();
         int listIndex;
 
-        if(m_useListBox) {
-#if APPLE_CHANGES
-            static_cast<KListBox*>(m_widget)->beginBatchInsert();
-#endif
+        if (m_useListBox)
             static_cast<KListBox*>(m_widget)->clear();
-        }
-
         else
             static_cast<KComboBox*>(m_widget)->clear();
 
         for (listIndex = 0; listIndex < int(listItems.size()); listIndex++) {
             if (listItems[listIndex]->id() == ID_OPTGROUP) {
-                DOMString text = listItems[listIndex]->getAttribute(ATTR_LABEL);
-                if (text.isNull())
-                    text = "";
-                QString label = QString(text.implementation()->s, text.implementation()->l);
+                QString label = listItems[listIndex]->getAttribute(ATTR_LABEL).string();
                 label.replace('\\', backslashAsCurrencySymbol());
 
                 // In WinIE, an optgroup can't start or end with whitespace (other than the indent
                 // we give it).  We match this behavior.
                 label = label.stripWhiteSpace();
                 
-                if(m_useListBox) {
 #if APPLE_CHANGES
-                    static_cast<KListBox*>(m_widget)->insertGroupLabel(label, listIndex);
+                if (m_useListBox)
+                    static_cast<KListBox*>(m_widget)->appendGroupLabel(label);
+                else
+                    static_cast<KComboBox*>(m_widget)->appendGroupLabel(label);
 #else
+                if(m_useListBox) {
                     QListBoxText *item = new QListBoxText(label);
                     static_cast<KListBox*>(m_widget)
                         ->insertItem(item, listIndex);
                     item->setSelectable(false);
-#endif
                 }
                 else
                     static_cast<KComboBox*>(m_widget)->insertItem(label, listIndex);
+#endif
             }
             else if (listItems[listIndex]->id() == ID_OPTION) {
-                DOMString text = static_cast<HTMLOptionElementImpl*>(listItems[listIndex])->text();
-                if (text.isNull())
-                    text = "";
-                if (listItems[listIndex]->parentNode()->id() == ID_OPTGROUP)
-                    text = DOMString("    ")+text;
-                QString itemText = QString(text.implementation()->s, text.implementation()->l);
+                QString itemText = static_cast<HTMLOptionElementImpl*>(listItems[listIndex])->text().string();
                 itemText.replace('\\', backslashAsCurrencySymbol());
 
-                // In WinIE, an option can't start or end with whitespace.  We match this behavior.
+                // In WinIE, leading and trailing whitespace is ignored in options. We match this behavior.
                 itemText = itemText.stripWhiteSpace();
                 
+                if (listItems[listIndex]->parentNode()->id() == ID_OPTGROUP)
+                    itemText.prepend("    ");
+
+#if APPLE_CHANGES
+                if (m_useListBox)
+                    static_cast<KListBox*>(m_widget)->appendItem(itemText);
+                else
+                    static_cast<KComboBox*>(m_widget)->appendItem(itemText);
+#else
                 if(m_useListBox)
                     static_cast<KListBox*>(m_widget)->insertItem(itemText, listIndex);
                 else
                     static_cast<KComboBox*>(m_widget)->insertItem(itemText, listIndex);
+#endif
             }
             else
                 KHTMLAssert(false);
@@ -1133,7 +1222,7 @@ void RenderSelect::updateFromElement()
         }
 #if APPLE_CHANGES
         if (m_useListBox)
-	    static_cast<KListBox*>(m_widget)->endBatchInsert();
+	    static_cast<KListBox*>(m_widget)->doneAppendingItems();
 #endif
         setNeedsLayoutAndMinMaxRecalc();
         m_optionsChanged = false;
@@ -1423,6 +1512,9 @@ bool TextAreaWidget::event( QEvent *e )
 RenderTextArea::RenderTextArea(HTMLTextAreaElementImpl *element)
     : RenderFormElement(element)
 {
+#if KWIQ
+    QOBJECT_TYPE(RenderTextArea);
+#endif
     TextAreaWidget *edit = new TextAreaWidget(element->wrap(), view());
     setQWidget(edit);
 
@@ -1454,11 +1546,11 @@ void RenderTextArea::calcMinMaxWidth()
     KHTMLAssert( !minMaxKnown() );
 
     TextAreaWidget* w = static_cast<TextAreaWidget*>(m_widget);
-    const QFontMetrics &m = style()->fontMetrics();
-    w->setTabStopWidth(8 * m.width(" "));
 #if APPLE_CHANGES
     QSize size(w->sizeWithColumnsAndRows(QMAX(element()->cols(), 1), QMAX(element()->rows(), 1)));
 #else
+    const QFontMetrics &m = style()->fontMetrics();
+    w->setTabStopWidth(8 * m.width(" "));
     QSize size( QMAX(element()->cols(), 1)*m.width('x') + w->frameWidth() +
                 w->verticalScrollBar()->sizeHint().width(),
                 QMAX(element()->rows(), 1)*m.height() + w->frameWidth()*2 +
@@ -1478,7 +1570,7 @@ void RenderTextArea::setStyle(RenderStyle *s)
     RenderFormElement::setStyle(s);
 
     TextAreaWidget* w = static_cast<TextAreaWidget*>(m_widget);
-    w->setAlignment(style()->direction() == RTL ? Qt::AlignRight : Qt::AlignLeft);
+    w->setAlignment(textAlignment());
 #if APPLE_CHANGES
     w->setWritingDirection(style()->direction() == RTL ? QPainter::RTL : QPainter::LTR);
 #endif
@@ -1563,5 +1655,79 @@ void RenderTextArea::select()
 }
 
 // ---------------------------------------------------------------------------
+
+#if APPLE_CHANGES && !KWIQ
+RenderSlider::RenderSlider(HTMLInputElementImpl* element)
+:RenderFormElement(element)
+{
+    QSlider* slider = new QSlider();
+    setQWidget(slider);
+    connect(slider, SIGNAL(sliderValueChanged()), this, SLOT(slotSliderValueChanged()));
+}
+
+void RenderSlider::calcMinMaxWidth()
+{
+    KHTMLAssert(!minMaxKnown());
+    
+    // Let the widget tell us how big it wants to be.
+    QSize s(widget()->sizeHint());
+    bool widthSet = !style()->width().isVariable();
+    bool heightSet = !style()->height().isVariable();
+    if (heightSet && !widthSet) {
+        // Flip the intrinsic dimensions.
+        int barLength = s.width();
+        s = QSize(s.height(), barLength);
+    }
+    setIntrinsicWidth(s.width());
+    setIntrinsicHeight(s.height());
+    
+    RenderFormElement::calcMinMaxWidth();
+}
+
+void RenderSlider::updateFromElement()
+{
+    const DOMString& value = element()->value();
+    const DOMString& min = element()->getAttribute(ATTR_MIN);
+    const DOMString& max = element()->getAttribute(ATTR_MAX);
+    const DOMString& precision = element()->getAttribute(ATTR_PRECISION);
+    
+    double minVal = min.isNull() ? 0.0 : min.string().toDouble();
+    double maxVal = max.isNull() ? 100.0 : max.string().toDouble();
+    minVal = kMin(minVal, maxVal); // Make sure the range is sane.
+    
+    double val = value.isNull() ? (maxVal + minVal)/2.0 : value.string().toDouble();
+    val = kMax(minVal, kMin(val, maxVal)); // Make sure val is within min/max.
+    
+    if (strcasecmp(precision, "float"))
+        // Force integer value.
+        element()->m_value = DOMString(QString::number((int)(val+0.5)));
+    else
+        element()->m_value = DOMString(QString::number(val));
+
+    QSlider* slider = (QSlider*)widget();
+     
+    slider->setMinValue(minVal);
+    slider->setMaxValue(maxVal);
+    slider->setValue(val);
+
+    RenderFormElement::updateFromElement();
+}
+
+void RenderSlider::slotSliderValueChanged()
+{
+    QSlider* slider = (QSlider*)widget();
+    double val = slider->value();
+    const DOMString& precision = element()->getAttribute(ATTR_PRECISION);
+    if (strcasecmp(precision, "float"))
+        // Force integer value.
+        element()->m_value = DOMString(QString::number((int)(val+0.5)));
+    else
+        element()->m_value = DOMString(QString::number(val));
+    
+    // Fire the "input" DOM event.
+    element()->dispatchHTMLEvent(EventImpl::INPUT_EVENT, true, false);
+}
+
+#endif
 
 #include "render_form.moc"

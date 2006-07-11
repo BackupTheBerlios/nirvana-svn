@@ -49,6 +49,7 @@
 
 #include "html/dtd.h"
 
+#define KHTML_NO_XBL
 #ifndef KHTML_NO_XBL
 #include "xbl/xbl_binding_manager.h"
 #endif

@@ -23,8 +23,8 @@
 #define _KJS_BINDING_H_
 
 #include <kjs/interpreter.h>
-#include <dom/dom_node.h>
-#include <dom/dom_doc.h>
+#include "dom/dom_node.h"
+#include "dom/dom_doc.h"
 #include <qvariant.h>
 #include <qptrdict.h>
 #include <kurl.h>

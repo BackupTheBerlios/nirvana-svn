@@ -40,7 +40,7 @@
 #include "html/html_elementimpl.h"
 #include "xml/dom_docimpl.h"
 
-#if APPLE_CHANGES && !KWIQ
+#if APPLE_CHANGES && !KWQUBE
 #ifdef __OBJC__
 #define id id_AVOID_KEYWORD
 #endif
@@ -85,7 +85,7 @@ public:
         DOM::AttributeImpl* a = 0;
         if(buffer->unicode())
             a = new DOM::HTMLAttributeImpl(buffer->unicode(), v);
-        else if ( !attrName.isEmpty() && attrName != "/" )
+        else if ( !attrName.isEmpty() && (attrName != "/")  )
             a = new DOM::HTMLAttributeImpl(doc->attrId(0, DOM::DOMString(attrName).implementation(), false),
                                            v);
 
@@ -359,7 +359,7 @@ protected:
 
 }
 
-#if APPLE_CHANGES && !KWIQ
+#if APPLE_CHANGES && !KWQUBE
 #undef id
 #endif
 

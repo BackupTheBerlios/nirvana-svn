@@ -29,7 +29,7 @@
 #ifndef _DOM_DOMException_h_
 #define _DOM_DOMException_h_
 
-#include <dom/dom_misc.h>
+#include "dom/dom_misc.h"
 
 namespace DOM {
 

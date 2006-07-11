@@ -19,13 +19,13 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <khtmlview.h>
+#include "khtmlview.h"
 #include "xml/dom2_eventsimpl.h"
 #include "rendering/render_canvas.h"
 #include "xml/dom_nodeimpl.h"
 #include "xml/dom_docimpl.h"
 #include <kdebug.h>
-#include <khtml_part.h>
+#include "khtml_part.h"
 
 #include "kjs_dom.h"
 #include "kjs_html.h"

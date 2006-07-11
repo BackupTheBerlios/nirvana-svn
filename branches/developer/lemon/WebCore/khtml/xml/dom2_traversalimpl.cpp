@@ -28,7 +28,7 @@
 
 #include "htmltags.h"
 
-#ifdef KWIQ
+#ifdef KWQUBE
 #include <assert.h>
 #endif
 

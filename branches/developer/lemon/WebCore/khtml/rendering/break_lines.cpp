@@ -8,7 +8,7 @@ static QCString *cachedString = 0;
 static ThBreakIterator *thaiIt = 0;
 #endif
 
-#if APPLE_CHANGES
+#if APPLE_CHANGES && !KWIQ
 #include <CoreServices/CoreServices.h>
 #endif
 
@@ -30,7 +30,7 @@ namespace khtml {
 */
 bool isBreakable( const QChar *s, int pos, int len)
 {
-#if !APPLE_CHANGES
+#if !APPLE_CHANGES || KWIQ
     const QChar *c = s+pos;
     unsigned short ch = c->unicode();
     if ( ch > 0xff ) {

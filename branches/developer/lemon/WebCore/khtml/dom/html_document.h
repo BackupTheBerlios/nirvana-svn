@@ -30,8 +30,8 @@
 #ifndef HTML_DOCUMENT_H
 #define HTML_DOCUMENT_H
 
-#include <dom/dom_doc.h>
-#include <dom/dom_string.h>
+#include "dom/dom_doc.h"
+#include "dom/dom_string.h"
 
 class KHTMLView;
 class KHTMLPart;

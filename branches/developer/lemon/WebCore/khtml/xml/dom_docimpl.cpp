@@ -31,8 +31,7 @@
 #include "xml/dom_selection.h"
 #include "xml/dom2_eventsimpl.h"
 #include "xml/xml_tokenizer.h"
-
-#include "xml_namespace_table.h"
+#include "xml/xml_namespace_table.h"
 
 #include "css/csshelper.h"
 #include "css/cssstyleselector.h"
@@ -52,7 +51,7 @@
 #include "rendering/render_canvas.h"
 #include "rendering/render_frames.h"
 #include "rendering/render_image.h"
-#include "render_arena.h"
+#include "rendering/render_arena.h"
 
 #include "khtmlview.h"
 #include "khtml_part.h"
@@ -73,12 +72,13 @@
 #include "html/html_tableimpl.h"
 #include "html/html_objectimpl.h"
 
-#include "cssvalues.h"
+#include "css/cssvalues.h"
 
 #include "jsediting.h"
 
 #include <kio/job.h>
 
+#define KHTML_NO_XBL
 #ifndef KHTML_NO_XBL
 #include "xbl/xbl_binding_manager.h"
 using XBL::XBLBindingManager;
@@ -108,7 +108,7 @@ bool DOMImplementationImpl::hasFeature ( const DOMString &feature, const DOMStri
 {
     // ### update when we (fully) support the relevant features
     QString lower = feature.string().lower();
-    if ((lower == "html" || lower == "xml") &&
+    if ((QString::equals(lower,"html") || QString::equals(lower,"xml")) &&
         (version == "1.0" || version == "null" || version == "" || version.isNull()))
         return true;
     else
@@ -1836,7 +1836,7 @@ void DocumentImpl::processHttpEquiv(const DOMString &equiv, const DOMString &con
     {
         QString str = content.string().lower().stripWhiteSpace();
         KURL url = part->url();
-        if ((str == "no-cache") && url.protocol().startsWith("http"))
+        if ((QString::equals(str,"no-cache")) && url.protocol().startsWith("http"))
         {
            KIO::http_update_cache(url, true, 0);
         }
@@ -2247,7 +2247,8 @@ void DocumentImpl::recalcStyleSelector()
                 if (!m_availableSheets.contains( title ) )
                     m_availableSheets.append( title );
                 
-                if (title != m_preferredStylesheetSet)
+                // LEMON
+                if (m_preferredStylesheetSet != title)
                     sheet = 0;
             }
         }
@@ -2271,7 +2272,7 @@ void DocumentImpl::recalcStyleSelector()
     // Create a new style selector
     delete m_styleSelector;
     QString usersheet = m_usersheet;
-    if ( m_view && m_view->mediaType() == "print" )
+    if ( m_view && QString::equals(m_view->mediaType(),"print") )
 	usersheet += m_printSheet;
     m_styleSelector = new CSSStyleSelector( this, usersheet, m_styleSheets, m_url,
                                             !inCompatMode() );

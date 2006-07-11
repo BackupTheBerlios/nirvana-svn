@@ -36,6 +36,7 @@
 #define RENDERARENA_H
 
 #include "arena.h"
+#include <stdlib.h> //for size_t
 
 static const size_t gMaxRecycledSize = 400;
 #define ROUNDUP(x,y) ((((x)+((y)-1))/(y))*(y))

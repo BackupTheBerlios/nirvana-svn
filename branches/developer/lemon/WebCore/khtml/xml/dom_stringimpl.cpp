@@ -24,9 +24,8 @@
  */
 
 #include "xml/dom_stringimpl.h"
-
 #include <kdebug.h>
-
+#include <qstring.h>
 #include <string.h>
 #include "xml/dom_atomicstring.h"
 
@@ -276,7 +275,7 @@ khtml::Length* DOMStringImpl::toLengthArray(int& len) const
     // ### what about "auto" ?
 #if APPLE_CHANGES
     // This alternate version works around a limitation in our QString implementation.
-#if KWIQ
+#if KWQUBE
     QChar* spacified = new QChar[l];
 #else	
     QChar spacified[l];
@@ -292,7 +291,7 @@ khtml::Length* DOMStringImpl::toLengthArray(int& len) const
         }
     }
     QString str(spacified, l);
-#if KWIQ    
+#if KWQUBE
     delete [] spacified;
 #endif
 #else /* APPLE_CHANGES not defined */
@@ -358,15 +357,21 @@ DOMStringImpl *DOMStringImpl::upper() const
 DOMStringImpl *DOMStringImpl::capitalize() const
 {
     DOMStringImpl *c = new DOMStringImpl;
-    if(!l) return c;
+    if (!l) return c;
 
     c->s = QT_ALLOC_QCHAR_VEC(l);
     c->l = l;
-
-    if ( l ) c->s[0] = s[0].upper();
-    for (unsigned int i = 1; i < l; i++)
-	c->s[i] = s[i-1].isLetterOrNumber() ? s[i] : s[i].upper();
-
+    
+	if (l) c->s[0] = s[0].upper();
+	
+    for (unsigned int i = 0x1; i < l; i++) {
+		QChar cc = s[i-1];
+		QChar bb = s[i];
+		if (!cc.isLetterOrNumber()) cc = bb.upper(); else cc = bb;
+		//c->s[i] = s[i-1].isLetterOrNumber() ? s[i] : s[i].upper();  /// ICE !!!
+		c->s[i] = cc;
+    }
+    
     return c;
 }
 

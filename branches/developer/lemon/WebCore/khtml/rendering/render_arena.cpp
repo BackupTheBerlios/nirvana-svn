@@ -34,6 +34,8 @@
 
 #include "render_arena.h"
 
+#include <string.h> // for memset
+
 #ifndef NDEBUG
 
 const int signature = 0xDBA00AEA;
@@ -44,6 +46,12 @@ typedef struct {
     size_t size;
     int signature;
 } RenderArenaDebugHeader;
+
+#if KWIQ
+#ifndef NDEBUG
+#include <assert.h> //KWIQ:NDEBUG defined, there's assert
+#endif
+#endif
 
 #endif
 

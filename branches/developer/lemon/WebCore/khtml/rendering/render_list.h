@@ -48,10 +48,7 @@ public:
     // so the marker gets to layout itself. Only needed for
     // list-style-position: inside
 
-    virtual void paint(QPainter *p, int x, int y, int w, int h,
-                       int xoff, int yoff, PaintAction paintAction);
-    virtual void paintObject(QPainter *p, int x, int y, int w, int h,
-                             int xoff, int yoff, PaintAction paintAction);
+    virtual void paint(PaintInfo& i, int xoff, int yoff);
     virtual void layout( );
     virtual void calcMinMaxWidth();
 
@@ -69,6 +66,8 @@ public:
     RenderListItem* listItem() { return m_listItem; }
     void setListItem(RenderListItem* listItem) { m_listItem = listItem; }
     
+    const QString& text() const { return m_item; }
+
 protected:
     friend class RenderListItem;
     
@@ -98,10 +97,7 @@ public:
     void setValue( long v ) { predefVal = v; }
     void calcListValue();
     
-    virtual void paint(QPainter *p, int x, int y, int w, int h,
-                       int xoff, int yoff, PaintAction paintAction);
-    virtual void paintObject(QPainter *p, int x, int y, int w, int h,
-                       int xoff, int yoff, PaintAction paintAction);
+    virtual void paint(PaintInfo& i, int xoff, int yoff);
 
     virtual void layout( );
     virtual void calcMinMaxWidth();

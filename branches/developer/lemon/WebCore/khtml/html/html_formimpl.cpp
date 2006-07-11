@@ -1344,7 +1344,8 @@ void HTMLInputElementImpl::restoreState(QStringList &states)
     switch (m_type) {
     case CHECKBOX:
     case RADIO:
-        setChecked((state == "on"));
+    	// LEMON
+        setChecked(QString::equals(state, "on"));
         break;
     default:
         setValue(DOMString(state.left(state.length()-1)));

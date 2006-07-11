@@ -88,7 +88,7 @@ public:
     virtual void parseHTMLAttribute(HTMLAttributeImpl *attr);
 
     void radioClicked( HTMLGenericFormElementImpl *caller );
-#if KWIQ
+#if KWQUBE
     void updateRadioGroups();
 #endif    
 

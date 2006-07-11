@@ -206,11 +206,11 @@ void HTMLLinkElementImpl::process()
 
     // IE extension: location of small icon for locationbar / bookmarks
 #if APPLE_CHANGES
-    if ( part && rel == "shortcut icon" && !m_url.isEmpty() && !part->parentPart())
+    if ( part && QString::equals(rel,"shortcut icon") && !m_url.isEmpty() && !part->parentPart())
     	part->browserExtension()->setIconURL( KURL(m_url.string()) );
 
     // Mozilla extension to IE extension: icon specified with type
-    if ( part && rel == "icon" && !m_url.isEmpty() && !part->parentPart())
+    if ( part && QString::equals(rel,"icon") && !m_url.isEmpty() && !part->parentPart())
     	part->browserExtension()->setTypedIconURL( KURL(m_url.string()), type );
 #else
     // Uses both "shortcut icon" and "icon"
@@ -221,7 +221,7 @@ void HTMLLinkElementImpl::process()
 
     // Stylesheet
     // This was buggy and would incorrectly match <link rel="alternate">, which has a different specified meaning. -dwh
-    if(m_disabledState != 2 && (type.contains("text/css") || rel == "stylesheet" || (rel.contains("alternate") && rel.contains("stylesheet"))) && getDocument()->part()) {
+    if(m_disabledState != 2 && (type.contains("text/css") || QString::equals(rel,"stylesheet") || (rel.contains("alternate") && rel.contains("stylesheet"))) && getDocument()->part()) {
         // no need to load style sheets which aren't for the screen output
         // ### there may be in some situations e.g. for an editor or script to manipulate
 	// also, don't load style sheets for standalone documents

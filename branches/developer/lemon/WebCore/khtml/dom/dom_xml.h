@@ -29,8 +29,8 @@
 #ifndef _DOM_XML_h
 #define _DOM_XML_h
 
-#include <dom/dom_text.h>
-#include <dom/css_stylesheet.h>
+#include "dom/dom_text.h"
+#include "dom/css_stylesheet.h"
 
 namespace DOM {
 

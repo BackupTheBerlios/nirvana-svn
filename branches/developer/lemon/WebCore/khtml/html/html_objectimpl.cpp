@@ -325,7 +325,7 @@ void HTMLEmbedElementImpl::parseHTMLAttribute(HTMLAttributeImpl *attr)
         pluginPage = val;
         break;
      case ATTR_HIDDEN:
-        if (val.lower()=="yes" || val.lower()=="true") {
+        if (QString::equals(val.lower(),"yes") || QString::equals(val.lower(),"true")) {
             // FIXME: Not dynamic, but it's not really important that such a rarely-used
             // feature work dynamically.
             addCSSLength( attr, CSS_PROP_WIDTH, "0" );

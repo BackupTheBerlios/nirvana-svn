@@ -99,7 +99,7 @@ public:
 
     virtual void setWidget( QWidget *widget );
 
-#if APPLE_CHANGES
+#if APPLE_CHANGES && KWIQ
     // FIXME: This should not be necessary.  Remove this once WebKit knows to properly schedule
     // layouts using WebCore when objects resize.
     void updateWidgetPositions();
@@ -118,7 +118,7 @@ public:
      */
     virtual bool partLoadingErrorNotify( khtml::ChildFrame *childFrame, const KURL& url, const QString& serviceType );
 
-    virtual short intrinsicWidth() const;
+    virtual int intrinsicWidth() const;
     virtual int intrinsicHeight() const;
 
 public slots:

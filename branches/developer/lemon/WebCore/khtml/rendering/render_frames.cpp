@@ -559,6 +559,9 @@ void RenderFrameSet::dump(QTextStream *stream, QString ind) const
 RenderPart::RenderPart(DOM::HTMLElementImpl* node)
     : RenderWidget(node)
 {
+#if KWIQ
+//    QOBJECT_TYPE(RenderPart);
+#endif
     // init RenderObject attributes
     setInline(false);
 }
@@ -603,7 +606,7 @@ bool RenderPart::partLoadingErrorNotify(khtml::ChildFrame *, const KURL& , const
     return false;
 }
 
-short RenderPart::intrinsicWidth() const
+int RenderPart::intrinsicWidth() const
 {
   // KDE may need a non-zero width here, although this will mess up pages (e.g., thinker.org).
 #if APPLE_CHANGES
@@ -702,11 +705,11 @@ void RenderPartObject::updateWidget()
           embedOrObject = (HTMLElementImpl *)embed;
           DOMString attribute = embedOrObject->getAttribute(ATTR_WIDTH);
           if (!attribute.isEmpty()) {
-              o->addCSSLength(CSS_PROP_WIDTH, attribute);
+              o->setAttribute(ATTR_WIDTH, attribute);
           }
           attribute = embedOrObject->getAttribute(ATTR_HEIGHT);
           if (!attribute.isEmpty()) {
-              o->addCSSLength(CSS_PROP_HEIGHT, attribute);
+              o->setAttribute(ATTR_HEIGHT, attribute);
           }
           url = embed->url;
           serviceType = embed->serviceType;
@@ -923,7 +926,7 @@ void RenderPartObject::layout( )
     KHTMLAssert( minMaxKnown() );
 
 #if !APPLE_CHANGES
-    short m_oldwidth = m_width;
+    int m_oldwidth = m_width;
     int m_oldheight = m_height;
 #endif
 
@@ -973,13 +976,16 @@ void RenderPartObject::slotViewCleared()
   }
 }
 
-#if APPLE_CHANGES
+#if APPLE_CHANGES && KWIQ
 // FIXME: This should not be necessary.  Remove this once WebKit knows to properly schedule
 // layouts using WebCore when objects resize.
 void RenderPart::updateWidgetPositions()
 {
     if (!m_widget)
         return;
+#if KWIQ
+    return;
+#endif
     
     int x, y, width, height;
     absolutePosition(x,y);
@@ -998,7 +1004,7 @@ void RenderPart::updateWidgetPositions()
         
         QScrollView *view = static_cast<QScrollView *>(m_widget);
         if (view && view->inherits("KHTMLView"))
-            static_cast<KHTMLView*>(view)->scheduleRelayout();
+            static_cast<KHTMLView*>(view)->layout();
     }
 }
 #endif

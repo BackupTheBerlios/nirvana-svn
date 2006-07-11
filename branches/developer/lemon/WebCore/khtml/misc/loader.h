@@ -30,8 +30,6 @@
 #include <config.h>
 #endif
 
-#define KHTML_NO_XBL
-
 #include <time.h>
 
 #include "loader_client.h"
@@ -52,8 +50,8 @@
 #include <kurl.h>
 #include <kio/global.h>
 
-#include <khtml_settings.h>
-#include <dom/dom_string.h>
+#include "khtml_settings.h"
+#include "dom/dom_string.h"
 
 class QMovie;
 class KHTMLPart;

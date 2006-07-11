@@ -30,8 +30,8 @@
 #ifndef _DOM_Document_h_
 #define _DOM_Document_h_
 
-#include <dom/dom_node.h>
-#include <dom/css_stylesheet.h>
+#include "dom/dom_node.h"
+#include "dom/css_stylesheet.h"
 
 class KHTMLView;
 class KHTMLPart;

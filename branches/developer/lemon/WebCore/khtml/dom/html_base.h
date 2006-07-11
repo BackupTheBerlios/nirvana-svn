@@ -30,7 +30,7 @@
 #ifndef HTML_BASE_H
 #define HTML_BASE_H
 
-#include <dom/html_element.h>
+#include "dom/html_element.h"
 
 namespace DOM {
 

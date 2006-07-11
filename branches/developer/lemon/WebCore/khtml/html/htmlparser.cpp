@@ -33,7 +33,7 @@
 
 #include "html/html_baseimpl.h"
 #include "html/html_blockimpl.h"
-#if !KWIQ // canvas is apple proprietary extension
+#if !KWQUBE // canvas is apple proprietary extension
 #include "html/html_canvasimpl.h"
 #endif
 #include "html/html_documentimpl.h"
@@ -952,7 +952,7 @@ NodeImpl *KHTMLParser::getElement(Token* t)
         break;
 
 // canvas
-#if APPLE_CHANGES && !KWIQ      
+#if APPLE_CHANGES && !KWQUBE      
     case ID_CANVAS:
         n = new HTMLCanvasElementImpl(document);
         break;

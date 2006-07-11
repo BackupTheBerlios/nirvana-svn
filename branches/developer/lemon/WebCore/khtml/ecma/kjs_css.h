@@ -23,12 +23,12 @@
 #ifndef _KJS_CSS_H_
 #define _KJS_CSS_H_
 
-#include <dom/dom_node.h>
-#include <dom/dom_doc.h>
+#include "dom/dom_node.h"
+#include "dom/dom_doc.h"
 #include <kjs/object.h>
-#include <dom/css_value.h>
-#include <dom/css_stylesheet.h>
-#include <dom/css_rule.h>
+#include "dom/css_value.h"
+#include "dom/css_stylesheet.h"
+#include "dom/css_rule.h"
 #include "kjs_binding.h"
 
 namespace KJS {
