@@ -12,7 +12,7 @@ Workarounds: I wrote BDictionary, maybe I should should use STL, but ...
 Todo: KWQCharsets to BDictionary
 
 Date: 08/07/2006 lemon - Second Round
-Status: CSS XML DOM and almost MISC are compiled
-Problems: webkit.opendarwing.org, our project now is not so actual. ICE errors.
-Todo: GTK Widgets replacement in KWQUBE
+Status: CSS XML DOM MISC and FRONT-END are compiled
+Problems: webkit.opendarwing.org, our project now is not so actual.
+Todo: GTK Widgets replacement in KWQUBE, RENDERING
 
