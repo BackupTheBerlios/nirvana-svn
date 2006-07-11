@@ -98,7 +98,7 @@ using namespace DOM;
 
 #include "khtmlpart_p.h"
 
-#if APPLE_CHANGES && !KWIQ
+#if APPLE_CHANGES && !KWQUBE
 #include <CoreServices/CoreServices.h>
 #endif
 
@@ -1493,7 +1493,7 @@ void KHTMLPart::begin( const KURL &url, int xOffset, int yOffset )
 #endif
 
   // ### not sure if XHTML documents served as text/xml should use DocumentImpl or HTMLDocumentImpl
-  if (args.serviceType == "text/xml" || args.serviceType == "application/xml" || args.serviceType == "application/xhtml+xml")
+  if (QString::equals(args.serviceType,"text/xml") || QString::equals(args.serviceType,"application/xml") || QString::equals(args.serviceType,"application/xhtml+xml"))
     d->m_doc = DOMImplementationImpl::instance()->createDocument( d->m_view );
   else
     d->m_doc = DOMImplementationImpl::instance()->createHTMLDocument( d->m_view );
@@ -2086,7 +2086,7 @@ bool KHTMLPart::gotoAnchor( const QString &name )
   d->m_doc->setCSSTarget(n); // Setting to null will clear the current target.
   
   // Implement the rule that "" and "top" both mean top of page as in other browsers.
-  if (!n && !(name.isEmpty() || name.lower() == "top")) {
+  if (!n && !(name.isEmpty() || QString::equals(name.lower(),"top"))) {
     kdDebug(6050) << "KHTMLPart::gotoAnchor node '" << name << "' not found" << endl;
     return false;
   }
@@ -3030,7 +3030,7 @@ bool KHTMLPart::requestObject( khtml::ChildFrame *child, const KURL &url, const 
 #endif
 
   // We want a KHTMLPart if the HTML says <frame src=""> or <frame src="about:blank">
-  if ((url.isEmpty() || url.url() == "about:blank") && args.serviceType.isEmpty())
+  if ((url.isEmpty() || QString::equals(url.url(),"about:blank")) && args.serviceType.isEmpty())
     args.serviceType = QString::fromLatin1( "text/html" );
 
 #if APPLE_CHANGES
@@ -3207,7 +3207,7 @@ bool KHTMLPart::processObjectRequest( khtml::ChildFrame *child, const KURL &_url
     // In these cases, the synchronous load would have finished
     // before we could connect the signals, so make sure to send the
     // completed() signal for the child by hand:
-    if (url.isEmpty() || url.url() == "about:blank") {
+    if (url.isEmpty() || QString::equals(url.url(),"about:blank")) {
       ReadOnlyPart *readOnlyPart = child->m_part;
 #if KWIQ
       KHTMLPart *part = 0;
@@ -3420,7 +3420,7 @@ void KHTMLPart::submitForm( const char *action, const QString &url, const QByteA
   args.frameName = _target.isEmpty() ? d->m_doc->baseTarget() : _target ;
 
   // Handle mailto: forms
-  if (u.protocol() == "mailto") {
+  if (QString::equals(u.protocol(),"mailto")) {
       // 1)  Check for attach= and strip it
       QString q = u.query().mid(1);
       QStringList nvps = QStringList::split("&", q);
@@ -3429,7 +3429,7 @@ void KHTMLPart::submitForm( const char *action, const QString &url, const QByteA
       for (QStringList::Iterator nvp = nvps.begin(); nvp != nvps.end(); ++nvp) {
          QStringList pair = QStringList::split("=", *nvp);
          if (pair.count() >= 2) {
-            if (pair.first().lower() == "attach") {
+            if (QString::equals(pair.first().lower(),"attach")) {
                nvp = nvps.remove(nvp);
                triedToAttach = true;
             }
@@ -3443,11 +3443,11 @@ void KHTMLPart::submitForm( const char *action, const QString &url, const QByteA
 
       // 2)  Append body=
       QString bodyEnc;
-      if (contentType.lower() == "multipart/form-data") {
+      if (QString::equals(contentType.lower(),"multipart/form-data")) {
          // FIXME: is this correct?  I suspect not
          bodyEnc = KURL::encode_string(QString::fromLatin1(formData.data(), 
                                                            formData.size()));
-      } else if (contentType.lower() == "text/plain") {
+      } else if (QString::equals(contentType.lower(),"text/plain")) {
          // Convention seems to be to decode, and s/&/\n/
          QString tmpbody = QString::fromLatin1(formData.data(), 
                                                formData.size());
@@ -3466,7 +3466,7 @@ void KHTMLPart::submitForm( const char *action, const QString &url, const QByteA
   } 
 
   if ( strcmp( action, "get" ) == 0 ) {
-    if (u.protocol() != "mailto")
+    if (!QString::equals(u.protocol(),"mailto"))
        u.setQuery( QString::fromLatin1( formData.data(), formData.size() ) );
     args.setDoPost( false );
   }
@@ -3475,7 +3475,7 @@ void KHTMLPart::submitForm( const char *action, const QString &url, const QByteA
     args.setDoPost( true );
 
     // construct some user headers if necessary
-    if (contentType.isNull() || contentType == "application/x-www-form-urlencoded")
+    if (contentType.isNull() || QString::equals(contentType,"application/x-www-form-urlencoded"))
       args.setContentType( "Content-Type: application/x-www-form-urlencoded" );
     else // contentType must be "multipart/form-data"
       args.setContentType( "Content-Type: " + contentType + "; boundary=" + boundary );
