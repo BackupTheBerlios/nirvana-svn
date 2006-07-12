@@ -8,7 +8,7 @@ static QCString *cachedString = 0;
 static ThBreakIterator *thaiIt = 0;
 #endif
 
-#if APPLE_CHANGES && !KWIQ
+#if APPLE_CHANGES && !KWQUBE
 #include <CoreServices/CoreServices.h>
 #endif
 

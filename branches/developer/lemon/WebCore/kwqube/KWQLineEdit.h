@@ -35,7 +35,7 @@ class QLineEdit : public QWidget {
 public:
     enum Type { Normal, Password, Search };
 
-#if KWIQ
+#if KWQUBE
     QLineEdit(Type type, QWidget * parent = 0, const char * name = 0, int f = 0);
 #else
     QLineEdit();

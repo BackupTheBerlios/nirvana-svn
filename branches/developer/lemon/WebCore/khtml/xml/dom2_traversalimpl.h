@@ -29,6 +29,7 @@
 #include "dom/dom2_traversal.h"
 #include "dom/dom_node.h"
 #include "dom/dom_misc.h"
+#include "dom/NodeFilterCondition.h"
 #include "misc/shared.h"
 
 namespace DOM {

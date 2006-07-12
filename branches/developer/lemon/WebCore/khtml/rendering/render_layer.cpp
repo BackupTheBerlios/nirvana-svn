@@ -710,7 +710,7 @@ RenderLayer::paint(QPainter *p, const QRect& damageRect, bool selectionOnly, Ren
 
 static void setClip(QPainter* p, const QRect& paintDirtyRect, const QRect& clipRect)
 {
-    if (paintDirtyRect == clipRect)
+    if (QRect::equals(paintDirtyRect,clipRect))
         return;
 
     p->save();
@@ -730,7 +730,7 @@ static void setClip(QPainter* p, const QRect& paintDirtyRect, const QRect& clipR
 
 static void restoreClip(QPainter* p, const QRect& paintDirtyRect, const QRect& clipRect)
 {
-    if (paintDirtyRect == clipRect)
+    if (QRect::equals(paintDirtyRect, clipRect))
         return;
     p->restore();
 }

@@ -66,6 +66,7 @@ public:
     QRect intersect(const QRect &) const;
     bool intersects(const QRect &) const;
     QRect unite(const QRect &) const;
+    static bool equals(const QRect &, const QRect &);
 
     bool contains(int x, int y, bool proper = false) const {
         if (proper)

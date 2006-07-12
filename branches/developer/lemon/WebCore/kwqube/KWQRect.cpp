@@ -133,10 +133,14 @@ QRect QRect::intersect(const QRect &r) const
     return QRect(nx, ny, nw, nh);
 }
 
+bool QRect::equals(const QRect &a, const QRect &b)
+{
+    return a.xp == b.xp && a.yp == b.yp && a.w == b.w && a.h == b.h;
+}
 
 bool operator==(const QRect &a, const QRect &b)
 {
-    return a.xp == b.xp && a.yp == b.yp && a.w == b.w && a.h == b.h;
+    return QRect::equals(a,b);
 }
 
 bool operator!=(const QRect &a, const QRect &b)

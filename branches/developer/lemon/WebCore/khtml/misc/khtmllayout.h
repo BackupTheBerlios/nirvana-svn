@@ -43,7 +43,7 @@ namespace khtml
     enum LengthType { Variable = 0, Relative, Percent, Fixed, Static, Intrinsic, MinIntrinsic };
     struct Length
     {
-#if !KWIQ
+#if !KWQUBE
 	Length() { *((Q_UINT32 *)this) = 0; }
         Length(LengthType t) { type = t; value = 0; quirk = false; }
         Length(int v, LengthType t, bool q=false) : value(v), type(t), quirk(q) {}
@@ -112,10 +112,11 @@ namespace khtml
         bool isFixed() const { return (type == Fixed); }
         bool isStatic() const { return (type == Static); }
 
-        int value : 28;
-        LengthType type : 3;
-        bool quirk : 1;
-#if !KWIQ
+        int value;// : 28;
+        LengthType type;// : 3;
+        bool quirk;// : 1;
+
+#if !KWQUBE
     };
 #else
     } Q_PACKED;

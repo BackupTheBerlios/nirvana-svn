@@ -48,7 +48,7 @@ typedef struct {
     int signature;
 } RenderArenaDebugHeader;
 
-#if KWIQ
+#if KWQUBE
 #ifndef NDEBUG
 #include <assert.h> //KWIQ:NDEBUG defined, there's assert
 #endif

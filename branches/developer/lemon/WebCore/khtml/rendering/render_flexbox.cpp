@@ -22,7 +22,7 @@
  *
  */
 
-#include "render_flexbox.h"
+#include "rendering/render_flexbox.h"
 
 using namespace DOM;
 

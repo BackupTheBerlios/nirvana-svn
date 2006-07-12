@@ -27,7 +27,7 @@
 
 #include <qptrlist.h>
 
-#include "render_flow.h"
+#include "rendering/render_flow.h"
 
 namespace DOM {
     class Position;

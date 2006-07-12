@@ -236,7 +236,7 @@ protected:
     friend class Node;
     friend class DocumentType;
     friend class NodeImpl;
-#if APPLE_CHANGES && !KWIQ //Why not
+#if APPLE_CHANGES && !KWQUBE //Why not
     friend class NamedNodeMapImpl;
 #endif
 };
@@ -907,7 +907,7 @@ class NodeList
     friend class Node;
     friend class Document;
     friend class HTMLDocument;
-#if APPLE_CHANGES && !KWIQ //Why not
+#if APPLE_CHANGES && !KWQQUBE //Why not
     friend class NodeListImpl;
 #endif
 

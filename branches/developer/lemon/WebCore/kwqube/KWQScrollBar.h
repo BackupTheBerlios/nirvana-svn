@@ -45,7 +45,8 @@ public:
     
 private:
     Qt::Orientation m_orientation : 1;
-    GtkAdjustment* m_scroller;
+    // LEMON
+//    GtkAdjustment* m_scroller;
 
     int m_visibleSize;
     int m_totalSize;
