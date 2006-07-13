@@ -23,9 +23,9 @@
 #include "kjs_css.h"
 #include "kjs_css.lut.h"
 
-#include <dom/html_head.h> // for HTMLStyleElement
+#include "dom/html_head.h" // for HTMLStyleElement
 
-#include <css/css_base.h>
+#include "css/css_base.h"
 #include "kjs_dom.h"
 
 using namespace KJS;
