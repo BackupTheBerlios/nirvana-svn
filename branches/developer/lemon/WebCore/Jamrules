@@ -22,7 +22,7 @@ rule LinkAgainst
 	local lib ;
         for lib in $(2)
 	{    	
-	    LINKLIBS += objects/$(lib) ;
+	    LINKLIBS += -Xlinker --whole-archive objects/$(lib) ;
 	}
 }
 
@@ -33,9 +33,8 @@ rule SharedLibraryFromObjects
 
 	LinkAgainst $(_lib) : $(3) ;
 	LINKFLAGS on $(_lib) = [ on $(_lib) return $(LINKFLAGS) ]
-						   -nostart -Xlinker -soname=\"$(_lib)\" ;
+	    -nostart -Xlinker -soname=\"$(_lib)\" $(LINKLIBS) ;
 	MainFromObjects $(_lib) : $(2) ;
-#	AddSharedObjectGlueCode $(_lib) : false ;
 }
 
 
