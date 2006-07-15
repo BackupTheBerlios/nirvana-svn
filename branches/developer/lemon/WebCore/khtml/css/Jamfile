@@ -1,0 +1,18 @@
+SubDir WEBCORE_TOP khtml css ;
+
+LOCATE_TARGET = [ FDirName $(WEBCORE_TOP) objects ] ;
+
+SubDirHdrs [ FDirName $(WEBCORE_TOP) ForwardingHeaders ] ;
+SubDirHdrs [ FDirName $(WEBCORE_TOP) khtml ] ;
+SubDirHdrs [ FDirName $(WEBCORE_TOP) kwqube ] ;
+
+StaticLibrary libCSS.a :
+    css_base.cpp
+    css_computedstyle.cpp
+    css_ruleimpl.cpp
+    css_stylesheetimpl.cpp
+    css_valueimpl.cpp
+    csshelper.cpp
+    cssparser.cpp
+    cssstyleselector.cpp
+;
