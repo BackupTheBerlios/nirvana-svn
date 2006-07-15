@@ -37,7 +37,7 @@
 #include "render_line.h"
 
 #include "khtmlview.h"
-#include "htmltags.h"
+#include "misc/htmltags.h"
 
 using namespace DOM;
 
