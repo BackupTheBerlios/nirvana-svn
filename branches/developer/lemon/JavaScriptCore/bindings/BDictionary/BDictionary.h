@@ -69,7 +69,7 @@ private:
 	BDictionaryEntry *lookup_bucket(const char *value);
 
         friend ostream &operator<<(ostream &stream, BDictionary &htable);
-}
+};
 
 #endif /* */
 
