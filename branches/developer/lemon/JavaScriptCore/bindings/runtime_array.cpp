@@ -22,10 +22,10 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
-#include "../kjs/identifier.h"
-#include "../kjs/interpreter.h"
-#include "runtime.h"
-#include "runtime_array.h"
+#include "kjs/identifier.h"
+#include "kjs/interpreter.h"
+#include "bindings/runtime.h"
+#include "bindings/runtime_array.h"
 
 using namespace KJS;
 

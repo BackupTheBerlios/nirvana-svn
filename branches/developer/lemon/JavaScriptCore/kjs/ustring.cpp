@@ -22,7 +22,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "kjs/config.h"
 #endif
 
 #include <stdlib.h>
@@ -35,11 +35,11 @@
 #include <strings.h>
 #endif
 
-#include "ustring.h"
-#include "operations.h"
-#include "identifier.h"
+#include "kjs/ustring.h"
+#include "kjs/operations.h"
+#include "kjs/identifier.h"
 #include <math.h>
-#include "dtoa.h"
+#include "kjs/dtoa.h"
 
 namespace KJS {
 

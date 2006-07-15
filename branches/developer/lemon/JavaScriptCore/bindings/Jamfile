@@ -1,0 +1,16 @@
+
+SubDir JSCORE_TOP bindings ;
+
+LOCATE_TARGET = [ FDirName $(JSCORE_TOP) objects ] ;
+
+SubDirHdrs [ FDirName $(JSCORE_TOP) ] ;
+
+StaticLibrary libBINDINGS.a :
+    runtime.cpp
+    runtime_array.cpp
+    runtime_method.cpp
+#    runtime_object.cpp
+    ;
+
+SubInclude JSCORE_TOP bindings BDictionary ; 
+#SubInclude JSCORE_TOP bindings jni ; 

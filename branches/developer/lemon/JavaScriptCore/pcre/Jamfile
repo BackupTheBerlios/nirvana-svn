@@ -1,0 +1,14 @@
+SubDir JSCORE_TOP pcre ;
+
+LOCATE_TARGET = [ FDirName $(JSCORE_TOP) objects ] ;
+
+SubDirHdrs [ FDirName $(JSCORE_TOP) pcre ] ;
+
+StaticLibrary libPCRE.a :
+    chartables.c
+    get.c
+    maketables.c
+    pcre.c
+    pcreposix.c
+    study.c
+    ;

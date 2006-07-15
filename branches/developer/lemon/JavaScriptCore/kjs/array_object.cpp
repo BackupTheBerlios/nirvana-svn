@@ -20,16 +20,15 @@
  *
  */
 
-#include "value.h"
-#include "object.h"
-#include "types.h"
-#include "interpreter.h"
-#include "operations.h"
-#include "array_object.h"
-#include "internal.h"
-#include "error_object.h"
-
-#include "array_object.lut.h"
+#include "kjs/value.h"
+#include "kjs/object.h"
+#include "kjs/types.h"
+#include "kjs/interpreter.h"
+#include "kjs/operations.h"
+#include "kjs/array_object.h"
+#include "kjs/internal.h"
+#include "kjs/error_object.h"
+#include "kjs/array_object.lut.h"
 
 #include <stdio.h>
 #include <assert.h>

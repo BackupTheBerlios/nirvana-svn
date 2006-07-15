@@ -25,8 +25,8 @@
 #ifndef _KJS_COMPLETION_H_
 #define _KJS_COMPLETION_H_
 
-#include "../kjs/identifier.h"
-#include "../kjs/value.h"
+#include "kjs/identifier.h"
+#include "kjs/value.h"
 
 namespace KJS {
 

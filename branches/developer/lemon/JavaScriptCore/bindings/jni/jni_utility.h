@@ -25,10 +25,9 @@
 #ifndef _JNI_UTILITY_H_
 #define _JNI_UTILITY_H_
 
-#include "../kjs/list.h"
-#include "../kjs/value.h"
-
-#include "JavaVM/jni.h"
+#include "kjs/list.h"
+#include "kjs/value.h"
+#include "bindings/JavaVM/jni.h"
 
 typedef enum {
     invalid_type = 0,

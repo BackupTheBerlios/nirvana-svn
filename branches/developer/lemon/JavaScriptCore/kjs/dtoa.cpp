@@ -169,14 +169,14 @@
  *	the result overflows to +-Infinity or underflows to 0.
  */
 
-#include "config.h"
+#include "kjs/config.h"
 #ifdef WORDS_BIGENDIAN
 #define IEEE_MC68k
 #else
 #define IEEE_8087
 #endif
 #define INFNAN_CHECK
-#include "dtoa.h"
+#include "kjs/dtoa.h"
 
 
 

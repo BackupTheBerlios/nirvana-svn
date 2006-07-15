@@ -19,14 +19,14 @@
  *
  */
 
-#include "collector.h"
-#include "value.h"
-#include "internal.h"
-#include "interpreter.h"
+#include "kjs/collector.h"
+#include "kjs/value.h"
+#include "kjs/internal.h"
+#include "kjs/interpreter.h"
 
 #if APPLE_CHANGES
 #include <CoreFoundation/CoreFoundation.h>
-#include <cxxabi.h>
+//#include <cxxabi.h>
 #endif
 
 //#include <collector.h>

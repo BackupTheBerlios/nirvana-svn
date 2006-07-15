@@ -1,0 +1,14 @@
+
+SubDir JSCORE_TOP bindings jni ;
+
+LOCATE_TARGET = [ FDirName $(JSCORE_TOP) objects ] ;
+
+SubDirHdrs [ FDirName $(JSCORE_TOP) ] ;
+
+StaticLibrary libJNI.a :
+    jni_class.cpp
+    jni_instance.cpp
+#    jni_jsobject.cpp
+    jni_runtime.cpp
+    jni_utility.cpp
+    ;

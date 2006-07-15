@@ -22,12 +22,12 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
-#include "jni/jni_class.h"
 
-#include "jni/jni_utility.h"
-#include "jni/jni_runtime.h"
-#include "BDictionary/BDictionary.h"
 #include <SupportKit.h>
+#include "bindings/jni/jni_class.h"
+#include "bindings/jni/jni_utility.h"
+#include "bindings/jni/jni_runtime.h"
+#include "bindings/BDictionary/BDictionary.h"
 
 using namespace KJS::Bindings;
 

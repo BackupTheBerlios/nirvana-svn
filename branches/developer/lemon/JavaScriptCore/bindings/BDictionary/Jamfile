@@ -1,0 +1,12 @@
+
+SubDir JSCORE_TOP bindings BDictionary ;
+
+LOCATE_TARGET = [ FDirName $(JSCORE_TOP) objects ] ;
+
+SubDirHdrs [ FDirName $(JSCORE_TOP) ForwardingHeaders ] ;
+SubDirHdrs [ FDirName $(JSCORE_TOP) bindings ] ;
+SubDirHdrs [ FDirName $(JSCORE_TOP) kjs ] ;
+
+StaticLibrary libBDICTIONARY.a :
+    BDictionary.cpp
+    ;

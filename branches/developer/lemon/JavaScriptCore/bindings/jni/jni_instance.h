@@ -26,10 +26,8 @@
 #define _JNI_INSTANCE_H_
 
 #include <OS.h>
-
-#include "JavaVM/jni.h"
-
-#include "runtime.h"
+#include "bindings/JavaVM/jni.h"
+#include "bindings/runtime.h"
 
 namespace KJS {
 

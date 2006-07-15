@@ -23,10 +23,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
  
-#include "../kjs/context.h"
-#include "../kjs/internal.h"
-#include "runtime_method.h"
-#include "runtime_object.h"
+#include "kjs/context.h"
+#include "kjs/internal.h"
+#include "bindings/runtime_method.h"
+#include "bindings/runtime_object.h"
 
 using namespace KJS::Bindings;
 using namespace KJS;

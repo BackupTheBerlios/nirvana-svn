@@ -21,7 +21,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "kjs/config.h"
 #endif
 #ifndef HAVE_SYS_TIMEB_H
 #define HAVE_SYS_TIMEB_H 0
@@ -52,11 +52,10 @@
 #include <locale.h>
 #include <ctype.h>
 
-#include "date_object.h"
-#include "error_object.h"
-#include "operations.h"
-
-#include "date_object.lut.h"
+#include "kjs/date_object.h"
+#include "kjs/error_object.h"
+#include "kjs/operations.h"
+#include "kjs/date_object.lut.h"
 
 const time_t invalidDate = -1;
 

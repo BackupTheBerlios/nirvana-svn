@@ -20,13 +20,13 @@
  *
  */
 
-#include "debugger.h"
-#include "value.h"
-#include "object.h"
-#include "types.h"
-#include "interpreter.h"
-#include "internal.h"
-#include "ustring.h"
+#include "kjs/debugger.h"
+#include "kjs/value.h"
+#include "kjs/object.h"
+#include "kjs/types.h"
+#include "kjs/interpreter.h"
+#include "kjs/internal.h"
+#include "kjs/ustring.h"
 
 using namespace KJS;
 

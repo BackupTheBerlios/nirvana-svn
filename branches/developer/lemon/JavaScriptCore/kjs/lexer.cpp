@@ -21,7 +21,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "kjs/config.h"
 #endif
 
 #include <ctype.h>
@@ -30,15 +30,15 @@
 #include <string.h>
 #include <assert.h>
 
-#include "value.h"
-#include "object.h"
-#include "types.h"
-#include "interpreter.h"
-#include "nodes.h"
-#include "lexer.h"
-#include "identifier.h"
-#include "lookup.h"
-#include "internal.h"
+#include "kjs/value.h"
+#include "kjs/object.h"
+#include "kjs/types.h"
+#include "kjs/interpreter.h"
+#include "kjs/nodes.h"
+#include "kjs/lexer.h"
+#include "kjs/identifier.h"
+#include "kjs/lookup.h"
+#include "kjs/internal.h"
 
 // we can't specify the namespace in yacc's C output, so do it here
 using namespace KJS;

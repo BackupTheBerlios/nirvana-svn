@@ -22,13 +22,13 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
-#include "jni/jni_class.h"
-#include "jni/jni_instance.h"
-#include "jni/jni_runtime.h"
-#include "jni/jni_utility.h"
-#include "runtime_object.h"
-#include "../kjs/list.h"
-#include "runtime.h"
+#include "bindings/jni/jni_class.h"
+#include "bindings/jni/jni_instance.h"
+#include "bindings/jni/jni_runtime.h"
+#include "bindings/jni/jni_utility.h"
+#include "bindings/runtime_object.h"
+#include "kjs/list.h"
+#include "bindings/runtime.h"
 
 #ifdef NDEBUG
 #define JS_LOG(formatAndArgs...) ((void)0)

@@ -11,6 +11,7 @@
 int
 pthread_atfork(void (*prepare)(void), void (*parent)(void), void (*child)(void))
 {
-	return __register_atfork(prepare, parent, child);
+	//return __register_atfork(prepare, parent, child);
+	return 0;
 }
 

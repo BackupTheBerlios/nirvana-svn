@@ -22,13 +22,13 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
-#include "../kjs/interpreter.h"
-#include "../kjs/list.h"
 
-#include "jni/jni_runtime.h"
-#include "jni/jni_utility.h"
-#include "runtime_array.h"
-#include "runtime_object.h"
+#include "kjs/interpreter.h"
+#include "kjs/list.h"
+#include "bindings/jni/jni_runtime.h"
+#include "bindings/jni/jni_utility.h"
+#include "bindings/runtime_array.h"
+#include "bindings/runtime_object.h"
 
 using namespace KJS::Bindings;
 

@@ -22,15 +22,14 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
-#include "../kjs/internal.h"
-#include "../kjs/ustring.h"
-#include "../kjs/value.h"
 
-#include "jni/jni_utility.h"
-#include "jni/jni_runtime.h"
-
-#include "runtime_array.h"
-#include "runtime_object.h"
+#include "kjs/internal.h"
+#include "kjs/ustring.h"
+#include "kjs/value.h"
+#include "bindings/jni/jni_utility.h"
+#include "bindings/jni/jni_runtime.h"
+#include "bindings/runtime_array.h"
+#include "bindings/runtime_object.h"
 
 using namespace KJS;
 using namespace KJS::Bindings;

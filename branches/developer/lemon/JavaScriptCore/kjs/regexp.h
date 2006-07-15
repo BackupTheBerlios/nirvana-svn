@@ -24,17 +24,17 @@
 
 #include <sys/types.h>
 
-#include "../kjs/config.h"
+#include "kjs/config.h"
 
 #ifdef HAVE_PCREPOSIX
-#include "../pcre/pcre.h"
+#include "pcre/pcre.h"
 #else  // POSIX regex - not so good...
 extern "C" { // bug with some libc5 distributions
 #include <regex.h>
 }
 #endif //HAVE_PCREPOSIX
 
-#include "ustring.h"
+#include "kjs/ustring.h"
 
 namespace KJS {
 

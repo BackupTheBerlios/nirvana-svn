@@ -21,7 +21,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include "kjs/config.h"
 #endif
 #ifndef HAVE_FLOAT_H   /* just for !Windows */
 #define HAVE_FLOAT_H 0
@@ -43,8 +43,8 @@
 #include <float.h>
 #endif
 
-#include "operations.h"
-#include "object.h"
+#include "kjs/operations.h"
+#include "kjs/object.h"
 
 using namespace KJS;
 

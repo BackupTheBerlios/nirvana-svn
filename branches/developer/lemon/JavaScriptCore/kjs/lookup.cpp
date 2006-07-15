@@ -23,10 +23,10 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "lookup.h"
+#include "kjs/lookup.h"
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "kjs/config.h"
 #endif
 
 using namespace KJS;

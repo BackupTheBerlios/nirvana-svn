@@ -25,10 +25,9 @@
 #ifndef _RUNTIME_OBJECT_H_
 #define _RUNTIME_OBJECT_H_
 
-#include "JavaVM/jni.h"
-
-#include "runtime.h"
-#include "../kjs/object.h"
+#include "bindings/JavaVM/jni.h"
+#include "bindings/runtime.h"
+#include "kjs/object.h"
 
 namespace KJS {
 

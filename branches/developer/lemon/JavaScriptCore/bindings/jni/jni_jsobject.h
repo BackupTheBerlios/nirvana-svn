@@ -26,11 +26,9 @@
 #define _JNI_JSOBJECT_H_
 
 #include <AppKit.h>
-
-#include "../kjs/interpreter.h"
-#include "../kjs/object.h"
-
-#include "JavaVM/jni.h"
+#include "kjs/interpreter.h"
+#include "kjs/object.h"
+#include "bindings/JavaVM/jni.h"
 
 #define jlong_to_ptr(a) ((void*)(uintptr_t)(a))
 #define jlong_to_impptr(a) (static_cast<KJS::ObjectImp*>(((void*)(uintptr_t)(a))))

@@ -23,7 +23,7 @@
 #ifndef ARRAY_INSTANCE_H
 #define ARRAY_INSTANCE_H
 
-#include "../kjs/object.h"
+#include "kjs/object.h"
 
 namespace KJS {
 

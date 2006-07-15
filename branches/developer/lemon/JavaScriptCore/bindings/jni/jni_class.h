@@ -26,12 +26,10 @@
 #define _JNI_CLASS_H_
 
 #include <OS.h>
-#include "BDictionary/BDictionary.h"
-
-#include "JavaVM/jni.h"
-
-#include "runtime.h"
-#include "jni/jni_runtime.h"
+#include "bindings/BDictionary/BDictionary.h"
+#include "bindings/JavaVM/jni.h"
+#include "bindings/runtime.h"
+#include "bindings/jni/jni_runtime.h"
 
 namespace KJS {
 

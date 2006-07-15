@@ -26,11 +26,10 @@
 #define _JNI_RUNTIME_H_
 
 #include <OS.h>
-
-#include "jni/jni_utility.h"
-#include "jni/jni_instance.h"
-#include "runtime.h"
-#include "../kjs/ustring.h"
+#include "bindings/jni/jni_utility.h"
+#include "bindings/jni/jni_instance.h"
+#include "bindings/runtime.h"
+#include "kjs/ustring.h"
 
 namespace KJS
 {

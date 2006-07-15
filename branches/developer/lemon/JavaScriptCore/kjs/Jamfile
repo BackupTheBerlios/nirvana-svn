@@ -1,0 +1,46 @@
+SubDir JSCORE_TOP kjs ;
+
+LOCATE_TARGET = [ FDirName $(JSCORE_TOP) objects ] ;
+
+SubDirHdrs [ FDirName $(JSCORE_TOP) ] ;
+
+StaticLibrary libKJS.a :
+    array_object.cpp
+    bool_object.cpp
+    collector.cpp
+    date_object.cpp
+    debugger.cpp
+    dtoa.cpp
+    error_object.cpp
+    fpconst.cpp
+    function.cpp
+    function_object.cpp
+    grammar.cpp
+    identifier.cpp
+    internal.cpp
+    interpreter.cpp
+    lexer.cpp
+    list.cpp
+    lookup.cpp
+    math_object.cpp
+    nodes.cpp
+    nodes2string.cpp
+    number_object.cpp
+    object.cpp
+    object_object.cpp
+    operations.cpp
+    property_map.cpp
+    pthread_once.c.cpp
+    reference.cpp
+    reference_list.cpp
+    regexp.cpp
+    regexp_object.cpp
+    scope_chain.cpp
+    string_object.cpp
+#    testkjs.cpp
+    ustring.cpp
+    value.cpp
+    pthread_atfork.c
+    pthread_mutex.c
+    pthread_mutexattr.c
+    ;

@@ -25,8 +25,8 @@
 #ifndef KJS_CONTEXT_H
 #define KJS_CONTEXT_H
 
-#include "../kjs/function.h"
-#include "../kjs/object.h"
+#include "kjs/function.h"
+#include "kjs/object.h"
 
 namespace KJS  {
 

@@ -22,10 +22,10 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
-#include "../kjs/value.h"
 
-#include "runtime.h"
-#include "jni/jni_instance.h"
+#include "kjs/value.h"
+#include "bindings/runtime.h"
+#include "bindings/jni/jni_instance.h"
 
 using namespace KJS;
 using namespace KJS::Bindings;
@@ -61,8 +61,8 @@ MethodList::~MethodList()
 
 Instance *Instance::createBindingForLanguageInstance (BindingLanguage language, void *instance)
 {
-    if (language == Instance::JavaLanguage)
-        return new Bindings::JavaInstance ((jobject)instance);
+    //if (language == Instance::JavaLanguage)
+    //    return new Bindings::JavaInstance ((jobject)instance);
     return 0;
 }
 

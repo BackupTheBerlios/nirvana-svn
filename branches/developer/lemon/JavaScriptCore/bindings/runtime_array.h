@@ -25,7 +25,7 @@
 #ifndef _RUNTIME_ARRAY_H_
 #define _RUNTIME_ARRAY_H_
 
-#include "../kjs/object.h"
+#include "kjs/object.h"
 
 
 namespace KJS {

@@ -23,17 +23,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#include "../kjs/error_object.h"
-#include "../kjs/function.h"
-#include "../kjs/interpreter.h"
-#include "../kjs/object.h"
-#include "../kjs/operations.h"
-#include "runtime_method.h"
-#include "runtime_object.h"
-#include "../kjs/types.h"
-#include "../kjs/value.h"
-
-
+#include "kjs/error_object.h"
+#include "kjs/function.h"
+#include "kjs/interpreter.h"
+#include "kjs/object.h"
+#include "kjs/operations.h"
+#include "kjs/types.h"
+#include "kjs/value.h"
+#include "bindings/runtime_method.h"
+#include "bindings/runtime_object.h"
 #include <assert.h>
 
 using namespace KJS;

@@ -25,8 +25,8 @@
 #ifndef _RUNTIME_H_
 #define _RUNTIME_H_
 
-#include "../kjs/list.h"
-#include "../kjs/value.h"
+#include "kjs/list.h"
+#include "kjs/value.h"
 #include <assert.h>
 
 namespace KJS 

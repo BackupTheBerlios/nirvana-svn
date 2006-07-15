@@ -24,17 +24,15 @@
  */
 #include <OS.h>
 
-#include "BDictionary/BDictionary.h"
+#include "bindings/BDictionary/BDictionary.h"
 #include <assert.h>
-
-#include "../kjs/identifier.h"
-#include "../kjs/internal.h"
-#include "../kjs/interpreter.h"
-#include "../kjs/list.h"
-#include "jni/jni_jsobject.h"
-#include "jni/jni_runtime.h"
-#include "jni/jni_utility.h"
-#include "runtime_object.h"
+#include "kjs/internal.h"
+#include "kjs/interpreter.h"
+#include "kjs/list.h"
+#include "bindings/jni/jni_jsobject.h"
+#include "bindings/jni/jni_runtime.h"
+#include "bindings/jni/jni_utility.h"
+#include "bindings/runtime_object.h"
 
 using namespace KJS::Bindings;
 using namespace KJS;
@@ -190,27 +188,35 @@ static void addJavaReference (const Bindings::RootObject *root, ObjectImp *imp)
 {
     JS_LOG ("root = %p, imp %p\n", root, imp);
 
-    CFMutableDictionaryRef referencesDictionary = getReferencesDictionary (root);
+    //CFMutableDictionaryRef referencesDictionary = getReferencesDictionary (root);
+    BDictionary *referencesDictionary = getReferencesDictionary (root);
     
-    unsigned int numReferences = (unsigned int)CFDictionaryGetValue (referencesDictionary, imp);
+    unsigned int numReferences = (ungigned int)referencesDictionary->ItemAt(imp)
+//    (unsigned int)CFDictionaryGetValue (referencesDictionary, imp);
     if (numReferences == 0) {
         imp->ref();
-        CFDictionaryAddValue (referencesDictionary, imp,  (const void *)1);
+	referencesDictionary->AddItem(imp, (const void *)1);
+        //CFDictionaryAddValue (referencesDictionary, imp,  (const void *)1);
     }
     else {
-        CFDictionaryReplaceValue (referencesDictionary, imp, (const void *)(numReferences+1));
+	referencesDictionary->AddItem(imp,  (const void *)(numReferences+1));
+        //CFDictionaryReplaceValue (referencesDictionary, imp, (const void *)(numReferences+1));
     }
 }
 
 static void removeJavaReference (ObjectImp *imp)
 {
     JS_LOG ("imp %p\n", imp);
-    CFMutableDictionaryRef referencesDictionary = findReferenceDictionary (imp);
+    //CFMutableDictionaryRef referencesDictionary = findReferenceDictionary (imp);
+    BDictionary *referencesDictionary = getReferencesDictionary (root);
     
-    unsigned int numReferences = (unsigned int)CFDictionaryGetValue (referencesDictionary, imp);
+    unsigned int numReferences = (ungigned int)referencesDictionary->ItemAt(imp)
+
+    //unsigned int numReferences = (unsigned int)CFDictionaryGetValue (referencesDictionary, imp);
     if (numReferences == 1) {
         imp->deref();
-        CFDictionaryRemoveValue (referencesDictionary, imp);
+	referencesDictionary->RemoveItem(imp);
+        //CFDictionaryRemoveValue (referencesDictionary, imp);
     }
     else {
         CFDictionaryReplaceValue (referencesDictionary, imp, (const void *)(numReferences-1));
