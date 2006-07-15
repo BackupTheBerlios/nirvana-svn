@@ -10,8 +10,6 @@ StaticLibrary libKHTML.a :
     khtml_events.cpp
     khtml_part.cpp
     khtmlview.cpp
-#    :
-#    libCSS.a
 ;
 
 SubInclude WEBCORE_TOP khtml css ;
