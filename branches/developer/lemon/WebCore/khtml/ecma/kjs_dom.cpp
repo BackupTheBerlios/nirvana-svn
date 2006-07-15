@@ -39,10 +39,11 @@
 #include "kjs_dom.lut.h"
 #include "khtmlpart_p.h"
 
-#include "html_objectimpl.h"
+#include "html/html_objectimpl.h"
 
 #if APPLE_CHANGES
-#include <JavaScriptCore/runtime_object.h>
+#include "JavaVM/jni.h"
+#include "../../../JavaScriptCore/bindings/runtime_object.h"
 #endif
 
 using namespace KJS;
