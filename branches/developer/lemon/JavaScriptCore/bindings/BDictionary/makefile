@@ -1,6 +1,7 @@
 NAME= hashtest
 TYPE= APP
-SRCS= hashtest.cpp BDictionary.cpp
+SRCS= test.cpp
+#SRCS= hashtest.cpp BDictionary.cpp
 RSRCS= 
 LIBS= be stdc++
 LIBPATHS= 
@@ -14,4 +15,3 @@ DEBUGGER =
 COMPILER_FLAGS =
 LINKER_FLAGS =
 include /boot/develop/etc/makefile-engine
-

@@ -14,9 +14,10 @@ int main(void) {
 	dict->AddItem("one", one);
 	dict->AddItem("two", two);
 	char *list = (char *)dict->ItemAt("one");
-	printf("%s",list);
+	printf("%s\n",list);
 	list = (char *)dict->ItemAt("two");
 	if (dict == dict2) printf("equals");
-	printf("%s",list);
+	printf("%s\n",list);
+	printf("%s\n",BDictionaryEntry::ClassName);
 	return 0;
 }

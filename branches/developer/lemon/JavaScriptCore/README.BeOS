@@ -1,3 +1,4 @@
+
 BeOS readme notes
 
 Changes has been made:
@@ -7,11 +8,13 @@ Changes has been made:
       from Mac OS X API to Be API. Actually
       BINDINGS must be cross platform.
     o added Sun headers for JavaVM
+    o fixed some issues
 
 TODO:
     o BDictionary: Clone, Iterator (GetKeys), GetElements
     o jni_jsobject.cpp: To port...
     o grep all TODO marks...
 
+--
 http://nirvana.berlios.de
 Maxim E. Sokhatsky (lemon) maxim@sokhatsky.com

@@ -514,7 +514,7 @@ QXmlAttributes XMLAttributeReader::readAttrs(bool &ok)
 bool XMLAttributeReader::startElement(const QString& /*namespaceURI*/, const QString& localName,
                                       const QString& /*qName*/, const QXmlAttributes& atts)
 {
-    if (localName == "attrs") {
+    if (QString::equals(localName,"attrs")) {
         attrs = atts;
         return true;
     }

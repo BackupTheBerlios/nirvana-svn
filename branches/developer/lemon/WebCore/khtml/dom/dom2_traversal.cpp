@@ -21,10 +21,10 @@
  */
 
 #include "dom/dom2_traversal.h"
-
 #include "dom/dom_exception.h"
 #include "dom/dom_string.h"
 #include "xml/dom2_traversalimpl.h"
+#include "dom/NodeFilterCondition.h"
 
 namespace DOM {
 

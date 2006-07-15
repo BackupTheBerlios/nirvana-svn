@@ -23,10 +23,10 @@
  */
 
 #include "xml/dom2_traversalimpl.h"
-#include "dom/dom_exception.h"
 #include "xml/dom_docimpl.h"
-
-#include "htmltags.h"
+#include "dom/dom_exception.h"
+#include "dom/NodeFilterCondition.h"
+#include "misc/htmltags.h"
 
 #ifdef KWQUBE
 #include <assert.h>
@@ -47,10 +47,13 @@ NodeFilterImpl::~NodeFilterImpl()
         m_condition->deref();
 }
 
-short NodeFilterImpl::acceptNode(const Node &node) const
+short NodeFilterImpl::acceptNode(const Node& node) const
 {
     // cast to short silences "enumeral and non-enumeral types in return" warning
-    return m_condition ? m_condition->acceptNode(node) : static_cast<short>(NodeFilter::FILTER_ACCEPT);
+    if (m_condition)
+    	return m_condition->acceptNode(node);
+    else
+    	return static_cast<short>(NodeFilter::FILTER_ACCEPT);
 }
 
 // --------------------------------------------------------------

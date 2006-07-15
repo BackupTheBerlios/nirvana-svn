@@ -24,7 +24,10 @@ Why we are using WebCore instead of ABrowse
 
 We where proposed to use ABrowse code that is AtheOS related
 and wich has more close nature to BeOS backend API. But the times
-when ABrowse was ported are before the much cleaner Apple version
+when ABrowse was ported was being before the much cleaner Apple version
 of KHTML port appeared. Besides that Apple version is the mainstream
-version of KHTML, even not KDE's one. From the other side ABrowse
-always under the hands.
+version of KHTML. From the other side ABrowse always under the hands.
+
+--
+http://nirvana.berlios.de
+Maxim E. Sokhatsky (lemon) maxim@sokhatsky.com

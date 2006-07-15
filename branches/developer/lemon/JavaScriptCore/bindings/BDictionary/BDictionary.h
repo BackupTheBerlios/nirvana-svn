@@ -26,6 +26,7 @@ public:
 	~BDictionaryEntry();
 	char  *Key;
 	void  *Value;
+//	static const char* const ClassName = "BDictionaryEntry";
 
 private:
 	
@@ -58,7 +59,6 @@ public:
 	//void SetDebug(bool new_state);
 
 	unsigned short Size; // number of slots
-	//friend bool operator==(const BDictionary &a, const BDictionary &b); 
 
 private:
 
@@ -70,11 +70,6 @@ private:
 
         friend ostream &operator<<(ostream &stream, BDictionary &htable);
 }
-
-inline bool BDictionary::operator==(const BDictionary &a, const BDictionary &b){
-    return (a == b);
-}
-
 
 #endif /* */
 
