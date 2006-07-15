@@ -23,9 +23,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
   
-#include "dom_selection.h"
-
-#include "htmltags.h"
+#include "xml/dom_selection.h"
+#include "misc/htmltags.h"
 #include "khtml_part.h"
 #include "khtmlview.h"
 #include "qevent.h"
@@ -43,7 +42,7 @@
 #include "xml/dom_nodeimpl.h"
 #include "xml/dom_textimpl.h"
 
-#if KWIQ
+#if KWQUBE
 #include <stdio.h>
 #endif
 

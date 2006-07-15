@@ -23,14 +23,12 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include "dom2_rangeimpl.h"
-
+#include "xml/dom2_rangeimpl.h"
+#include "xml/dom_textimpl.h"
+#include "xml/dom_xmlimpl.h"
 #include "dom/dom_exception.h"
-#include "dom_textimpl.h"
-#include "dom_xmlimpl.h"
 #include "html/html_elementimpl.h"
-
-#include "render_block.h"
+#include "rendering/render_block.h"
 
 using khtml::RenderBlock;
 
