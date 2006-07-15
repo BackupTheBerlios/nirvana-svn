@@ -1,0 +1,24 @@
+SubDir WEBCORE_TOP khtml ;
+
+LOCATE_TARGET = [ FDirName $(WEBCORE_TOP) objects ] ;
+
+SubDirHdrs [ FDirName $(WEBCORE_TOP) ForwardingHeaders ] ;
+SubDirHdrs [ FDirName $(WEBCORE_TOP) kwqube ] ;
+
+StaticLibrary libKHTML.a :
+    BDictionary.cpp
+    khtml_events.cpp
+    khtml_part.cpp
+    khtmlview.cpp
+#    :
+#    libCSS.a
+;
+
+SubInclude WEBCORE_TOP khtml css ;
+
+#SubInclude WEBCORE_TOP khtml xml ;
+#SubInclude WEBCORE_TOP khtml dom ;
+#SubInclude WEBCORE_TOP khtml html ;
+#SubInclude WEBCORE_TOP khtml rendering ;
+#SubInclude WEBCORE_TOP khtml misc ;
+
