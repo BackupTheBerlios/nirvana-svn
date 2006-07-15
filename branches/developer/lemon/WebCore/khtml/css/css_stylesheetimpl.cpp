@@ -28,17 +28,14 @@
 #include "dom/dom_exception.h"
 #include "dom/css_stylesheet.h"
 #include "dom/css_rule.h"
-
 #include "css/css_ruleimpl.h"
 #include "css/css_valueimpl.h"
 #include "css/cssparser.h"
 #include "css/css_stylesheetimpl.h"
-
+#include "xml/xml_namespace_table.h"
 #include "xml/dom_nodeimpl.h"
 #include "html/html_documentimpl.h"
 #include "misc/loader.h"
-
-#include "xml_namespace_table.h"
 
 #include <kdebug.h>
 

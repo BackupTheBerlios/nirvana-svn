@@ -92,7 +92,7 @@ class Attr : public Node
     friend class HTMLDocument;
     friend class ElementImpl;
     friend class NamedAttrMapImpl;
-#if APPLE_CHANGES && !KWIQ //Why not
+#if APPLE_CHANGES && !KWQUBE //Why not
     friend class AttrImpl;
 #endif
 
@@ -211,7 +211,7 @@ class Element : public Node
     friend class Document;
     friend class HTMLDocument;
 //    friend class AttrImpl;
-#if APPLE_CHANGES && !KWIQ //Why not
+#if APPLE_CHANGES && !KWQUBE //Why not
     friend class ElementImpl;
 #endif
     friend class Attr;

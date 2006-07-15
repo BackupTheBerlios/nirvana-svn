@@ -662,7 +662,7 @@ RenderStyle* CSSStyleSelector::styleForElement(ElementImpl* e, RenderStyle* defa
         matchRules(defaultQuirksStyle, firstUARule, lastUARule);
     
     // 3. If our medium is print, then we match rules from the print sheet.
-    if (m_medium == "print")
+    if (QString::equals(m_medium,"print"))
         matchRules(defaultPrintStyle, firstUARule, lastUARule);
     
     // 4. Now we check user sheet rules.

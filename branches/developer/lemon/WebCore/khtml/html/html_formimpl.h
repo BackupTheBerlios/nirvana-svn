@@ -44,7 +44,7 @@ namespace khtml
     class RenderLineEdit;
     class RenderRadioButton;
     class RenderFileButton;
-#if APPLE_CHANGES && !KWIQ
+#if APPLE_CHANGES && !KWQUBE
     class RenderSlider;
 #endif
 
@@ -267,7 +267,7 @@ class HTMLInputElementImpl : public HTMLGenericFormElementImpl
     friend class khtml::RenderRadioButton;
     friend class khtml::RenderFileButton;
 
-#if APPLE_CHANGES && !KWIQ
+#if APPLE_CHANGES && !KWQUBE
     friend class HTMLSelectElementImpl;
     friend class khtml::RenderSlider;
 #endif

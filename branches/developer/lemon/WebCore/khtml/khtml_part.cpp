@@ -94,7 +94,7 @@ using namespace DOM;
 #include <qclipboard.h>
 #include <qfile.h>
 #include <qmetaobject.h>
-#include <private/qucomextra_p.h>
+//#include <private/qucomextra_p.h>
 
 #include "khtmlpart_p.h"
 

@@ -40,10 +40,10 @@
 
 #if APPLE_CHANGES
 #include "KWQSignal.h"
-#include "decoder.h"
+#include "misc/decoder.h"
 #endif
 
-#include "htmlediting.h"
+#include "editing/htmlediting.h"
 
 class QPaintDevice;
 class QPaintDeviceMetrics;

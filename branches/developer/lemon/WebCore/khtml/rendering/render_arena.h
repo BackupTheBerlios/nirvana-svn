@@ -35,7 +35,7 @@
 #ifndef RENDERARENA_H
 #define RENDERARENA_H
 
-#include "arena.h"
+#include "misc/arena.h"
 #include <stdlib.h> //for size_t
 
 static const size_t gMaxRecycledSize = 400;

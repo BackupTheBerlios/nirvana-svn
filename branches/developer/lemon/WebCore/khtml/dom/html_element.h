@@ -30,6 +30,7 @@
 #define HTML_ELEMENT_H
 
 #include "dom/dom_element.h"
+
 class KHTMLView;
 
 namespace DOM {

@@ -24,7 +24,7 @@
 #define HTML_ELEMENTIMPL_H
 
 #include "xml/dom_elementimpl.h"
-#include "dom_atomicstringlist.h"
+#include "xml/dom_atomicstringlist.h"
 #include "css/css_valueimpl.h"
 #include <qptrdict.h>
 
