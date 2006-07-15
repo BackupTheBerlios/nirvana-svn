@@ -129,8 +129,8 @@ protected:
 DOMString operator + (const DOMString &a, const DOMString &b);
 bool operator==( const DOMString &a, const QString &b );
 bool operator==( const DOMString &a, const char *b );
-inline bool operator==( const DOMString &a, const QString &b ) { return a == b; }
-inline bool operator==( const DOMString &a, const char *b ) { return a == b; }
+inline bool operator==( const DOMString &a, const QString &b );// { return a == b; }
+inline bool operator==( const DOMString &a, const char *b );// { return a == b; }
 inline bool operator!=( const DOMString &a, const DOMString &b ) { return !(a==b); }
 inline bool operator!=( const DOMString &a, const QString &b ) { return !(a==b); }
 inline bool operator!=( const DOMString &a, const char *b )  { return !(a==b); }
