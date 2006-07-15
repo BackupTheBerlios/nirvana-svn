@@ -44,7 +44,7 @@ public:
     QColor(QRgb col) : color(col), valid(true) { }
     // FIXME: GdkColor -range is from 0 to 65536 instead of 0 -> 256
     //QColor(GdkColor * c) : color(qRgb(c->red/256, c->green/256, c->blue/256)) {}
-    QColor(rgb_color *c) : color(c->red, c->green, c->blue) { }
+    QColor(rgb_color *c) : color(qRgb(c->red, c->green, c->blue)) { }
     QColor(int r, int g, int b) : color(qRgb(r, g, b)), valid(true) { }
     explicit QColor(const char *);
     

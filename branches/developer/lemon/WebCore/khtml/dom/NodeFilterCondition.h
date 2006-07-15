@@ -36,7 +36,7 @@ namespace DOM {
     class NodeFilterCondition : public khtml::Shared<NodeFilterCondition> {
     public:
         virtual ~NodeFilterCondition() { }
-        virtual short acceptNode(DOM::Node a) const;
+        virtual short acceptNode(const Node& a) const;
         virtual void mark() { }
     };
 

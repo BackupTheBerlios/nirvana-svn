@@ -28,7 +28,7 @@
 #define _dom2_traversal_h_
 #include "dom/dom_node.h"
 #include "dom/dom_misc.h"
-
+#include "dom/NodeFilterCondition.h"
 
 namespace DOM {
 class Node;
@@ -71,7 +71,7 @@ public:
     /**
      * The root node of the NodeIterator, as specified when it was created.
      */
-    Node root();
+    Node root() const;
 
     /**
     * This attribute determines which node types are presented via the
@@ -80,12 +80,12 @@ public:
     * children may still be considered. Note that this skip takes precedence
     * over the filter, if any.
     */
-    unsigned long whatToShow();
+    unsigned long whatToShow() const;
 
     /**
      * The NodeFilter used to screen nodes.
      */
-    NodeFilter filter();
+    NodeFilter filter() const;
 
     /**
      * The value of this flag determines whether the children of entity
@@ -103,7 +103,7 @@ public:
      * flags to show the entity reference node and set expandEntityReferences to
      * false.
      */
-    bool expandEntityReferences();
+    bool expandEntityReferences() const;
 
     /**
      * Returns the next node in the set and advances the position of
@@ -135,6 +135,8 @@ public:
      *
      */
     Node previousNode();
+    Node referenceNode() const;
+    bool pointerBeforeReferenceNode() const;
 
     /**
      * Detaches the NodeIterator from the set which it iterated over,
@@ -190,6 +192,7 @@ class NodeFilter
 public:
     NodeFilter();
     NodeFilter(const NodeFilter &other);
+    NodeFilter(NodeFilterCondition *condition);
 
     virtual NodeFilter & operator = (const NodeFilter &other);
 
@@ -242,7 +245,7 @@ public:
      * href="#Traversal-NodeFilter-acceptNode-constants"> above </a> .
      *
      */
-    virtual short acceptNode (const Node &n);
+    virtual short acceptNode (const Node &n) const;
 
     /**
      * @internal
@@ -351,7 +354,7 @@ public:
     /**
      * The root node of the TreeWalker, as specified when it was created.
      */
-    Node root();
+    Node root()  const;
 
     /**
      * This attribute determines which node types are presented via the
@@ -360,12 +363,12 @@ public:
      * children may still be considered. Note that this skip takes precedence
      * over the filter, if any.
      */
-    unsigned long whatToShow();
+    unsigned long whatToShow() const;
 
     /**
      * The filter used to screen nodes.
      */
-    NodeFilter filter();
+    NodeFilter filter() const;
 
     /**
      * The value of this flag determines whether the children of entity
@@ -381,7 +384,7 @@ public:
      * whatToShow flags to show the entity reference node and set
      * expandEntityReferences to false.
      */
-    bool expandEntityReferences();
+    bool expandEntityReferences()const;
 
     /**
      * The node at which the TreeWalker is currently positioned.
@@ -396,12 +399,12 @@ public:
      * @exception DOMException
      * NOT_SUPPORTED_ERR: Raised if an attempt is made to set currentNode to null.
      */
-    Node currentNode();
+    Node currentNode() const;
 
     /**
      * see @ref currentNode
      */
-    void setCurrentNode(const Node _currentNode);
+    void setCurrentNode(const Node& _currentNode);
 
     /**
      * Moves to and returns the parent node of the current node. If
