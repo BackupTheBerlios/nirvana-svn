@@ -668,7 +668,7 @@ QString plainText(const Range &r)
     for (TextIterator it(r); !it.atEnd(); it.advance()) {
         length += it.textLength();
     }
-#if KWIQ
+#if KWQUBE
     QString result("", length);
 #else 
     QString result("");
