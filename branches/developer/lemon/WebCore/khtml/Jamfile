@@ -13,8 +13,7 @@ StaticLibrary libKHTML.a :
 ;
 
 SubInclude WEBCORE_TOP khtml css ;
-
-#SubInclude WEBCORE_TOP khtml xml ;
+SubInclude WEBCORE_TOP khtml xml ;
 #SubInclude WEBCORE_TOP khtml dom ;
 #SubInclude WEBCORE_TOP khtml html ;
 #SubInclude WEBCORE_TOP khtml rendering ;

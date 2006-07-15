@@ -11,7 +11,7 @@ StaticLibrary libXML.a :
     dom2_rangeimpl.cpp
     dom2_traversalimpl.cpp
     dom2_viewsimpl.cpp
-    dom_atomicstring.cpp
+#    dom_atomicstring.cpp
     dom_docimpl.cpp
     dom_elementimpl.cpp
     dom_nodeimpl.cpp

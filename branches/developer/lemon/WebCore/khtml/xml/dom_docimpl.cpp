@@ -74,7 +74,7 @@
 
 #include "css/cssvalues.h"
 
-#include "jsediting.h"
+#include "editing/jsediting.h"
 
 #include <kio/job.h>
 

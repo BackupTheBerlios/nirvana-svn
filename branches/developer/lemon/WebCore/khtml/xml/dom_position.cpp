@@ -25,8 +25,8 @@
 
 #include "dom_position.h"
 
-#include "helper.h"
-#include "htmltags.h"
+#include "misc/helper.h"
+#include "misc/htmltags.h"
 #include "qstring.h"
 #include "rendering/render_block.h"
 #include "rendering/render_line.h"
