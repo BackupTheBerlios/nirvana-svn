@@ -26,7 +26,6 @@
 #include "kjs/function_object.h"
 
 #include <sys/time.h>
-#include <errno.h>
 
 namespace KJS {
 

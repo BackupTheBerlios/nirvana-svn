@@ -26,7 +26,7 @@
 #define KJS_CONTEXT_H
 
 #include "kjs/function.h"
-#include "kjs/object.h"
+#include "kjs/protect.h"
 
 namespace KJS  {
 
@@ -59,11 +59,11 @@ namespace KJS  {
     ContextImp *_callingContext;
     FunctionImp *_function;
     const List *_arguments;
-    Object activation;
+    ProtectedObject activation;
     
     ScopeChain scope;
-    Object variable;
-    Object thisVal;
+    ProtectedObject variable;
+    ProtectedObject thisVal;
 
     LabelStack ls;
     CodeType codeType;

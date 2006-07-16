@@ -1,13 +1,13 @@
 
 SubDir JSCORE_TOP ;
 
-DEFINES = BEOS ;
+DEFINES = BEOS APPLE_CHANGES KWQUBE HAVE_CONFIG_H ;
 LOCATE_TARGET = [ FDirName $(JSCORE_TOP) objects ] ;
 
 SharedLibrary libJavaScriptCore.so : dummy.cpp ;
-LinkAgainst libJavaScriptCore.so : libKJS.a  libPCRE.a libBINDINGS.a libBDICTIONARY.a ;
+LinkAgainst libJavaScriptCore.so : libKJS.a  libPCRE.a ;
 StdLibs libJavaScriptCore.so : be stdc++ ;
 
-SubInclude JSCORE_TOP bindings ;
+#SubInclude JSCORE_TOP bindings ;
 SubInclude JSCORE_TOP kjs ;
 SubInclude JSCORE_TOP pcre ;

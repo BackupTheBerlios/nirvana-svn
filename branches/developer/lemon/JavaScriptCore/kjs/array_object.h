@@ -22,8 +22,8 @@
 #ifndef _ARRAY_OBJECT_H_
 #define _ARRAY_OBJECT_H_
 
-#include "kjs/internal.h"
-#include "kjs/function_object.h"
+#include "internal.h"
+#include "function_object.h"
 
 namespace KJS {
 

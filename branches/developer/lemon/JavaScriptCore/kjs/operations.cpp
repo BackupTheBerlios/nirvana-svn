@@ -43,8 +43,8 @@
 #include <float.h>
 #endif
 
-#include "kjs/operations.h"
-#include "kjs/object.h"
+#include "operations.h"
+#include "object.h"
 
 using namespace KJS;
 

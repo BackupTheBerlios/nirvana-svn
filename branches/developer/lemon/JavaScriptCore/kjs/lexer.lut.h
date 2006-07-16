@@ -1,6 +1,6 @@
 /* Automatically generated from keywords.table using ./create_hash_table. DO NOT EDIT ! */
 
-#include "lookup.h"
+#include "kjs/lookup.h"
 
 namespace KJS {
 

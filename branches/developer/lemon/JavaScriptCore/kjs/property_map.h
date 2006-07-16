@@ -23,9 +23,9 @@
 #ifndef _KJS_PROPERTY_MAP_H_
 #define _KJS_PROPERTY_MAP_H_
 
-#include "../kjs/identifier.h"
-
-#define MAX(a,b) (a) > (b) ? (a) : (b)
+#include "minimax.h"
+#include "kjs/identifier.h"
+#include <assert.h>
 
 namespace KJS {
 

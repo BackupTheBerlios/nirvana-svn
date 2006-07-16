@@ -96,17 +96,17 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include "kjs/config.h"
+#include <config.h>
 #endif
 #include <string.h>
 #include <stdlib.h>
-#include "kjs/value.h"
-#include "kjs/object.h"
-#include "kjs/types.h"
-#include "kjs/interpreter.h"
-#include "kjs/nodes.h"
-#include "kjs/lexer.h"
-#include "kjs/internal.h"
+#include "value.h"
+#include "object.h"
+#include "types.h"
+#include "interpreter.h"
+#include "nodes.h"
+#include "lexer.h"
+#include "internal.h"
 
 // Not sure why, but yacc doesn't add this define along with the others.
 #define yylloc kjsyylloc

@@ -22,9 +22,9 @@
 #ifndef _REGEXP_OBJECT_H_
 #define _REGEXP_OBJECT_H_
 
-#include "../kjs/internal.h"
-#include "function_object.h"
-#include "regexp.h"
+#include "kjs/internal.h"
+#include "kjs/function_object.h"
+#include "kjs/regexp.h"
 
 namespace KJS {
   class ExecState;

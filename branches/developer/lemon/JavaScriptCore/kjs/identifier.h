@@ -22,9 +22,10 @@
 #ifndef KJS_IDENTIFIER_H
 #define KJS_IDENTIFIER_H
 
-#include "../kjs/ustring.h"
-
-#include <alloc.h>
+#include "kjs/ustring.h"
+#include "kjs/new"
+#include <OS.h>
+#include <malloc.h>
 
 namespace KJS {
 

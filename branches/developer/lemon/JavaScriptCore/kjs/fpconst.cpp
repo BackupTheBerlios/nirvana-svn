@@ -17,7 +17,7 @@
  *
  */
 
-#include "kjs/config.h"
+#include "config.h"
 
 // This file exists because JavaScriptCore needs to define the NaN and Inf globals in a way
 // that does not use a static initializer so we don't have a framework initialization routine.
@@ -29,13 +29,16 @@
 // It would be good to figure out a 100% clean way that still avoids code that runs at init time.
 
 namespace KJS {
-
+#if !KWQUBE
 #ifdef WORDS_BIGENDIAN
   extern const unsigned char NaN[sizeof(double)] = { 0x7f, 0xf8, 0, 0, 0, 0, 0, 0 };
   extern const unsigned char Inf[sizeof(double)] = { 0x7f, 0xf0, 0, 0, 0, 0, 0, 0 };
+#elif defined(arm)
+extern const unsigned char NaN_Bytes[] = { 0, 0, 0xf8, 0x7f, 0, 0, 0, 0 };
+  const unsigned char Inf_Bytes[] = { 0, 0, 0xf0, 0x7f, 0, 0, 0, 0 };
 #else
   extern const unsigned char NaN[sizeof(double)] = { 0, 0, 0, 0, 0, 0, 0xf8, 0x7f };
   extern const unsigned char Inf[sizeof(double)] = { 0, 0, 0, 0, 0, 0, 0xf0, 0x7f };
 #endif
-
+#endif
 };

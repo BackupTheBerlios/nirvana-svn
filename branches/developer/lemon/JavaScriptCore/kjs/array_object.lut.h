@@ -1,6 +1,6 @@
 /* Automatically generated from array_object.cpp using ./create_hash_table. DO NOT EDIT ! */
 
-#include "kjs/lookup.h"
+#include "lookup.h"
 
 namespace KJS {
 

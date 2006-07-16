@@ -19,6 +19,7 @@ StaticLibrary libKJS.a :
     identifier.cpp
     internal.cpp
     interpreter.cpp
+    interpreter_map.cpp
     lexer.cpp
     list.cpp
     lookup.cpp
@@ -30,16 +31,15 @@ StaticLibrary libKJS.a :
     object_object.cpp
     operations.cpp
     property_map.cpp
-    pthread_once.c.cpp
     reference.cpp
     reference_list.cpp
     regexp.cpp
     regexp_object.cpp
     scope_chain.cpp
     string_object.cpp
-#    testkjs.cpp
     ustring.cpp
     value.cpp
+    pthread_once.cpp
     pthread_atfork.c
     pthread_mutex.c
     pthread_mutexattr.c

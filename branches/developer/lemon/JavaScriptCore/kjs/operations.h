@@ -23,9 +23,8 @@
 #ifndef _KJS_OPERATIONS_H_
 #define _KJS_OPERATIONS_H_
 
-#include "../kjs/value.h"
-
-#define _isnan isnan
+#include "kjs/value.h"
+#include <math.h>
 
 namespace KJS {
 

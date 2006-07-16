@@ -22,8 +22,8 @@
 #ifndef _NUMBER_OBJECT_H_
 #define _NUMBER_OBJECT_H_
 
-#include "../kjs/internal.h"
-#include "function_object.h"
+#include "kjs/internal.h"
+#include "kjs/function_object.h"
 
 namespace KJS {
 

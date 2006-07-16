@@ -23,8 +23,8 @@
 #ifndef _KJSLOOKUP_H_
 #define _KJSLOOKUP_H_
 
-#include "identifier.h"
-#include "value.h"
+#include "kjs/identifier.h"
+#include "kjs/value.h"
 #include <stdio.h>
 
 namespace KJS {

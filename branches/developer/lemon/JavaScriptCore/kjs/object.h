@@ -38,12 +38,11 @@
 #define KJS_MAX_STACK 1000
 #endif
 
-//#include "value.h"
-#include "../kjs/types.h"
-#include "../kjs/reference_list.h"
-#include "../kjs/property_map.h"
-#include "../kjs/scope_chain.h"
-#include "../kjs/list.h"
+#include "kjs/value.h"
+#include "kjs/types.h"
+#include "kjs/reference_list.h"
+#include "kjs/property_map.h"
+#include "kjs/scope_chain.h"
 
 namespace KJS {
 
@@ -636,7 +635,7 @@ namespace KJS {
      */
     static Object create(ExecState *exec, ErrorType errtype = GeneralError,
                          const char *message = 0, int lineno = -1,
-                         int sourceId = -1);
+                         int sourceId = -1, const UString *sourceURL = 0);
 
     /**
      * Array of error names corresponding to @ref ErrorType

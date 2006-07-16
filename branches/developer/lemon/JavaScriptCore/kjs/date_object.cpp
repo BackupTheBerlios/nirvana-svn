@@ -2,7 +2,7 @@
 /*
  *  This file is part of the KDE libraries
  *  Copyright (C) 1999-2000 Harri Porten (porten@kde.org)
- *  Copyright (C) 2003 Apple Computer, Inc.
+ *  Copyright (C) 2004 Apple Computer, Inc.
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -57,13 +57,16 @@
 #include "kjs/operations.h"
 #include "kjs/date_object.lut.h"
 
+#include <errno.h>
+
 const time_t invalidDate = -1;
 
-#if APPLE_CHANGES
+#if APPLE_CHANGES && !KWQUBE
 
 // Originally, we wrote our own implementation that uses Core Foundation because of a performance problem in Mac OS X 10.2.
 // But we need to keep using this rather than the standard library functions because this handles a larger range of dates.
 
+#include <notify.h>
 #include <CoreFoundation/CoreFoundation.h>
 #include <CoreServices/CoreServices.h>
 
@@ -116,6 +119,24 @@ static CFTimeZoneRef UTCTimeZone()
 
 static CFTimeZoneRef CopyLocalTimeZone()
 {
+    // Check for a time zone notification, and tell CoreFoundation to re-get the time zone if it happened.
+    // Some day, CoreFoundation may do this itself, but for now it needs our help.
+    static bool registered = false;
+    static int notificationToken;
+    if (!registered) {
+        uint32_t status = notify_register_check("com.apple.system.timezone", &notificationToken);
+        if (status == NOTIFY_STATUS_OK) {
+            registered = true;
+        }
+    }
+    if (registered) {
+        int notified;
+        uint32_t status = notify_check(notificationToken, &notified);
+        if (status == NOTIFY_STATUS_OK && notified) {
+            CFTimeZoneResetSystem();
+        }
+    }
+
     CFTimeZoneRef zone = CFTimeZoneCopyDefault();
     if (zone) {
         return zone;
@@ -324,7 +345,7 @@ Value DatePrototypeImp::get(ExecState *exec, const Identifier &propertyName) con
 
 DateProtoFuncImp::DateProtoFuncImp(ExecState *exec, int i, int len)
   : InternalFunctionImp(
-    static_cast<FunctionPrototypeImp*>(exec->interpreter()->builtinFunctionPrototype().imp())
+    static_cast<FunctionPrototypeImp*>(exec->lexicalInterpreter()->builtinFunctionPrototype().imp())
     ), id(abs(i)), utc(i<0)
   // We use a negative ID to denote the "UTC" variant.
 {
@@ -353,7 +374,7 @@ Value DateProtoFuncImp::call(ExecState *exec, Object &thisObj, const List &args)
 
   Value result;
   UString s;
-#if !APPLE_CHANGES
+#if !APPLE_CHANGES || KWQUBE
   const int bufsize=100;
   char timebuffer[bufsize];
   CString oldlocale = setlocale(LC_TIME,NULL);
@@ -400,7 +421,7 @@ Value DateProtoFuncImp::call(ExecState *exec, Object &thisObj, const List &args)
     t = localtime(&tv);
 
   switch (id) {
-#if APPLE_CHANGES
+#if APPLE_CHANGES && !KWQUBE
   case ToString:
     result = String(formatDate(*t) + " " + formatTime(*t));
     break;
@@ -464,7 +485,7 @@ Value DateProtoFuncImp::call(ExecState *exec, Object &thisObj, const List &args)
     break;
   case GetYear:
     // IE returns the full year even in getYear.
-    if ( exec->interpreter()->compatMode() == Interpreter::IECompat )
+    if ( exec->dynamicInterpreter()->compatMode() == Interpreter::IECompat )
       result = Number(1900 + t->tm_year);
     else
       result = Number(t->tm_year);
@@ -559,7 +580,8 @@ Value DateProtoFuncImp::call(ExecState *exec, Object &thisObj, const List &args)
   if (id == SetYear || id == SetMilliSeconds || id == SetSeconds ||
       id == SetMinutes || id == SetHours || id == SetDate ||
       id == SetMonth || id == SetFullYear ) {
-    time_t mktimeResult = mktime(t);
+      // LEMON
+    time_t mktimeResult = 0; //utc ? timegm(t) : mktime(t);
     if (mktimeResult == invalidDate)
       result = Number(NaN);
     else
@@ -660,7 +682,7 @@ Object DateObjectImp::construct(ExecState *exec, const List &args)
     }
   }
 
-  Object proto = exec->interpreter()->builtinDatePrototype();
+  Object proto = exec->lexicalInterpreter()->builtinDatePrototype();
   Object ret(new DateInstanceImp(proto.imp()));
   ret.setInternalValue(timeClip(value));
   return ret;
@@ -678,7 +700,7 @@ Value DateObjectImp::call(ExecState */*exec*/, Object &/*thisObj*/, const List &
   fprintf(stderr,"DateObjectImp::call - current time\n");
 #endif
   time_t t = time(0L);
-#if APPLE_CHANGES
+#if APPLE_CHANGES && !KWQUBE
   struct tm *tm = localtime(&t);
   return String(formatDate(*tm) + " " + formatTime(*tm));
 #else
@@ -731,7 +753,8 @@ Value DateObjectFuncImp::call(ExecState *exec, Object &/*thisObj*/, const List &
     t.tm_min = (n >= 5) ? args[4].toInt32(exec) : 0;
     t.tm_sec = (n >= 6) ? args[5].toInt32(exec) : 0;
     int ms = (n >= 7) ? args[6].toInt32(exec) : 0;
-    time_t mktimeResult = 0;//timegm(&t);
+    // LEMON
+    time_t mktimeResult = 0; // timegm(&t);
     if (mktimeResult == invalidDate)
       return Number(NaN);
     return Number(mktimeResult * 1000.0 + ms);
@@ -774,7 +797,7 @@ Value KJS::parseDate(const UString &u)
     //fprintf(stdout,"KJS::parseDate day=%d, month=%d, year=%d\n", day, month, year);
     struct tm t;
     memset( &t, 0, sizeof(t) );
-#if !APPLE_CHANGES
+#if !APPLE_CHANGES || KWQUBE //FIXME: KWIQ: linux mktime limited to 2037
     year = (year > 2037) ? 2037 : year; // mktime is limited to 2037 !!!
 #endif
     t.tm_year = (year >= 0 && year <= 99) ? year : year - 1900;

@@ -23,14 +23,15 @@
 #ifndef _KJS_REFERENCE_H_
 #define _KJS_REFERENCE_H_
 
-#include "../kjs/identifier.h"
-#include "../kjs/value.h"
+#include "kjs/identifier.h"
+#include "kjs/value.h"
 
 namespace KJS {
 
-  class Reference : private Value {
+  class Reference {
     friend class ReferenceList;
     friend class ReferenceListIterator;
+    friend class ProtectedReference;
   public:
     Reference(const Object& b, const Identifier& p);
     Reference(const Object& b, unsigned p);

@@ -44,7 +44,7 @@ const ClassInfo ArrayInstanceImp::info = {"Array", 0, 0, 0};
 ArrayInstanceImp::ArrayInstanceImp(ObjectImp *proto, unsigned initialLength)
   : ObjectImp(proto)
   , length(initialLength)
-  , storageLength(initialLength)
+  , storageLength(initialLength < sparseArrayCutoff ? initialLength : 0)
   , capacity(storageLength)
   , storage(capacity ? (ValueImp **)calloc(capacity, sizeof(ValueImp *)) : 0)
 {
@@ -302,7 +302,7 @@ struct CompareWithCompareFunctionArguments {
     CompareWithCompareFunctionArguments(ExecState *e, ObjectImp *cf)
         : exec(e)
         , compareFunction(cf)
-        , globalObject(e->interpreter()->globalObject())
+        , globalObject(e->dynamicInterpreter()->globalObject())
     {
         arguments.append(Undefined());
         arguments.append(Undefined());
@@ -424,7 +424,7 @@ Value ArrayPrototypeImp::get(ExecState *exec, const Identifier &propertyName) co
 
 ArrayProtoFuncImp::ArrayProtoFuncImp(ExecState *exec, int i, int len)
   : InternalFunctionImp(
-    static_cast<FunctionPrototypeImp*>(exec->interpreter()->builtinFunctionPrototype().imp())
+    static_cast<FunctionPrototypeImp*>(exec->lexicalInterpreter()->builtinFunctionPrototype().imp())
     ), id(i)
 {
   Value protect(this);
@@ -475,7 +475,7 @@ Value ArrayProtoFuncImp::call(ExecState *exec, Object &thisObj, const List &args
     break;
   }
   case Concat: {
-    Object arr = Object::dynamicCast(exec->interpreter()->builtinArray().construct(exec,List::empty()));
+    Object arr = Object::dynamicCast(exec->lexicalInterpreter()->builtinArray().construct(exec,List::empty()));
     int n = 0;
     Value curArg = thisObj;
     Object curObj = Object::dynamicCast(thisObj);
@@ -577,26 +577,35 @@ Value ArrayProtoFuncImp::call(ExecState *exec, Object &thisObj, const List &args
     // http://developer.netscape.com/docs/manuals/js/client/jsref/array.htm#1193713 or 15.4.4.10
 
     // We return a new array
-    Object resObj = Object::dynamicCast(exec->interpreter()->builtinArray().construct(exec,List::empty()));
+    Object resObj = Object::dynamicCast(exec->lexicalInterpreter()->builtinArray().construct(exec,List::empty()));
     result = resObj;
-    int begin = args[0].toInteger(exec);
-    if ( begin < 0 )
-      begin = maxInt( begin + length, 0 );
-    else
-      begin = minInt( begin, length );
-    int end = length;
-    if (args[1].type() != UndefinedType)
-    {
+    double begin = args[0].toInteger(exec);
+    if (begin < 0) {
+      begin += length;
+      if (begin < 0)
+        begin = 0;
+    } else {
+      if (begin > length)
+        begin = length;
+    }
+    double end = length;
+    if (args[1].type() != UndefinedType) {
       end = args[1].toInteger(exec);
-      if ( end < 0 )
-        end = maxInt( end + length, 0 );
-      else
-        end = minInt( end, length );
+      if (end < 0) {
+        end += length;
+        if (end < 0)
+          end = 0;
+      } else {
+        if (end > length)
+          end = length;
+      }
     }
 
     //printf( "Slicing from %d to %d \n", begin, end );
     int n = 0;
-    for(int k = begin; k < end; k++, n++) {
+    int b = static_cast<int>(begin);
+    int e = static_cast<int>(end);
+    for(int k = b; k < e; k++, n++) {
       if (thisObj.hasProperty(exec, k)) {
         Value obj = thisObj.get(exec, k);
         resObj.put(exec, n, obj);
@@ -654,7 +663,7 @@ Value ArrayProtoFuncImp::call(ExecState *exec, Object &thisObj, const List &args
                 List l;
                 l.append(jObj);
                 l.append(minObj);
-                cmp = sortFunction.call(exec, exec->interpreter()->globalObject(), l).toNumber(exec);
+                cmp = sortFunction.call(exec, exec->dynamicInterpreter()->globalObject(), l).toNumber(exec);
             } else {
               cmp = (jObj.toString(exec) < minObj.toString(exec)) ? -1 : 1;
             }
@@ -682,7 +691,7 @@ Value ArrayProtoFuncImp::call(ExecState *exec, Object &thisObj, const List &args
   }
   case Splice: {
     // 15.4.4.12 - oh boy this is huge
-    Object resObj = Object::dynamicCast(exec->interpreter()->builtinArray().construct(exec,List::empty()));
+    Object resObj = Object::dynamicCast(exec->lexicalInterpreter()->builtinArray().construct(exec,List::empty()));
     result = resObj;
     int begin = args[0].toUInt32(exec);
     if ( begin < 0 )
@@ -785,11 +794,18 @@ bool ArrayObjectImp::implementsConstruct() const
 Object ArrayObjectImp::construct(ExecState *exec, const List &args)
 {
   // a single numeric argument denotes the array size (!)
-  if (args.size() == 1 && args[0].type() == NumberType)
-    return Object(new ArrayInstanceImp(exec->interpreter()->builtinArrayPrototype().imp(), args[0].toUInt32(exec)));
+  if (args.size() == 1 && args[0].type() == NumberType) {
+    uint32_t n = args[0].toUInt32(exec);
+    if (n != args[0].toNumber(exec)) {
+      Object error = Error::create(exec, RangeError, "Array size is not a small enough positive integer.");
+      exec->setException(error);
+      return error;
+    }
+    return Object(new ArrayInstanceImp(exec->lexicalInterpreter()->builtinArrayPrototype().imp(), n));
+  }
 
   // otherwise the array is constructed with the arguments in it
-  return Object(new ArrayInstanceImp(exec->interpreter()->builtinArrayPrototype().imp(), args));
+  return Object(new ArrayInstanceImp(exec->lexicalInterpreter()->builtinArrayPrototype().imp(), args));
 }
 
 bool ArrayObjectImp::implementsCall() const

@@ -21,5 +21,5 @@
  *
  */
 
-#include "../kjs/completion.h"
-#include "../kjs/list.h"
+#include "kjs/completion.h"
+#include "kjs/list.h"

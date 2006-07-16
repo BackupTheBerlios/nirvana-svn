@@ -22,16 +22,14 @@
 #include "kjs/collector.h"
 #include "kjs/value.h"
 #include "kjs/internal.h"
-#include "kjs/interpreter.h"
 
-#if APPLE_CHANGES
+#if APPLE_CHANGES && !KWQUBE
 #include <CoreFoundation/CoreFoundation.h>
-//#include <cxxabi.h>
+#include <cxxabi.h>
 #endif
 
-//#include <collector.h>
-//#include <value.h>
-//#include <internal.h>
+#include <assert.h>
+#include <stdlib.h>
 
 namespace KJS {
 
@@ -395,6 +393,9 @@ int Collector::numReferencedObjects()
 
 const void *Collector::rootObjectClasses()
 {
+#if KWQUBE
+  return NULL;
+#else    
   CFMutableSetRef classes = CFSetCreateMutable(NULL, 0, &kCFTypeSetCallBacks);
   
   for (int block = 0; block < heap.usedBlocks; block++) {
@@ -432,6 +433,7 @@ const void *Collector::rootObjectClasses()
   }
   
   return classes;
+#endif
 }
 
 #endif // APPLE_CHANGES

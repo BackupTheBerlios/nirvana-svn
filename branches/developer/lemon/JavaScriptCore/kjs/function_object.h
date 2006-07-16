@@ -22,9 +22,9 @@
 #ifndef _FUNCTION_OBJECT_H_
 #define _FUNCTION_OBJECT_H_
 
-#include "../kjs/internal.h"
-#include "../kjs/object_object.h"
-#include "../kjs/function.h"
+#include "kjs/internal.h"
+#include "kjs/object_object.h"
+#include "kjs/function.h"
 
 namespace KJS {
 

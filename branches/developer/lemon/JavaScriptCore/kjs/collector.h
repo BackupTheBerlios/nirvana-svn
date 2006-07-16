@@ -24,10 +24,9 @@
 #ifndef _KJSCOLLECTOR_H_
 #define _KJSCOLLECTOR_H_
 
-#include <sys/types.h>
-#include <assert.h>
-#define MAX(a,b) (a) > (b) ? (a) : (b)
+#include "kjs/value.h"
 
+#include "minimax.h"
 #define KJS_MEM_LIMIT 500000
 
 namespace KJS {

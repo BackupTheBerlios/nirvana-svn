@@ -25,9 +25,9 @@
 #ifndef _NODES_H_
 #define _NODES_H_
 
-#include "../kjs/internal.h"
+#include "kjs/internal.h"
 //#include "debugger.h"
-#ifndef NDEBUG
+#if !defined(NDEBUG) && !KWIQ
 #ifndef __osf__
 #include <list>
 #endif
@@ -102,6 +102,7 @@ namespace KJS {
     Value throwError(ExecState *exec, ErrorType e, const char *msg, Value v, Node *expr);
     Value throwError(ExecState *exec, ErrorType e, const char *msg, Identifier label);
     int line;
+    UString sourceURL;
     unsigned int refcount;
     virtual int sourceId() const { return -1; }
   private:

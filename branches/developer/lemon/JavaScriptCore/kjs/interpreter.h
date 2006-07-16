@@ -25,10 +25,10 @@
 #ifndef _KJS_INTERPRETER_H_
 #define _KJS_INTERPRETER_H_
 
-#include "../kjs/value.h"
-#include "../kjs/object.h"
-#include "../kjs/types.h"
-//#include "context.h"
+#include "kjs/value.h"
+#include "kjs/object.h"
+#include "kjs/types.h"
+#include "kjs/protect.h"
 
 namespace KJS {
 
@@ -198,7 +198,10 @@ namespace KJS {
      * execution. This should either be Null() or an Object.
      * @return A completion object representing the result of the execution.
      */
-    Completion evaluate(const UString &code, const Value &thisV = Value(), const UString &filename = UString());
+    Completion evaluate(const UString &sourceURL, int startingLineNumber, const UString &code, const Value &thisV = Value());
+
+	// Overload of evaluate to keep JavaScriptGlue both source and binary compatible.
+	Completion evaluate(const UString &code, const Value &thisV = Value(), const UString &sourceFilename = UString());
 
     /**
      * @internal
@@ -398,7 +401,18 @@ namespace KJS {
      *
      * @return The interpreter executing the script
      */
-    Interpreter *interpreter() const { return _interpreter; }
+    Interpreter *dynamicInterpreter() const { return _interpreter; }
+
+    // for compatibility
+    Interpreter *interpreter() const { return dynamicInterpreter(); }
+
+    /**
+     * Returns the interpreter associated with the current scope's
+     * global object
+     *
+     * @return The interpreter currently in scope
+     */
+    Interpreter *lexicalInterpreter() const;
 
     /**
      * Returns the execution context associated with this execution state
@@ -406,7 +420,6 @@ namespace KJS {
      * @return The current execution state context
      */
     Context context() const { return _context; }
-    ContextImp *context_imp() const { return _context; }
 
     void setException(const Value &e) { _exception = e; }
     void clearException() { _exception = Value(); }
@@ -418,7 +431,7 @@ namespace KJS {
         : _interpreter(interp), _context(con) { }
     Interpreter *_interpreter;
     ContextImp *_context;
-    Value _exception;
+    ProtectedValue _exception;
   };
 
 }; // namespace
