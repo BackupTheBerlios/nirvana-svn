@@ -23,7 +23,6 @@
 #define KJS_IDENTIFIER_H
 
 #include "kjs/ustring.h"
-#include "kjs/new"
 #include <OS.h>
 #include <malloc.h>
 

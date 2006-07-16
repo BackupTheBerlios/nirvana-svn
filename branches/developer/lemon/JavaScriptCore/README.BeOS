@@ -9,6 +9,7 @@ Changes has been made:
       BINDINGS must be cross platform.
     o added Sun headers for JavaVM
     o fixed some issues
+    o you could use either Jam or BeIDE
 
 TODO:
     o BDictionary: Clone, Iterator (GetKeys), GetElements

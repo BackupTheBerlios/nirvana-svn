@@ -39,6 +39,7 @@ StaticLibrary libKJS.a :
     string_object.cpp
     ustring.cpp
     value.cpp
+    testkjs.cpp
     pthread_once.cpp
     pthread_atfork.c
     pthread_mutex.c

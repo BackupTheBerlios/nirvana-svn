@@ -33,6 +33,7 @@
 #define KJS_IDENTIFIER_HIDE_GLOBALS 1
 #endif
 
+#include "kjs/new"
 #include "kjs/identifier.h"
 
 #define DUMP_STATISTICS 0

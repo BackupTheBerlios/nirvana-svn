@@ -23,10 +23,10 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "value.h"
-#include "object.h"
-#include "types.h"
-#include "interpreter.h"
+#include "kjs/value.h"
+#include "kjs/object.h"
+#include "kjs/types.h"
+#include "kjs/interpreter.h"
 
 using namespace KJS;
 
