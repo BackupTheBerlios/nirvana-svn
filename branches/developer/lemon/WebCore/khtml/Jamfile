@@ -10,7 +10,7 @@ StaticLibrary libKHTML.a :
     khtml_events.cpp
     khtml_part.cpp
     khtmlview.cpp
-;
+    ;
 
 SubInclude WEBCORE_TOP khtml css ;
 SubInclude WEBCORE_TOP khtml xml ;
@@ -19,5 +19,5 @@ SubInclude WEBCORE_TOP khtml dom ;
 SubInclude WEBCORE_TOP khtml ecma ;
 SubInclude WEBCORE_TOP khtml html ;
 SubInclude WEBCORE_TOP khtml misc ;
-#SubInclude WEBCORE_TOP khtml editing ;
 
+#SubInclude WEBCORE_TOP khtml editing ;

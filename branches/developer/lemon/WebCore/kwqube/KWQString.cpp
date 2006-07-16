@@ -41,8 +41,8 @@
 #include "KWQRegExp.h"
 #include "KWQTextCodec.h"
 
-#if KWIQ
-#include <glib.h>
+#if KWQUBE
+//#include <glib.h>
 #include "KWIQMacros.h"
 const char QChar::null = 0; 
 #endif
@@ -51,7 +51,7 @@ const char QChar::null = 0;
 
 // Why can't I find this in a header anywhere?  It's too bad we have
 // to wire knowledge of allocation sizes, but it makes a huge diffence.
-#if KWIQ
+#if KWQUBE
 #define malloc_good_size(size) size
 #else
 extern "C" {
@@ -235,7 +235,7 @@ void _printQStringAllocationStatistics()
 
 #endif // QSTRING_DEBUG_ALLOCATIONS
 
-#if !KWIQ
+#if !KWQUBE
 #import <mach/vm_map.h>
 #import <mach/mach_init.h>
 #endif
@@ -244,7 +244,7 @@ struct HandleNode;
 struct HandlePageNode;
 
 
-#if !KWIQ // KWIQ: commented out OS X spesific string helper functions
+#if !KWQUBE // KWIQ: commented out OS X spesific string helper functions
 static HandleNode *allocateNode(HandlePageNode *pageNode);
 static HandlePageNode *allocatePageNode()
 
@@ -260,7 +260,7 @@ static inline void initializeHandleNodes()
 
 static inline KWQStringData **allocateHandle()
 {
-#if KWIQ
+#if KWQUBE
     return static_cast<KWQStringData **>(malloc(sizeof(KWQStringData *)));
 
 #else    
@@ -322,6 +322,22 @@ static bool equal(const QChar *a, const char *b, int l)
 	a++; b++;
     }
     return true;
+}
+
+//////////////// simplified
+
+static inline bool compareIgnoringCaseForASCIIOnly(char c1, char c2)
+{
+    if (c2 >= 'a' && c2 <= 'z') { return c1 == c2 || c1 == c2 - caseDelta; }
+    if (c2 >= 'A' && c2 <= 'Z') { return c1 == c2 || c1 == c2 + caseDelta; }
+    return c1 == c2;
+}
+
+static inline bool compareIgnoringCaseForASCIIOnly(QChar c1, char c2)
+{
+    if (c2 >= 'a' && c2 <= 'z') { return c1 == c2 || c1.unicode() == c2 - caseDelta; }
+    if (c2 >= 'A' && c2 <= 'Z') { return c1 == c2 || c1.unicode() == c2 + caseDelta; }
+    return c1 == c2;
 }
 
 // Not a "true" case insensitive compare; only insensitive for plain ASCII.
@@ -2933,7 +2949,7 @@ QConstString::~QConstString()
     }
 }
 
-#if !KWIQ // KWIQ: commented out OS X spesific string helper functions
+#if !KWQUBE // KWIQ: commented out OS X spesific string helper functions
 const void *retainQString(CFAllocatorRef allocator, const void *value)
 {
     return new QString(*(QString *)value);
@@ -3109,7 +3125,7 @@ static HandleNode *allocateNode(HandlePageNode *pageNode)
 
 void freeHandle(KWQStringData **_free)
 {
-#if KWIQ // KWIQ: commented out memory management code
+#if KWQUBE // KWIQ: commented out memory management code
     free(_free);
     return;
 #else        

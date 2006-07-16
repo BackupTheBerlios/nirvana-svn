@@ -1,4 +1,3 @@
-
 SubDir WEBCORE_TOP khtml ecma ;
 
 LOCATE_TARGET = [ FDirName $(WEBCORE_TOP) objects ] ;

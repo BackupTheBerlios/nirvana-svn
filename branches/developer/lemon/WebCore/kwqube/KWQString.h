@@ -122,11 +122,14 @@ private:
     static int digitValueNonASCII(UniChar c);
     static UniChar lowerNonASCII(UniChar c);
     static UniChar upperNonASCII(UniChar c);
+    /*
 #if KWQUBE
 } Q_PACKED;
 #else
 };
 #endif
+*/
+};
 
 inline QChar::QChar() : c(0)
 {

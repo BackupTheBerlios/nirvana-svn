@@ -24,6 +24,8 @@
 #ifndef HTML_LAYOUT_H
 #define HTML_LAYOUT_H
 
+#define Q_PACKED
+
 /*
  * this namespace contains definitions for various types needed for
  * layouting.
@@ -115,12 +117,14 @@ namespace khtml
         int value;// : 28;
         LengthType type;// : 3;
         bool quirk;// : 1;
-
+/*
 #if !KWQUBE
     };
 #else
     } Q_PACKED;
 #endif
+*/
+    };
 
 };
 

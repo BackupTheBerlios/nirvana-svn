@@ -15,4 +15,4 @@ StaticLibrary libCSS.a :
     csshelper.cpp
     cssparser.cpp
     cssstyleselector.cpp
-;
+    ;

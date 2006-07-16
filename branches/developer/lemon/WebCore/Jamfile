@@ -1,4 +1,3 @@
-
 SubDir WEBCORE_TOP ;
 
 DEFINES = BEOS KWQUBE APPLE_CHANGES _KWQ_IOSTREAM_ ;
@@ -19,6 +18,10 @@ LinkAgainst libWebCore.so
     libECMA.a
     libHTML.a
     libMISC.a
+    libKWQ.a
     ;
 
+StdLibs libWebCore.so : be stdc++ JavaScriptCore ;
+
 SubInclude WEBCORE_TOP khtml ;
+SubInclude WEBCORE_TOP kwqube ;

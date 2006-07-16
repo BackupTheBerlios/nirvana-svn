@@ -27,7 +27,7 @@ rule SharedLibraryFromObjects {
 	LINKLIBS = ;
 	LinkAgainst $(_lib) : $(3) ;
 	LINKFLAGS on $(_lib) = [ on $(_lib) return $(LINKFLAGS) ]
-	    -nostart -Xlinker -soname=\"$(_lib)\" $(LINKLIBS) ;
+	    -nostart -L. -Xlinker -soname=\"$(_lib)\" $(LINKLIBS) ;
 	MainFromObjects $(_lib) : $(2) ;
 }
 
