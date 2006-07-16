@@ -1,4 +1,3 @@
-
 SubDir JSCORE_TOP ;
 
 DEFINES = BEOS APPLE_CHANGES KWQUBE HAVE_CONFIG_H ;
@@ -8,6 +7,6 @@ SharedLibrary libJavaScriptCore.so : dummy.cpp ;
 LinkAgainst libJavaScriptCore.so : libKJS.a  libPCRE.a ;
 StdLibs libJavaScriptCore.so : be stdc++ ;
 
-#SubInclude JSCORE_TOP bindings ;
 SubInclude JSCORE_TOP kjs ;
 SubInclude JSCORE_TOP pcre ;
+#SubInclude JSCORE_TOP bindings ;

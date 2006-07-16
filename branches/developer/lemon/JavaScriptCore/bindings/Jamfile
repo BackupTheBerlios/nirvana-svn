@@ -1,4 +1,3 @@
-
 SubDir JSCORE_TOP bindings ;
 
 LOCATE_TARGET = [ FDirName $(JSCORE_TOP) objects ] ;
