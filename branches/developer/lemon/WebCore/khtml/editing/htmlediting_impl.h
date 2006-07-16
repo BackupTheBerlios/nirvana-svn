@@ -26,14 +26,13 @@
 #ifndef __htmleditingimpl_h__
 #define __htmleditingimpl_h__
 
-#include "htmlediting.h"
-
-#include "dom_position.h"
-#include "dom_selection.h"
-#include "dom_string.h"
-#include "dom2_range.h"
+#include "editing/htmlediting.h"
+#include "xml/dom_position.h"
+#include "xml/dom_selection.h"
+#include "dom/dom_string.h"
+#include "dom/dom2_range.h"
 #include "qvaluelist.h"
-#include "shared.h"
+#include "misc/shared.h"
 
 namespace DOM {
     class AtomicString;

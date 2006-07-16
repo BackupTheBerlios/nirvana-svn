@@ -19,36 +19,38 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "khtmlview.h"
+#include <khtmlview.h>
 #include "xml/dom2_eventsimpl.h"
 #include "rendering/render_canvas.h"
 #include "xml/dom_nodeimpl.h"
 #include "xml/dom_docimpl.h"
 #include <kdebug.h>
-#include "khtml_part.h"
+#include <khtml_part.h>
 
-#include "kjs_dom.h"
-#include "kjs_html.h"
-#include "kjs_css.h"
-#include "kjs_range.h"
-#include "kjs_traversal.h"
-#include "kjs_events.h"
-#include "kjs_views.h"
-#include "kjs_window.h"
+#include "ecma/kjs_dom.h"
+#include "ecma/kjs_html.h"
+#include "ecma/kjs_css.h"
+#include "ecma/kjs_range.h"
+#include "ecma/kjs_traversal.h"
+#include "ecma/kjs_events.h"
+#include "ecma/kjs_views.h"
+#include "ecma/kjs_window.h"
 #include "dom/dom_exception.h"
-#include "kjs_dom.lut.h"
+#include "ecma/kjs_dom.lut.h"
 #include "khtmlpart_p.h"
 
 #include "html/html_objectimpl.h"
 
-#if APPLE_CHANGES
-#include "JavaVM/jni.h"
-#include "../../../JavaScriptCore/bindings/runtime_object.h"
+#include "misc/htmltags.h"
+
+#if APPLE_CHANGES && !KWQUBE
+#include "bindings/runtime_object.h"
 #endif
 
 using namespace KJS;
 
 using DOM::DOMException;
+using DOM::NodeFilter;
 
 // -------------------------------------------------------------------------
 /* Source for DOMNodeProtoTable. Use "make hashtables" to regenerate.
@@ -94,7 +96,7 @@ bool DOMNode::toBoolean(ExecState *) const
 }
 
 /* Source for DOMNodeTable. Use "make hashtables" to regenerate.
-@begin DOMNodeTable 55
+@begin DOMNodeTable 67
   nodeName	DOMNode::NodeName	DontDelete|ReadOnly
   nodeValue	DOMNode::NodeValue	DontDelete
   nodeType	DOMNode::NodeType	DontDelete|ReadOnly
@@ -118,9 +120,23 @@ bool DOMNode::toBoolean(ExecState *) const
   onclick	DOMNode::OnClick		DontDelete
   oncontextmenu	DOMNode::OnContextMenu		DontDelete
   ondblclick	DOMNode::OnDblClick		DontDelete
+  onbeforecut	DOMNode::OnBeforeCut		DontDelete
+  oncut         DOMNode::OnCut                  DontDelete
+  onbeforecopy	DOMNode::OnBeforeCopy		DontDelete
+  oncopy	DOMNode::OnCopy                 DontDelete
+  onbeforepaste	DOMNode::OnBeforePaste		DontDelete
+  onpaste	DOMNode::OnPaste		DontDelete
+  ondrag	DOMNode::OnDrag			DontDelete
   ondragdrop	DOMNode::OnDragDrop		DontDelete
+  ondragend	DOMNode::OnDragEnd		DontDelete
+  ondragenter	DOMNode::OnDragEnter		DontDelete
+  ondragleave	DOMNode::OnDragLeave		DontDelete
+  ondragover	DOMNode::OnDragOver		DontDelete
+  ondragstart	DOMNode::OnDragStart		DontDelete
+  ondrop	DOMNode::OnDrop                 DontDelete
   onerror	DOMNode::OnError		DontDelete
   onfocus	DOMNode::OnFocus       		DontDelete
+  oninput       DOMNode::OnInput                DontDelete
   onkeydown	DOMNode::OnKeyDown		DontDelete
   onkeypress	DOMNode::OnKeyPress		DontDelete
   onkeyup	DOMNode::OnKeyUp		DontDelete
@@ -133,7 +149,10 @@ bool DOMNode::toBoolean(ExecState *) const
   onmove	DOMNode::OnMove			DontDelete
   onreset	DOMNode::OnReset		DontDelete
   onresize	DOMNode::OnResize		DontDelete
+  onscroll      DOMNode::OnScroll               DontDelete
+  onsearch      DOMNode::OnSearch               DontDelete
   onselect	DOMNode::OnSelect		DontDelete
+  onselectstart	DOMNode::OnSelectStart		DontDelete
   onsubmit	DOMNode::OnSubmit		DontDelete
   onunload	DOMNode::OnUnload		DontDelete
 # IE extensions
@@ -209,6 +228,8 @@ Value DOMNode::getValueProperty(ExecState *exec, int token) const
     return getListener(DOM::EventImpl::KHTML_ERROR_EVENT);
   case OnFocus:
     return getListener(DOM::EventImpl::FOCUS_EVENT);
+  case OnInput:
+    return getListener(DOM::EventImpl::INPUT_EVENT);
   case OnKeyDown:
     return getListener(DOM::EventImpl::KEYDOWN_EVENT);
   case OnKeyPress:
@@ -226,15 +247,49 @@ Value DOMNode::getValueProperty(ExecState *exec, int token) const
   case OnMouseOver:
     return getListener(DOM::EventImpl::MOUSEOVER_EVENT);
   case OnMouseUp:
-    return getListener(DOM::EventImpl::MOUSEUP_EVENT);
+    return getListener(DOM::EventImpl::MOUSEUP_EVENT);      
+  case OnBeforeCut:
+    return getListener(DOM::EventImpl::BEFORECUT_EVENT);
+  case OnCut:
+    return getListener(DOM::EventImpl::CUT_EVENT);
+  case OnBeforeCopy:
+    return getListener(DOM::EventImpl::BEFORECOPY_EVENT);
+  case OnCopy:
+    return getListener(DOM::EventImpl::COPY_EVENT);
+  case OnBeforePaste:
+    return getListener(DOM::EventImpl::BEFOREPASTE_EVENT);
+  case OnPaste:
+    return getListener(DOM::EventImpl::PASTE_EVENT);
+  case OnDragEnter:
+    return getListener(DOM::EventImpl::DRAGENTER_EVENT);
+  case OnDragOver:
+    return getListener(DOM::EventImpl::DRAGOVER_EVENT);
+  case OnDragLeave:
+    return getListener(DOM::EventImpl::DRAGLEAVE_EVENT);
+  case OnDrop:
+    return getListener(DOM::EventImpl::DROP_EVENT);
+  case OnDragStart:
+    return getListener(DOM::EventImpl::DRAGSTART_EVENT);
+  case OnDrag:
+    return getListener(DOM::EventImpl::DRAG_EVENT);
+  case OnDragEnd:
+    return getListener(DOM::EventImpl::DRAGEND_EVENT);
   case OnMove:
     return getListener(DOM::EventImpl::KHTML_MOVE_EVENT);
   case OnReset:
     return getListener(DOM::EventImpl::RESET_EVENT);
   case OnResize:
     return getListener(DOM::EventImpl::RESIZE_EVENT);
+  case OnScroll:
+    return getListener(DOM::EventImpl::SCROLL_EVENT);
+#if APPLE_CHANGES
+  case OnSearch:
+    return getListener(DOM::EventImpl::SEARCH_EVENT);
+#endif
   case OnSelect:
     return getListener(DOM::EventImpl::SELECT_EVENT);
+  case OnSelectStart:
+    return getListener(DOM::EventImpl::SELECTSTART_EVENT);
   case OnSubmit:
     return getListener(DOM::EventImpl::SUBMIT_EVENT);
   case OnUnload:
@@ -329,6 +384,9 @@ void DOMNode::putValue(ExecState *exec, int token, const Value& value, int /*att
   case OnFocus:
     setListener(exec,DOM::EventImpl::FOCUS_EVENT,value);
     break;
+  case OnInput:
+    setListener(exec,DOM::EventImpl::INPUT_EVENT,value);
+    break;
   case OnKeyDown:
     setListener(exec,DOM::EventImpl::KEYDOWN_EVENT,value);
     break;
@@ -356,6 +414,45 @@ void DOMNode::putValue(ExecState *exec, int token, const Value& value, int /*att
   case OnMouseUp:
     setListener(exec,DOM::EventImpl::MOUSEUP_EVENT,value);
     break;
+  case OnBeforeCut:
+    setListener(exec,DOM::EventImpl::BEFORECUT_EVENT,value);
+    break;
+  case OnCut:
+    setListener(exec,DOM::EventImpl::CUT_EVENT,value);
+    break;
+  case OnBeforeCopy:
+    setListener(exec,DOM::EventImpl::BEFORECOPY_EVENT,value);
+    break;
+  case OnCopy:
+    setListener(exec,DOM::EventImpl::COPY_EVENT,value);
+    break;
+  case OnBeforePaste:
+    setListener(exec,DOM::EventImpl::BEFOREPASTE_EVENT,value);
+    break;
+  case OnPaste:
+    setListener(exec,DOM::EventImpl::PASTE_EVENT,value);
+    break;
+  case OnDragEnter:
+    setListener(exec,DOM::EventImpl::DRAGENTER_EVENT,value);
+    break;
+  case OnDragOver:
+    setListener(exec,DOM::EventImpl::DRAGOVER_EVENT,value);
+    break;
+  case OnDragLeave:
+    setListener(exec,DOM::EventImpl::DRAGLEAVE_EVENT,value);
+    break;
+  case OnDrop:
+    setListener(exec,DOM::EventImpl::DROP_EVENT,value);
+    break;
+  case OnDragStart:
+    setListener(exec,DOM::EventImpl::DRAGSTART_EVENT,value);
+    break;
+  case OnDrag:
+    setListener(exec,DOM::EventImpl::DRAG_EVENT,value);
+    break;
+  case OnDragEnd:
+    setListener(exec,DOM::EventImpl::DRAGEND_EVENT,value);
+    break;
   case OnMove:
     setListener(exec,DOM::EventImpl::KHTML_MOVE_EVENT,value);
     break;
@@ -365,8 +462,18 @@ void DOMNode::putValue(ExecState *exec, int token, const Value& value, int /*att
   case OnResize:
     setListener(exec,DOM::EventImpl::RESIZE_EVENT,value);
     break;
+  case OnScroll:
+    setListener(exec,DOM::EventImpl::SCROLL_EVENT,value);
+#if APPLE_CHANGES
+  case OnSearch:
+    setListener(exec,DOM::EventImpl::SEARCH_EVENT,value);
+    break;
+#endif
   case OnSelect:
     setListener(exec,DOM::EventImpl::SELECT_EVENT,value);
+    break;
+  case OnSelectStart:
+    setListener(exec,DOM::EventImpl::SELECTSTART_EVENT,value);
     break;
   case OnSubmit:
     setListener(exec,DOM::EventImpl::SUBMIT_EVENT,value);
@@ -376,13 +483,13 @@ void DOMNode::putValue(ExecState *exec, int token, const Value& value, int /*att
     break;
   case ScrollTop: {
     khtml::RenderObject *rend = node.handle() ? node.handle()->renderer() : 0L;
-    if (rend && rend->layer() && rend->style()->hidesOverflow())
+    if (rend && rend->hasOverflowClip())
         rend->layer()->scrollToYOffset(value.toInt32(exec));
     break;
   }
   case ScrollLeft: {
     khtml::RenderObject *rend = node.handle() ? node.handle()->renderer() : 0L;
-    if (rend && rend->layer() && rend->style()->hidesOverflow())
+    if (rend && rend->hasOverflowClip())
       rend->layer()->scrollToXOffset(value.toInt32(exec));
     break;
   }
@@ -568,6 +675,14 @@ Value DOMNodeList::call(ExecState *exec, Object &thisObj, const List &args)
 {
   // This code duplication is necessary, DOMNodeList isn't a DOMFunction
   Value val;
+#ifdef KHTML_NO_EXCEPTIONS
+  DOM::_exceptioncode = 0;
+  val = tryCall(exec, thisObj, args);
+  if (DOM::_exceptioncode) {
+    Object err = Error::create(exec, GeneralError, "Exception from DOMNodeList");
+    exec->setException(err);
+  }  
+#else  
   try {
     val = tryCall(exec, thisObj, args);
   }
@@ -576,6 +691,7 @@ Value DOMNodeList::call(ExecState *exec, Object &thisObj, const List &args)
     Object err = Error::create(exec, GeneralError, "Exception from DOMNodeList");
     exec->setException(err);
   }
+#endif
   return val;
 }
 
@@ -674,7 +790,7 @@ void DOMAttr::putValue(ExecState *exec, int token, const Value& value, int /*att
 // -------------------------------------------------------------------------
 
 /* Source for DOMDocumentProtoTable. Use "make hashtables" to regenerate.
-@begin DOMDocumentProtoTable 23
+@begin DOMDocumentProtoTable 29
   createElement   DOMDocument::CreateElement                   DontDelete|Function 1
   createDocumentFragment DOMDocument::CreateDocumentFragment   DontDelete|Function 1
   createTextNode  DOMDocument::CreateTextNode                  DontDelete|Function 1
@@ -692,9 +808,14 @@ void DOMAttr::putValue(ExecState *exec, int token, const Value& value, int /*att
   createRange        DOMDocument::CreateRange                  DontDelete|Function 0
   createNodeIterator DOMDocument::CreateNodeIterator           DontDelete|Function 3
   createTreeWalker   DOMDocument::CreateTreeWalker             DontDelete|Function 4
-  defaultView        DOMDocument::DefaultView                  DontDelete|Function 0
   createEvent        DOMDocument::CreateEvent                  DontDelete|Function 1
   getOverrideStyle   DOMDocument::GetOverrideStyle             DontDelete|Function 2
+  execCommand        DOMDocument::ExecCommand                  DontDelete|Function 3
+  queryCommandEnabled DOMDocument::QueryCommandEnabled         DontDelete|Function 1
+  queryCommandIndeterm DOMDocument::QueryCommandIndeterm       DontDelete|Function 1
+  queryCommandState DOMDocument::QueryCommandState             DontDelete|Function 1
+  queryCommandSupported DOMDocument::QueryCommandSupported     DontDelete|Function 1
+  queryCommandValue DOMDocument::QueryCommandValue             DontDelete|Function 1
 @end
 */
 DEFINE_PROTOTYPE("DOMDocument", DOMDocumentProto)
@@ -712,6 +833,7 @@ const ClassInfo DOMDocument::info = { "Document", &DOMNode::info, &DOMDocumentTa
   preferredStylesheetSet  DOMDocument::PreferredStylesheetSet  DontDelete|ReadOnly
   selectedStylesheetSet  DOMDocument::SelectedStylesheetSet    DontDelete
   readyState      DOMDocument::ReadyState                      DontDelete|ReadOnly
+  defaultView        DOMDocument::DefaultView                  DontDelete|ReadOnly
 @end
 */
 
@@ -769,6 +891,8 @@ Value DOMDocument::getValueProperty(ExecState *exec, int token) const
     }
     return Undefined();
     }
+  case DOMDocument::DefaultView: // DOM2
+    return getDOMAbstractView(exec,doc.defaultView());
   default:
     kdWarning() << "DOMDocument::getValueProperty unhandled token " << token << endl;
     return Value();
@@ -839,29 +963,24 @@ Value DOMDocumentProtoFunc::tryCall(ExecState *exec, Object &thisObj, const List
     return getDOMNode(exec,doc.getElementById(args[0].toString(exec).string()));
   case DOMDocument::CreateRange:
     return getDOMRange(exec,doc.createRange());
-  case DOMDocument::CreateNodeIterator:
-    if (args[2].isA(NullType)) {
-        DOM::NodeFilter filter;
-        return getDOMNodeIterator(exec,
-                                  doc.createNodeIterator(toNode(args[0]),
-                                                         (long unsigned int)(args[1].toNumber(exec)),
-                                                         filter,args[3].toBoolean(exec)));
+  case DOMDocument::CreateNodeIterator: {
+    NodeFilter filter;
+    if (!args[2].isA(NullType)) {
+        Object obj = Object::dynamicCast(args[2]);
+        if (!obj.isNull())
+            filter = NodeFilter(new JSNodeFilterCondition(obj));
     }
-    else {
-      Object obj = Object::dynamicCast(args[2]);
-      if (!obj.isNull())
-      {
-        DOM::CustomNodeFilter *customFilter = new JSNodeFilter(obj);
-        DOM::NodeFilter filter = DOM::NodeFilter::createCustom(customFilter);
-        return getDOMNodeIterator(exec,
-          doc.createNodeIterator(
-            toNode(args[0]),(long unsigned int)(args[1].toNumber(exec)),
-            filter,args[3].toBoolean(exec)));
-      }// else?
+    return getDOMNodeIterator(exec, doc.createNodeIterator(toNode(args[0]), (long unsigned int)(args[1].toNumber(exec)), filter, args[3].toBoolean(exec)));
+  }
+  case DOMDocument::CreateTreeWalker: {
+    NodeFilter filter;
+    if (!args[2].isA(NullType)) {
+        Object obj = Object::dynamicCast(args[2]);
+        if (!obj.isNull())
+            filter = NodeFilter(new JSNodeFilterCondition(obj));
     }
-  case DOMDocument::CreateTreeWalker:
-    return getDOMTreeWalker(exec,doc.createTreeWalker(toNode(args[0]),(long unsigned int)(args[1].toNumber(exec)),
-             toNodeFilter(args[2]),args[3].toBoolean(exec)));
+    return getDOMTreeWalker(exec, doc.createTreeWalker(toNode(args[0]), (long unsigned int)(args[1].toNumber(exec)), filter, args[3].toBoolean(exec)));
+  }
   case DOMDocument::CreateEvent:
     return getDOMEvent(exec,doc.createEvent(s));
   case DOMDocument::GetOverrideStyle: {
@@ -871,8 +990,31 @@ Value DOMDocumentProtoFunc::tryCall(ExecState *exec, Object &thisObj, const List
     else
       return getDOMCSSStyleDeclaration(exec,doc.getOverrideStyle(static_cast<DOM::Element>(arg0),args[1].toString(exec).string()));
   }
-  case DOMDocument::DefaultView: // DOM2
-    return getDOMAbstractView(exec,doc.defaultView());
+  case DOMDocument::ExecCommand: {
+    return Boolean(doc.execCommand(args[0].toString(exec).string(), args[1].toBoolean(exec), args[2].toString(exec).string()));
+  }
+  case DOMDocument::QueryCommandEnabled: {
+    return Boolean(doc.queryCommandEnabled(args[0].toString(exec).string()));
+  }
+  case DOMDocument::QueryCommandIndeterm: {
+    return Boolean(doc.queryCommandIndeterm(args[0].toString(exec).string()));
+  }
+  case DOMDocument::QueryCommandState: {
+    return Boolean(doc.queryCommandState(args[0].toString(exec).string()));
+  }
+  case DOMDocument::QueryCommandSupported: {
+    return Boolean(doc.queryCommandSupported(args[0].toString(exec).string()));
+  }
+  case DOMDocument::QueryCommandValue: {
+    DOM::DOMString commandValue(doc.queryCommandValue(args[0].toString(exec).string()));
+    // Method returns null DOMString to signal command is unsupported.
+    // Micorsoft documentation for this method says:
+    // "If not supported [for a command identifier], this method returns a Boolean set to false."
+    if (commandValue.isNull())
+        return Boolean(false);
+    else 
+        return String(commandValue);
+  }
   default:
     break;
   }
@@ -905,20 +1047,20 @@ DEFINE_PROTOTYPE("DOMElement",DOMElementProto)
 IMPLEMENT_PROTOFUNC(DOMElementProtoFunc)
 IMPLEMENT_PROTOTYPE_WITH_PARENT(DOMElementProto,DOMElementProtoFunc,DOMNodeProto)
 
-const ClassInfo DOMElement::info = { "Element", &DOMNode::info, &DOMElementTable, 0 };
+const ClassInfo KJS::DOMElement::info = { "Element", &DOMNode::info, &DOMElementTable, 0 };
 /* Source for DOMElementTable. Use "make hashtables" to regenerate.
 @begin DOMElementTable 3
   tagName	DOMElement::TagName                         DontDelete|ReadOnly
   style		DOMElement::Style                           DontDelete|ReadOnly
 @end
 */
-DOMElement::DOMElement(ExecState *exec, const DOM::Element &e)
+KJS::DOMElement::DOMElement(ExecState *exec, const DOM::Element &e)
   : DOMNode(DOMElementProto::self(exec), e) { }
 
-DOMElement::DOMElement(const Object &proto, const DOM::Element &e)
+KJS::DOMElement::DOMElement(const Object &proto, const DOM::Element &e)
   : DOMNode(proto, e) { }
 
-Value DOMElement::tryGet(ExecState *exec, const Identifier &propertyName) const
+Value KJS::DOMElement::tryGet(ExecState *exec, const Identifier &propertyName) const
 {
 #ifdef KJS_VERBOSE
   kdDebug(6070) << "DOMElement::tryGet " << propertyName.qstring() << endl;
@@ -1288,7 +1430,7 @@ Value DOMEntity::getValueProperty(ExecState *, int token) const
 Value KJS::getDOMDocumentNode(ExecState *exec, const DOM::Document &n)
 {
   DOMDocument *ret = 0;
-  ScriptInterpreter* interp = static_cast<ScriptInterpreter *>(exec->interpreter());
+  ScriptInterpreter* interp = static_cast<ScriptInterpreter *>(exec->dynamicInterpreter());
 
   if ((ret = static_cast<DOMDocument *>(interp->getDOMObject(n.handle()))))
     return Value(ret);
@@ -1331,7 +1473,7 @@ Value KJS::getDOMNode(ExecState *exec, const DOM::Node &n)
   DOMObject *ret = 0;
   if (n.isNull())
     return Null();
-  ScriptInterpreter* interp = static_cast<ScriptInterpreter *>(exec->interpreter());
+  ScriptInterpreter* interp = static_cast<ScriptInterpreter *>(exec->dynamicInterpreter());
   DOM::NodeImpl *doc = n.ownerDocument().handle();
 
   if ((ret = interp->getDOMObjectForDocument(static_cast<DOM::DocumentImpl *>(doc), n.handle())))
@@ -1391,14 +1533,29 @@ Value KJS::getDOMNamedNodeMap(ExecState *exec, const DOM::NamedNodeMap &m)
 
 Value KJS::getRuntimeObject(ExecState *exec, const DOM::Node &node)
 {
+#if !KWIQ_NO_JAVA
     DOM::HTMLElement element = static_cast<DOM::HTMLElement>(node);
-    DOM::HTMLAppletElementImpl *appletElement = static_cast<DOM::HTMLAppletElementImpl *>(element.handle());
-    
-    if (appletElement->getAppletInstance()) {
-        // The instance is owned by the applet element.
-        RuntimeObjectImp *appletImp = new RuntimeObjectImp(appletElement->getAppletInstance(), false);
-        return Value(appletImp);
+
+    if (!node.isNull()) {
+        if (node.handle()->id() == ID_APPLET) {
+            DOM::HTMLAppletElementImpl *appletElement = static_cast<DOM::HTMLAppletElementImpl *>(element.handle());
+            
+            if (appletElement->getAppletInstance()) {
+                // The instance is owned by the applet element.
+                RuntimeObjectImp *appletImp = new RuntimeObjectImp(appletElement->getAppletInstance(), false);
+                return Value(appletImp);
+            }
+        }
+        else if (node.handle()->id() == ID_EMBED) {
+            DOM::HTMLEmbedElementImpl *embedElement = static_cast<DOM::HTMLEmbedElementImpl *>(element.handle());
+            
+            if (embedElement->getEmbedInstance()) {
+                RuntimeObjectImp *runtimeImp = new RuntimeObjectImp(embedElement->getEmbedInstance(), false);
+                return Value(runtimeImp);
+            }
+        }
     }
+#endif    
     return Undefined();
 }
 
@@ -1669,29 +1826,41 @@ Value DOMCharacterDataProtoFunc::tryCall(ExecState *exec, Object &thisObj, const
   DOM::CharacterData data = static_cast<DOMCharacterData *>(thisObj.imp())->toData();
   switch(id) {
     case DOMCharacterData::SubstringData: {
-      const int count = args[1].toInteger(exec);
+      const int count = args[1].toInt32(exec);
       if (count < 0)
+#if KHTML_NO_EXCEPTIONS 
+	return Value(); //FIXME:KWIQ: on failure returns Value(), where as other throws..
+#else      
         throw DOMException(DOMException::INDEX_SIZE_ERR);
-      return getStringOrNull(data.substringData(args[0].toInteger(exec), count));
+#endif	
+      return getStringOrNull(data.substringData(args[0].toInt32(exec), count));
     }
     case DOMCharacterData::AppendData:
       data.appendData(args[0].toString(exec).string());
       return Undefined();
     case DOMCharacterData::InsertData:
-      data.insertData(args[0].toInteger(exec), args[1].toString(exec).string());
+      data.insertData(args[0].toInt32(exec), args[1].toString(exec).string());
       return Undefined();
     case DOMCharacterData::DeleteData: {
-      const int count = args[1].toInteger(exec);
+      const int count = args[1].toInt32(exec);
       if (count < 0)
+#if KHTML_NO_EXCEPTIONS
+	return Value(); //FIXME:KWIQ: on failure returns Value(), where as other throws..
+#else       
         throw DOMException(DOMException::INDEX_SIZE_ERR);
-      data.deleteData(args[0].toInteger(exec), count);
+#endif	
+      data.deleteData(args[0].toInt32(exec), count);
       return Undefined();
     }
     case DOMCharacterData::ReplaceData: {
-      const int count = args[1].toInteger(exec);
+      const int count = args[1].toInt32(exec);
       if (count < 0)
+#if KHTML_NO_EXCEPTIONS
+	return Value(); //FIXME:KWIQ: on failure returns Value(), where as other throws..
+#else      
         throw DOMException(DOMException::INDEX_SIZE_ERR);
-      data.replaceData(args[0].toInteger(exec), count, args[2].toString(exec).string());
+#endif	
+      data.replaceData(args[0].toInt32(exec), count, args[2].toString(exec).string());
       return Undefined();
     }
     default:
@@ -1733,7 +1902,7 @@ Value DOMTextProtoFunc::tryCall(ExecState *exec, Object &thisObj, const List &ar
   DOM::Text text = static_cast<DOMText *>(thisObj.imp())->toText();
   switch(id) {
     case DOMText::SplitText:
-      return getDOMNode(exec,text.splitText(args[0].toInteger(exec)));
+      return getDOMNode(exec,text.splitText(args[0].toInt32(exec)));
       break;
     default:
       return Undefined();

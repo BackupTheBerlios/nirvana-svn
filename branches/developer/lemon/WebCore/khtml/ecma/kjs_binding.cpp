@@ -2,7 +2,7 @@
 /*
  *  This file is part of the KDE libraries
  *  Copyright (C) 1999-2001 Harri Porten (porten@kde.org)
- *  Copyright (C) 2003 Apple Computer, Inc.
+ *  Copyright (C) 2004 Apple Computer, Inc.
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -19,15 +19,17 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "kjs_binding.h"
-#include "kjs_dom.h"
-#include <kjs/internal.h> // for InterpreterImp
+#include "ecma/kjs_binding.h"
+#include "ecma/kjs_dom.h"
+#include "kjs/internal.h" // for InterpreterImp
 
 #include "dom/dom_exception.h"
 #include "dom/dom2_range.h"
 #include "xml/dom2_eventsimpl.h"
 
 #include <kdebug.h>
+
+using DOM::DOMString;
 
 using namespace KJS;
 
@@ -42,6 +44,19 @@ using namespace KJS;
 Value DOMObject::get(ExecState *exec, const Identifier &p) const
 {
   Value result;
+#ifdef KHTML_NO_EXCEPTIONS
+  DOM::_exceptioncode = 0;
+  result = tryGet(exec,p);
+
+  if (DOM::_exceptioncode) {
+    // ### translate code into readable string ?
+    // ### oh, and s/QString/i18n or I18N_NOOP (the code in kjs uses I18N_NOOP... but where is it translated ?)
+    //     and where does it appear to the user ?
+    Object err = Error::create(exec, GeneralError, QString("Exception %1").arg(DOM::_exceptioncode).local8Bit());
+    exec->setException( err );
+    result = Undefined();
+  }
+#else  
   try {
     result = tryGet(exec,p);
   }
@@ -58,13 +73,22 @@ Value DOMObject::get(ExecState *exec, const Identifier &p) const
     kdError(6070) << "Unknown exception in DOMObject::get()" << endl;
     result = String("Unknown exception");
   }
-
+#endif
   return result;
 }
 
 void DOMObject::put(ExecState *exec, const Identifier &propertyName,
                     const Value &value, int attr)
 {
+#ifdef KHTML_NO_EXCEPTIONS
+  DOM::_exceptioncode = 0;
+  tryPut(exec, propertyName, value, attr);
+  
+  if (DOM::_exceptioncode) {
+    Object err = Error::create(exec, GeneralError, QString("DOM exception %1").arg(DOM::_exceptioncode).local8Bit());
+    exec->setException(err);
+  }
+#else
   try {
     tryPut(exec, propertyName, value, attr);
   }
@@ -76,6 +100,7 @@ void DOMObject::put(ExecState *exec, const Identifier &propertyName,
   catch (...) {
     kdError(6070) << "Unknown exception in DOMObject::put()" << endl;
   }
+#endif
 }
 
 UString DOMObject::toString(ExecState *) const
@@ -86,6 +111,17 @@ UString DOMObject::toString(ExecState *) const
 Value DOMFunction::get(ExecState *exec, const Identifier &propertyName) const
 {
   Value result;
+#ifdef KHTML_NO_EXCEPTIONS
+  DOM::_exceptioncode = 0;
+  
+  result = tryGet(exec, propertyName);
+  
+  if (DOM::_exceptioncode) {
+    result = Undefined();
+    Object err = Error::create(exec, GeneralError, QString("DOM exception %1").arg(DOM::_exceptioncode).local8Bit());
+    exec->setException(err);
+  }
+#else  
   try {
     result = tryGet(exec, propertyName);
   }
@@ -99,13 +135,25 @@ Value DOMFunction::get(ExecState *exec, const Identifier &propertyName) const
     kdError(6070) << "Unknown exception in DOMFunction::get()" << endl;
     result = String("Unknown exception");
   }
-
+#endif
   return result;
 }
 
 Value DOMFunction::call(ExecState *exec, Object &thisObj, const List &args)
 {
   Value val;
+#ifdef KHTML_NO_EXCEPTIONS
+  DOM::_exceptioncode = 0;
+  val = tryCall(exec, thisObj, args);
+
+  // pity there's no way to distinguish between these in JS code
+  if (DOM::_exceptioncode)
+  {
+    Object err = Error::create(exec, GeneralError, QString("DOM Exception %1").arg(DOM::_exceptioncode).local8Bit());
+    err.put(exec, "code", Number(DOM::_exceptioncode));
+    exec->setException(err);
+  }
+#else  
   try {
     val = tryCall(exec, thisObj, args);
   }
@@ -135,17 +183,38 @@ Value DOMFunction::call(ExecState *exec, Object &thisObj, const List &args)
     Object err = Error::create(exec, GeneralError, "Unknown exception");
     exec->setException(err);
   }
+#endif
   return val;
 }
 
+static QPtrDict<DOMObject> * staticDomObjects = 0;
+QPtrDict< QPtrDict<DOMObject> > * staticDomObjectsPerDocument = 0;
+
+QPtrDict<DOMObject> & ScriptInterpreter::domObjects()
+{
+  if (!staticDomObjects) {
+    staticDomObjects = new QPtrDict<DOMObject>(1021);
+  }
+  return *staticDomObjects;
+}
+
+QPtrDict< QPtrDict<DOMObject> > & ScriptInterpreter::domObjectsPerDocument()
+{
+  if (!staticDomObjectsPerDocument) {
+    staticDomObjectsPerDocument = new QPtrDict<QPtrDict<DOMObject> >();
+    staticDomObjectsPerDocument->setAutoDelete(true);
+  }
+  return *staticDomObjectsPerDocument;
+}
+
+
 ScriptInterpreter::ScriptInterpreter( const Object &global, KHTMLPart* part )
-  : Interpreter( global ), m_part( part ), m_domObjects(1021),
+  : Interpreter( global ), m_part( part ),
     m_evt( 0L ), m_inlineCode(false), m_timerCallback(false)
 {
 #ifdef KJS_VERBOSE
   kdDebug(6070) << "ScriptInterpreter::ScriptInterpreter " << this << " for part=" << m_part << endl;
 #endif
-  m_domObjectsPerDocument.setAutoDelete(true);
 }
 
 ScriptInterpreter::~ScriptInterpreter()
@@ -157,20 +226,12 @@ ScriptInterpreter::~ScriptInterpreter()
 
 void ScriptInterpreter::forgetDOMObject( void* objectHandle )
 {
-  InterpreterImp *first = InterpreterImp::firstInterpreter();
-  if (first) {
-    InterpreterImp *scr = first;
-    do {
-      if ( scr->interpreter()->rtti() == 1 )
-        static_cast<ScriptInterpreter *>(scr->interpreter())->deleteDOMObject( objectHandle );
-      scr = scr->nextInterpreter();
-    } while (scr != first);
-  }
+  deleteDOMObject( objectHandle );
 }
 
-DOMObject* ScriptInterpreter::getDOMObjectForDocument( DOM::DocumentImpl* documentHandle, void *objectHandle ) const
+DOMObject* ScriptInterpreter::getDOMObjectForDocument( DOM::DocumentImpl* documentHandle, void *objectHandle )
 {
-  QPtrDict<DOMObject> *documentDict = (QPtrDict<DOMObject> *)m_domObjectsPerDocument[documentHandle];
+  QPtrDict<DOMObject> *documentDict = (QPtrDict<DOMObject> *)domObjectsPerDocument()[documentHandle];
   if (documentDict) {
     return (*documentDict)[objectHandle];
   }
@@ -180,10 +241,10 @@ DOMObject* ScriptInterpreter::getDOMObjectForDocument( DOM::DocumentImpl* docume
 
 void ScriptInterpreter::putDOMObjectForDocument( DOM::DocumentImpl* documentHandle, void *objectHandle, DOMObject *obj )
 {
-  QPtrDict<DOMObject> *documentDict = (QPtrDict<DOMObject> *)m_domObjectsPerDocument[documentHandle];
+  QPtrDict<DOMObject> *documentDict = (QPtrDict<DOMObject> *)domObjectsPerDocument()[documentHandle];
   if (!documentDict) {
     documentDict = new QPtrDict<DOMObject>();
-    m_domObjectsPerDocument.insert(documentHandle, documentDict);
+    domObjectsPerDocument().insert(documentHandle, documentDict);
   }
 
   documentDict->insert( objectHandle, obj );
@@ -191,12 +252,12 @@ void ScriptInterpreter::putDOMObjectForDocument( DOM::DocumentImpl* documentHand
 
 bool ScriptInterpreter::deleteDOMObjectsForDocument( DOM::DocumentImpl* documentHandle )
 {
-  return m_domObjectsPerDocument.remove( documentHandle );
+  return domObjectsPerDocument().remove( documentHandle );
 }
 
 void ScriptInterpreter::mark()
 {
-  QPtrDictIterator<QPtrDict<DOMObject> > dictIterator(m_domObjectsPerDocument);
+  QPtrDictIterator<QPtrDict<DOMObject> > dictIterator(domObjectsPerDocument());
 
   QPtrDict<DOMObject> *objectDict;
   while ((objectDict = dictIterator.current())) {
@@ -215,34 +276,14 @@ void ScriptInterpreter::mark()
 
 void ScriptInterpreter::forgetDOMObjectsForDocument( DOM::DocumentImpl* documentHandle )
 {
-  InterpreterImp *first = InterpreterImp::firstInterpreter();
-  if (first) {
-    InterpreterImp *scr = first;
-    do {
-      if ( scr->interpreter()->rtti() == 1 )
-        static_cast<ScriptInterpreter *>(scr->interpreter())->deleteDOMObjectsForDocument( documentHandle );
-      scr = scr->nextInterpreter();
-    } while (scr != first);
-  }
+  deleteDOMObjectsForDocument( documentHandle );
 }
 
 void ScriptInterpreter::updateDOMObjectDocument(void *objectHandle, DOM::DocumentImpl *oldDoc, DOM::DocumentImpl *newDoc)
 {
-  InterpreterImp *first = InterpreterImp::firstInterpreter();
-  if (first) {
-    InterpreterImp *scr = first;
-    do {
-      if ( scr->interpreter()->rtti() == 1 ) {
-	ScriptInterpreter *interp = static_cast<ScriptInterpreter *>(scr->interpreter());
-	
-	DOMObject* cachedObject = interp->getDOMObjectForDocument(oldDoc, objectHandle);
-	if (cachedObject) {
-	  interp->putDOMObjectForDocument(newDoc, objectHandle, cachedObject);
-	}
-      }
-	
-      scr = scr->nextInterpreter();
-    } while (scr != first);
+  DOMObject* cachedObject = getDOMObjectForDocument(oldDoc, objectHandle);
+  if (cachedObject) {
+    putDOMObjectForDocument(newDoc, objectHandle, cachedObject);
   }
 }
 
@@ -284,12 +325,16 @@ bool ScriptInterpreter::wasRunByUserGesture() const
 UString::UString(const QString &d)
 {
   unsigned int len = d.length();
+#if KWIQ
+  UChar *dat = (UChar*) malloc(len*sizeof(UChar)); // UString::Rep::destroy() uses free()
+#else
   UChar *dat = new UChar[len];
+#endif
   memcpy(dat, d.unicode(), len * sizeof(UChar));
   rep = UString::Rep::create(dat, len);
 }
 
-UString::UString(const DOM::DOMString &d)
+UString::UString(const DOMString &d)
 {
   if (d.isNull()) {
     attach(&Rep::null);
@@ -297,18 +342,30 @@ UString::UString(const DOM::DOMString &d)
   }
 
   unsigned int len = d.length();
+#if KWIQ
+  UChar *dat = (UChar*) malloc(len*sizeof(UChar)); // UString::Rep::destroy() uses free()
+#else
   UChar *dat = new UChar[len];
+#endif
   memcpy(dat, d.unicode(), len * sizeof(UChar));
   rep = UString::Rep::create(dat, len);
 }
 
-DOM::DOMString UString::string() const
+DOMString UString::string() const
 {
-  return DOM::DOMString((QChar*) data(), size());
+  if (isNull())
+    return DOMString();
+  if (isEmpty())
+    return DOMString("");
+  return DOMString((QChar*) data(), size());
 }
 
 QString UString::qstring() const
 {
+  if (isNull())
+    return QString();
+  if (isEmpty())
+    return QString("");
   return QString((QChar*) data(), size());
 }
 
@@ -317,13 +374,21 @@ QConstString UString::qconststring() const
   return QConstString((QChar*) data(), size());
 }
 
-DOM::DOMString Identifier::string() const
+DOMString Identifier::string() const
 {
-  return DOM::DOMString((QChar*) data(), size());
+  if (isNull())
+    return DOMString();
+  if (isEmpty())
+    return DOMString("");
+  return DOMString((QChar*) data(), size());
 }
 
 QString Identifier::qstring() const
 {
+  if (isNull())
+    return QString();
+  if (isEmpty())
+    return QString("");
   return QString((QChar*) data(), size());
 }
 
@@ -337,7 +402,7 @@ DOM::Node KJS::toNode(const Value& val)
   return dobj->toNode();
 }
 
-Value KJS::getStringOrNull(DOM::DOMString s)
+Value KJS::getStringOrNull(DOMString s)
 {
   if (s.isNull())
     return Null();

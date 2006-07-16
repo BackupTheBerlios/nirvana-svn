@@ -839,7 +839,7 @@ bool RenderPartObject::partLoadingErrorNotify( khtml::ChildFrame *childFrame, co
     // Check if we just tried with e.g. nsplugin
     // and fallback to the activexhandler if there is a classid
     // and a codebase, where we may download the ocx if it's missing
-    if( serviceType != "application/x-activex-handler" && element()->id()==ID_OBJECT ) {
+    if( (serviceType != "application/x-activex-handler") && (element()->id()==ID_OBJECT) ) {
 
         // check for embed child object
         HTMLObjectElementImpl *o = static_cast<HTMLObjectElementImpl *>(element());

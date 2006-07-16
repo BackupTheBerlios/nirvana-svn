@@ -4,7 +4,21 @@ SubDir WEBCORE_TOP ;
 DEFINES = BEOS KWQUBE APPLE_CHANGES _KWQ_IOSTREAM_ ;
 LOCATE_TARGET = [ FDirName $(WEBCORE_TOP) objects ] ;
 
-SharedLibrary libWebCore.so : WebCore.cpp : libKHTML.a libCSS.a ;
-#LinkAgainst libWebCore.so : libKHTML.a libCSS.a : true ;
+SharedLibrary libWebCore.so
+    :
+    WebCore.cpp
+    ;
+
+LinkAgainst libWebCore.so
+    :
+    libKHTML.a
+    libCSS.a
+    libXML.a
+    libDOM.a
+    libRENDERING.a
+    libECMA.a
+    libHTML.a
+    libMISC.a
+    ;
 
 SubInclude WEBCORE_TOP khtml ;

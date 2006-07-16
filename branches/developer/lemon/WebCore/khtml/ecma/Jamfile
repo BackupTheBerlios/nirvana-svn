@@ -1,3 +1,4 @@
+
 SubDir WEBCORE_TOP khtml ecma ;
 
 LOCATE_TARGET = [ FDirName $(WEBCORE_TOP) objects ] ;
@@ -10,8 +11,8 @@ StaticLibrary libECMA.a :
     kjs_binding.cpp
     kjs_css.cpp
     kjs_dom.cpp
-    kjs_events.cpp
     kjs_html.cpp
+    kjs_events.cpp
     kjs_navigator.cpp
     kjs_proxy.cpp
     kjs_range.cpp

@@ -23,11 +23,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "jsediting.h"
+#include "editing/jsediting.h"
 
-#include "cssproperties.h"
-#include "dom_selection.h"
-#include "htmlediting.h"
+#include "css/cssproperties.h"
+#include "xml/dom_selection.h"
+#include "editing/htmlediting.h"
 #include "khtml_part.h"
 #include "KWQKHTMLPart.h"
 #include "qstring.h"

@@ -29,6 +29,7 @@
 #include "xml/dom2_traversalimpl.h"
 #include "misc/shared.h"
 
+#include <qstring.h>
 #include <qstringlist.h>
 #include <qptrlist.h>
 #include <qobject.h>

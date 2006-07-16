@@ -565,10 +565,12 @@ public:
     void setLength(uint newlen);
 #endif
 
+/*
     friend bool operator==(const QString &, const QString &);
     friend bool operator==(const QString &, const char *);
     friend bool operator==(const QString &, char *);
     friend bool operator!=(const QString &, const char *);
+*/
 
 private:
     // Used by QConstString.
@@ -604,16 +606,17 @@ QString operator+(const QString &, char);
 QString operator+(const char *, const QString &);
 QString operator+(QChar, const QString &);
 QString operator+(char, const QString &);
-/*
-QString operator==(const QString &, const QString &);
-QString operator==(const QString &, QString);
-QString operator==(const QString &, const char *);
-QString operator==(const QString &, char *);
-QString operator!=(const QString &, const QString &);
-QString operator!=(const QString &, QString &);
-QString operator!=(const QString &, const char *);
-QString operator!=(const QString &, char *);
-*/
+
+bool operator==(QString &, QString &);
+bool operator==(const QString &, const QString &);
+bool operator==(const QString &, QString);
+bool operator==(const QString &, const char *);
+bool operator==(const QString &, char *);
+bool operator!=(const QString &, const QString &);
+bool operator!=(const QString &, QString &);
+bool operator!=(const QString &, const char *);
+bool operator!=(const QString &, char *);
+
 inline char *KWQStringData::ascii()
 {
     return _isAsciiValid ? _ascii : makeAscii();
@@ -681,7 +684,7 @@ inline const QChar QString::operator[](int index) const
     return at(index);
 }
 
-
+/*
 inline bool operator==(const QString &qs, const char *chs)
 {
     return qs == chs;
@@ -696,6 +699,8 @@ inline bool operator!=(const QString &qs, const char *chs)
 {
     return !(qs == chs);
 }
+
+*/
 
 /*
 inline bool operator!=(const char *chs, const QString &qs)

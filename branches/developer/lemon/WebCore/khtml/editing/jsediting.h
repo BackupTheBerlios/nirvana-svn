@@ -28,7 +28,8 @@
 
 #include "xml/dom_docimpl.h"
 #include "dom/dom_string.h"
-#include "qdict.h"
+#include <qdict.h>
+#include <qstring.h>
 
 class KHTMLPart;
 class QString;

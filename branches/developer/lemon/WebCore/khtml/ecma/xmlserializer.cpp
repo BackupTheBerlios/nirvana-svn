@@ -96,7 +96,16 @@ Value XMLSerializerProtoFunc::tryCall(ExecState *exec, Object &thisObj, const Li
       }
 	  
       QString body;
-
+#if KHTML_NO_EXCEPTIONS
+      {
+	DOM::_exceptioncode = 0;
+	body = doc->toString().string();
+      } if (DOM::_exceptioncode) {
+	  Object err = Error::create(exec, GeneralError, "Exception serializing document");
+	  exec->setException(err);
+	  return err;
+      }
+#else      
       try {
 	  body = doc->toString().string();
       } catch(DOM::DOMException& e) {
@@ -104,7 +113,7 @@ Value XMLSerializerProtoFunc::tryCall(ExecState *exec, Object &thisObj, const Li
 	  exec->setException(err);
 	  return err;
       }
-    
+#endif    
       return getStringOrNull(body);
     }
   }

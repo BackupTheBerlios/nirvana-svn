@@ -23,9 +23,9 @@
 
 #include "xml/dom_stringimpl.h"
 
-#include "render_style.h"
+#include "rendering/render_style.h"
 #include "css/cssstyleselector.h"
-#include "render_arena.h"
+#include "rendering/render_arena.h"
 
 #include "kdebug.h"
 

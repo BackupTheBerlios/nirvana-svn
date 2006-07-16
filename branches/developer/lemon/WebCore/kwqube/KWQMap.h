@@ -27,7 +27,7 @@
 #define QMAP_H_
 
 #include "KWQDef.h"
-
+#include <qstring.h>
 #include "KWQMapImpl.h"
 
 #ifdef _KWQ_IOSTREAM_
@@ -271,6 +271,7 @@ protected:
  	QMapNode<K,V> *a = (QMapNode<K,V> *)ia;
  	QMapNode<K,V> *b = (QMapNode<K,V> *)ib;
 
+	// LEMON
 	if (a->key == b->key) {
 	    return Equal;
 	} else if (a->key < b->key) {

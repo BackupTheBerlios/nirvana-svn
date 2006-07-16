@@ -52,6 +52,7 @@ using khtml::Decoder;
   getAllResponseHeaders	XMLHttpRequest::GetAllResponseHeaders	DontDelete|Function 0
   getResponseHeader	XMLHttpRequest::GetResponseHeader	DontDelete|Function 1
   open			XMLHttpRequest::Open			DontDelete|Function 5
+  overrideMimeType      XMLHttpRequest::OverrideMIMEType        DontDelete|Function 1
   send			XMLHttpRequest::Send			DontDelete|Function 1
   setRequestHeader	XMLHttpRequest::SetRequestHeader	DontDelete|Function 2
 @end
@@ -64,6 +65,9 @@ namespace KJS {
 
 XMLHttpRequestQObject::XMLHttpRequestQObject(XMLHttpRequest *_jsObject) 
 {
+#if KWIQ
+  QOBJECT_TYPE(KJS::XMLHttpRequestQObject);
+#endif  
   jsObject = _jsObject; 
 }
 
@@ -90,7 +94,7 @@ void XMLHttpRequestQObject::slotRedirection( KIO::Job* job, const KURL& url)
 }
 
 XMLHttpRequestConstructorImp::XMLHttpRequestConstructorImp(ExecState *, const DOM::Document &d)
-    : ObjectImp(), doc(d)
+    : doc(d)
 {
 }
 
@@ -135,11 +139,17 @@ Value XMLHttpRequest::getValueProperty(ExecState *exec, int token) const
       return Undefined();
     }
     if (!createdDocument) {
-      QString mimeType = "text/xml";
+      QString mimeType;
       
-      Value header = getResponseHeader("Content-Type");
-      if (header.type() != UndefinedType) {
-	mimeType = QStringList::split(";", header.toString(exec).qstring())[0].stripWhiteSpace();
+      if (MIMETypeOverride.isEmpty()) {
+        Value header = getResponseHeader("Content-Type");
+        if (header.type() == UndefinedType) {
+          mimeType = "text/xml";
+        } else {
+	  mimeType = QStringList::split(";", header.toString(exec).qstring())[0].stripWhiteSpace();
+        }
+      } else {
+        mimeType = MIMETypeOverride;
       }
       
       if (mimeType == "text/xml" || mimeType == "application/xml" || mimeType == "application/xhtml+xml") {
@@ -223,6 +233,7 @@ XMLHttpRequest::XMLHttpRequest(ExecState *exec, const DOM::Document &d)
 
 XMLHttpRequest::~XMLHttpRequest()
 {
+  delete qObject;
   if (decoder) {
     decoder->deref();
   }
@@ -618,7 +629,15 @@ Value XMLHttpRequestProtoFunc::tryCall(ExecState *exec, Object &thisObj, const L
 	if (args[0].toObject(exec).inherits(&DOMDocument::info)) {
 	  DOM::Node docNode = static_cast<KJS::DOMDocument *>(args[0].toObject(exec).imp())->toNode();
 	  DOM::DocumentImpl *doc = static_cast<DOM::DocumentImpl *>(docNode.handle());
-	  
+#if KHTML_NO_EXCEPTIONS
+	  DOM::_exceptioncode = 0;	  
+	  body = doc->toString().string();
+	  // FIXME: also need to set content type, including encoding!
+	  if (DOM::_exceptioncode){
+	    Object err = Error::create(exec, GeneralError, "Exception serializing document");
+	    exec->setException(err);
+	  }
+#else	  
 	  try {
 	    body = doc->toString().string();
 	    // FIXME: also need to set content type, including encoding!
@@ -627,6 +646,7 @@ Value XMLHttpRequestProtoFunc::tryCall(ExecState *exec, Object &thisObj, const L
 	     Object err = Error::create(exec, GeneralError, "Exception serializing document");
 	     exec->setException(err);
 	  }
+#endif	  
 	} else {
 	  // converting certain values (like null) to object can set an exception
 	  exec->clearException();
@@ -645,6 +665,12 @@ Value XMLHttpRequestProtoFunc::tryCall(ExecState *exec, Object &thisObj, const L
     
     request->setRequestHeader(args[0].toString(exec).qstring(), args[1].toString(exec).qstring());
     
+    return Undefined();
+  case XMLHttpRequest::OverrideMIMEType:
+    if (args.size() != 1) {
+      return Undefined();
+    }
+    request->MIMETypeOverride = args[0].toString(exec).qstring();
     return Undefined();
   }
 

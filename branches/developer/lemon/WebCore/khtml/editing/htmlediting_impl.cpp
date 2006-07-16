@@ -23,16 +23,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#include "htmlediting_impl.h"
-
-#include "cssproperties.h"
+#include "editing/htmlediting_impl.h"
+#include "css/cssproperties.h"
 #include "css/css_valueimpl.h"
 #include "dom/css_value.h"
-#include "dom/dom_position.h"
+#include "xml/dom_position.h"
 #include "html/html_elementimpl.h"
 #include "html/html_imageimpl.h"
-#include "htmlattrs.h"
-#include "htmltags.h"
+#include "misc/htmlattrs.h"
+#include "misc/htmltags.h"
 #include "khtml_part.h"
 #include "khtmlview.h"
 #include "qptrlist.h"

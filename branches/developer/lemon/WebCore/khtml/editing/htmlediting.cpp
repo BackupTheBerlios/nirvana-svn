@@ -23,12 +23,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#include "htmlediting.h"
-#include "htmlediting_impl.h"
+#include "editing/htmlediting.h"
+#include "editing/htmlediting_impl.h"
 
 #include "khtml_part.h"
 #include "dom/dom_doc.h"
-#include "dom/dom_position.h"
+#include "xml/dom_position.h"
 #include "xml/dom_docimpl.h"
 #include "xml/dom_nodeimpl.h"
 #include "xml/dom_selection.h"
