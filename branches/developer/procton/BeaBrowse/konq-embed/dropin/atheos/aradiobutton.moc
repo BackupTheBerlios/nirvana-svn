@@ -1,0 +1,86 @@
+/****************************************************************************
+** QRadioButton meta object code from reading C++ file 'aradiobutton.h'
+**
+** Created: Mon Apr 29 09:52:22 2002
+**      by: The Qt MOC ($Id: mocgen.cpp,v 1.1.1.1 2002/04/27 11:02:23 procton Exp $)
+**
+** WARNING! All changes made in this file will be lost!
+*****************************************************************************/
+
+#if !defined(Q_MOC_OUTPUT_REVISION)
+#define Q_MOC_OUTPUT_REVISION 9
+#elif Q_MOC_OUTPUT_REVISION != 9
+#error "Moc format conflict - please regenerate all moc files"
+#endif
+
+#include "aradiobutton.h"
+#include <qmetaobject.h>
+#include <qapplication.h>
+
+
+
+const char *QRadioButton::className() const
+{
+    return "QRadioButton";
+}
+
+QMetaObject *QRadioButton::metaObj = 0;
+
+void QRadioButton::initMetaObject()
+{
+    if ( metaObj )
+	return;
+    if ( qstrcmp(QWidget::className(), "QWidget") != 0 )
+	badSuperclassWarning("QRadioButton","QWidget");
+    (void) staticMetaObject();
+}
+
+#ifndef QT_NO_TRANSLATION
+
+QString QRadioButton::tr(const char* s)
+{
+    return qApp->translate( "QRadioButton", s, 0 );
+}
+
+QString QRadioButton::tr(const char* s, const char * c)
+{
+    return qApp->translate( "QRadioButton", s, c );
+}
+
+#endif // QT_NO_TRANSLATION
+
+QMetaObject* QRadioButton::staticMetaObject()
+{
+    if ( metaObj )
+	return metaObj;
+    (void) QWidget::staticMetaObject();
+#ifndef QT_NO_PROPERTIES
+#endif // QT_NO_PROPERTIES
+    QMetaData::Access *slot_tbl_access = 0;
+    typedef void (QRadioButton::*m2_t0)();
+    typedef void (QObject::*om2_t0)();
+    m2_t0 v2_0 = &QRadioButton::clicked;
+    om2_t0 ov2_0 = (om2_t0)v2_0;
+    QMetaData *signal_tbl = QMetaObject::new_metadata(1);
+    signal_tbl[0].name = "clicked()";
+    signal_tbl[0].ptr = (QMember)ov2_0;
+    metaObj = QMetaObject::new_metaobject(
+	"QRadioButton", "QWidget",
+	0, 0,
+	signal_tbl, 1,
+#ifndef QT_NO_PROPERTIES
+	0, 0,
+	0, 0,
+#endif // QT_NO_PROPERTIES
+	0, 0 );
+    metaObj->set_slot_access( slot_tbl_access );
+#ifndef QT_NO_PROPERTIES
+#endif // QT_NO_PROPERTIES
+    return metaObj;
+}
+
+// SIGNAL clicked
+void QRadioButton::clicked()
+{
+    activate_signal( "clicked()" );
+}

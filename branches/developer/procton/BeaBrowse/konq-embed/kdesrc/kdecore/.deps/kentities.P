@@ -1,0 +1,3 @@
+kentities.lo kentities.o : kentities.c
+kentities.o :
+kentities.c :

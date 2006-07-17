@@ -1,0 +1,3 @@
+dcopclient.lo dcopclient.o : dcopclient.cpp
+dcopclient.o :
+dcopclient.cpp :

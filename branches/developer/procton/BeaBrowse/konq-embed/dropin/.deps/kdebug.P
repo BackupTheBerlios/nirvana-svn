@@ -1,0 +1,88 @@
+kdebug.lo kdebug.o : kdebug.cpp kdebug.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qstring.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qcstring.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qarray.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qgarray.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qshared.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qglobal.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qfeatures.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qconfig.h \
+ /boot/develop/headers/posix/string.h \
+ /boot/develop/headers/posix/be_setup.h \
+ /boot/develop/headers/be/BeBuild.h \
+ /boot/develop/headers/posix/size_t.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/stddef.h \
+ /boot/develop/headers/posix/null.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qfile.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qiodevice.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/stdio.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/stdarg.h \
+ /boot/develop/headers/posix/va_list.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/wchar_t.h \
+ /boot/develop/headers/posix/gnu_stdio.h \
+ /boot/develop/headers/posix/sys/types.h \
+ /boot/develop/headers/posix/time.h \
+ /boot/develop/headers/posix/sys/select.h \
+ /boot/develop/headers/posix/sys/time.h \
+ /boot/develop/headers/posix/_G_config.h \
+ /boot/develop/headers/posix/libio.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qlist.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qglist.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qcollection.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qtextstream.h \
+ /boot/develop/headers/posix/stdlib.h \
+ /boot/develop/headers/posix/div_t.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/limits.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/syslimits.h \
+ /boot/develop/headers/posix/limits.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/float.h \
+ /boot/develop/headers/posix/sys/wait.h \
+ /boot/develop/headers/posix/alloca.h \
+ /boot/develop/headers/be/support/syslog.h \
+ /boot/develop/headers/posix/errno.h \
+ /boot/develop/headers/be/support/Errors.h ../../config.h
+kdebug.cpp :
+kdebug.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qstring.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qcstring.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qarray.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qgarray.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qshared.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qglobal.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qfeatures.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qconfig.h :
+/boot/develop/headers/posix/string.h :
+/boot/develop/headers/posix/be_setup.h :
+/boot/develop/headers/be/BeBuild.h :
+/boot/develop/headers/posix/size_t.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/stddef.h :
+/boot/develop/headers/posix/null.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qfile.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qiodevice.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/stdio.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/stdarg.h :
+/boot/develop/headers/posix/va_list.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/wchar_t.h :
+/boot/develop/headers/posix/gnu_stdio.h :
+/boot/develop/headers/posix/sys/types.h :
+/boot/develop/headers/posix/time.h :
+/boot/develop/headers/posix/sys/select.h :
+/boot/develop/headers/posix/sys/time.h :
+/boot/develop/headers/posix/_G_config.h :
+/boot/develop/headers/posix/libio.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qlist.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qglist.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qcollection.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qtextstream.h :
+/boot/develop/headers/posix/stdlib.h :
+/boot/develop/headers/posix/div_t.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/limits.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/syslimits.h :
+/boot/develop/headers/posix/limits.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/float.h :
+/boot/develop/headers/posix/sys/wait.h :
+/boot/develop/headers/posix/alloca.h :
+/boot/develop/headers/be/support/syslog.h :
+/boot/develop/headers/posix/errno.h :
+/boot/develop/headers/be/support/Errors.h :
+../../config.h :

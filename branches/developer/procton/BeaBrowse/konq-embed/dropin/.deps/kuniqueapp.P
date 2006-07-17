@@ -1,0 +1,3 @@
+kuniqueapp.lo kuniqueapp.o : kuniqueapp.cpp
+kuniqueapp.o :
+kuniqueapp.cpp :

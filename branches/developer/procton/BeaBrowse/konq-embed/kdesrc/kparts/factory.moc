@@ -1,0 +1,73 @@
+/****************************************************************************
+** KParts::Factory meta object code from reading C++ file 'factory.h'
+**
+** Created: Mon Apr 29 09:52:32 2002
+**      by: The Qt MOC ($Id: mocgen.cpp,v 1.1.1.1 2002/04/27 11:02:23 procton Exp $)
+**
+** WARNING! All changes made in this file will be lost!
+*****************************************************************************/
+
+#if !defined(Q_MOC_OUTPUT_REVISION)
+#define Q_MOC_OUTPUT_REVISION 9
+#elif Q_MOC_OUTPUT_REVISION != 9
+#error "Moc format conflict - please regenerate all moc files"
+#endif
+
+#include "factory.h"
+#include <qmetaobject.h>
+#include <qapplication.h>
+
+
+
+const char *KParts::Factory::className() const
+{
+    return "KParts::Factory";
+}
+
+QMetaObject *KParts::Factory::metaObj = 0;
+
+void KParts::Factory::initMetaObject()
+{
+    if ( metaObj )
+	return;
+    if ( qstrcmp(KLibFactory::className(), "KLibFactory") != 0 )
+	badSuperclassWarning("KParts::Factory","KLibFactory");
+    (void) staticMetaObject();
+}
+
+#ifndef QT_NO_TRANSLATION
+
+QString KParts::Factory::tr(const char* s)
+{
+    return qApp->translate( "KParts::Factory", s, 0 );
+}
+
+QString KParts::Factory::tr(const char* s, const char * c)
+{
+    return qApp->translate( "KParts::Factory", s, c );
+}
+
+#endif // QT_NO_TRANSLATION
+
+QMetaObject* KParts::Factory::staticMetaObject()
+{
+    if ( metaObj )
+	return metaObj;
+    (void) KLibFactory::staticMetaObject();
+#ifndef QT_NO_PROPERTIES
+#endif // QT_NO_PROPERTIES
+    QMetaData::Access *slot_tbl_access = 0;
+    metaObj = QMetaObject::new_metaobject(
+	"KParts::Factory", "KLibFactory",
+	0, 0,
+	0, 0,
+#ifndef QT_NO_PROPERTIES
+	0, 0,
+	0, 0,
+#endif // QT_NO_PROPERTIES
+	0, 0 );
+    metaObj->set_slot_access( slot_tbl_access );
+#ifndef QT_NO_PROPERTIES
+#endif // QT_NO_PROPERTIES
+    return metaObj;
+}

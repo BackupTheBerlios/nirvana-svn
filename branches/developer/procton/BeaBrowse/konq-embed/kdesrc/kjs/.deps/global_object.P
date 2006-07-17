@@ -1,0 +1,79 @@
+global_object.lo global_object.o : global_object.cpp /boot/develop/headers/posix/stdio.h \
+ /boot/develop/headers/posix/be_setup.h \
+ /boot/develop/headers/be/BeBuild.h \
+ /boot/develop/headers/posix/size_t.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/stddef.h \
+ /boot/develop/headers/posix/null.h \
+ /boot/develop/headers/posix/va_list.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/stdarg.h \
+ /boot/develop/headers/posix/wchar_t.h \
+ /boot/develop/headers/posix/gnu_stdio.h \
+ /boot/develop/headers/posix/sys/types.h \
+ /boot/develop/headers/posix/time.h \
+ /boot/develop/headers/posix/sys/select.h \
+ /boot/develop/headers/posix/sys/time.h \
+ /boot/develop/headers/posix/_G_config.h \
+ /boot/develop/headers/posix/libio.h \
+ /boot/develop/headers/posix/string.h kjs.h object.h \
+ /boot/develop/headers/posix/stdlib.h \
+ /boot/develop/headers/posix/div_t.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/limits.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/syslimits.h \
+ /boot/develop/headers/posix/limits.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/float.h \
+ /boot/develop/headers/posix/sys/wait.h \
+ /boot/develop/headers/posix/alloca.h ustring.h ../../../config.h \
+ operations.h internal.h function.h \
+ /boot/develop/headers/posix/assert.h types.h lexer.h nodes.h \
+ debugger.h object_object.h function_object.h array_object.h \
+ bool_object.h string_object.h number_object.h math_object.h \
+ date_object.h regexp_object.h error_object.h
+global_object.o :
+global_object.cpp :
+/boot/develop/headers/posix/stdio.h :
+/boot/develop/headers/posix/be_setup.h :
+/boot/develop/headers/be/BeBuild.h :
+/boot/develop/headers/posix/size_t.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/stddef.h :
+/boot/develop/headers/posix/null.h :
+/boot/develop/headers/posix/va_list.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/stdarg.h :
+/boot/develop/headers/posix/wchar_t.h :
+/boot/develop/headers/posix/gnu_stdio.h :
+/boot/develop/headers/posix/sys/types.h :
+/boot/develop/headers/posix/time.h :
+/boot/develop/headers/posix/sys/select.h :
+/boot/develop/headers/posix/sys/time.h :
+/boot/develop/headers/posix/_G_config.h :
+/boot/develop/headers/posix/libio.h :
+/boot/develop/headers/posix/string.h :
+kjs.h :
+object.h :
+/boot/develop/headers/posix/stdlib.h :
+/boot/develop/headers/posix/div_t.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/limits.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/syslimits.h :
+/boot/develop/headers/posix/limits.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/float.h :
+/boot/develop/headers/posix/sys/wait.h :
+/boot/develop/headers/posix/alloca.h :
+ustring.h :
+../../../config.h :
+operations.h :
+internal.h :
+function.h :
+/boot/develop/headers/posix/assert.h :
+types.h :
+lexer.h :
+nodes.h :
+debugger.h :
+object_object.h :
+function_object.h :
+array_object.h :
+bool_object.h :
+string_object.h :
+number_object.h :
+math_object.h :
+date_object.h :
+regexp_object.h :
+error_object.h :

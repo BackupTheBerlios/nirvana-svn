@@ -1,0 +1,3 @@
+kdialogbase.lo kdialogbase.o : kdialogbase.cpp
+kdialogbase.o :
+kdialogbase.cpp :

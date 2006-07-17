@@ -1,0 +1,100 @@
+html_head.lo html_head.o : html_head.cpp dom_string.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qstring.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qcstring.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qarray.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qgarray.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qshared.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qglobal.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qfeatures.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qconfig.h \
+ /boot/develop/headers/posix/string.h \
+ /boot/develop/headers/posix/be_setup.h \
+ /boot/develop/headers/be/BeBuild.h \
+ /boot/develop/headers/posix/size_t.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/stddef.h \
+ /boot/develop/headers/posix/null.h html_form.h ../dom/html_element.h \
+ ../dom/dom_element.h ../dom/dom_node.h ../dom/css_value.h \
+ ../dom/dom_string.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qcolor.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qwindowdefs.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qobjectdefs.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qnamespace.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/limits.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/syslimits.h \
+ /boot/develop/headers/posix/limits.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/float.h \
+ ../dom/html_misc.h html_head.h ../html/html_headimpl.h \
+ ../html/html_elementimpl.h ../xml/dom_elementimpl.h \
+ ../xml/dom_nodeimpl.h ../dom/dom_misc.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qlist.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qglist.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qcollection.h \
+ ../html/htmltoken.h ../misc/stringit.h ../xml/dom_stringimpl.h \
+ dom_misc.h ../misc/khtmllayout.h ../html/dtd.h \
+ ../misc/loader_client.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qpixmap.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/../../konq-embed/dropin/atheos/apixmap.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qpaintdevice.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/../../konq-embed/dropin/atheos/apaintdevice.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qsize.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qpoint.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qrect.h \
+ ../misc/htmlhashes.h ../misc/htmlattrs.h ../misc/htmltags.h
+html_head.o :
+html_head.cpp :
+dom_string.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qstring.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qcstring.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qarray.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qgarray.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qshared.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qglobal.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qfeatures.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qconfig.h :
+/boot/develop/headers/posix/string.h :
+/boot/develop/headers/posix/be_setup.h :
+/boot/develop/headers/be/BeBuild.h :
+/boot/develop/headers/posix/size_t.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/stddef.h :
+/boot/develop/headers/posix/null.h :
+html_form.h :
+../dom/html_element.h :
+../dom/dom_element.h :
+../dom/dom_node.h :
+../dom/css_value.h :
+../dom/dom_string.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qcolor.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qwindowdefs.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qobjectdefs.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qnamespace.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/limits.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/syslimits.h :
+/boot/develop/headers/posix/limits.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/float.h :
+../dom/html_misc.h :
+html_head.h :
+../html/html_headimpl.h :
+../html/html_elementimpl.h :
+../xml/dom_elementimpl.h :
+../xml/dom_nodeimpl.h :
+../dom/dom_misc.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qlist.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qglist.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qcollection.h :
+../html/htmltoken.h :
+../misc/stringit.h :
+../xml/dom_stringimpl.h :
+dom_misc.h :
+../misc/khtmllayout.h :
+../html/dtd.h :
+../misc/loader_client.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qpixmap.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/../../konq-embed/dropin/atheos/apixmap.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qpaintdevice.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/../../konq-embed/dropin/atheos/apaintdevice.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qsize.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qpoint.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qrect.h :
+../misc/htmlhashes.h :
+../misc/htmlattrs.h :
+../misc/htmltags.h :

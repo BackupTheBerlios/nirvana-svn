@@ -1,0 +1,4 @@
+dom_misc.lo dom_misc.o : dom_misc.cpp dom_misc.h
+dom_misc.o :
+dom_misc.cpp :
+dom_misc.h :

@@ -1,0 +1,3 @@
+kmessagebox.lo kmessagebox.o : kmessagebox.cpp
+kmessagebox.o :
+kmessagebox.cpp :

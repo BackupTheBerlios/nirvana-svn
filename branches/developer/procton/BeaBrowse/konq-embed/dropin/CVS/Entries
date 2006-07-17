@@ -1,0 +1,57 @@
+/.cvsignore/1.1.1.1/Sat Apr 27 11:01:41 2002//
+/dcopclient.cpp/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/dcopclient.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/dcopobject.cpp/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/dcopobject.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kaboutdata.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kaction.cpp/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kaction.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kapp.cpp/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kapp.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kcmdlineargs.cpp/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kcmdlineargs.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kconfig.cpp/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kconfig.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kcursor.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kdebug.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kdialog.cpp/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kdialog.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kdialogbase.cpp/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kdialogbase.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kfiledialog.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kglobal.cpp/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kglobal.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kglobalsettings.cpp/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kglobalsettings.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kiconeffect.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kiconloader.cpp/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kiconloader.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kinstance.cpp/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kinstance.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/klibloader.cpp/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/klibloader.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/klistbox.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/klocale.cpp/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/klocale.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kmessagebox.cpp/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kmessagebox.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kprocess.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kstaticdeleter.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kstdaction.cpp/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kstdaction.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kuniqueapp.cpp/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kuniqueapp.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kunload.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kurldrag.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kurllabel.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kwin.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kwinmodule.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kxmlgui.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+/kxmlguiclient.h/1.1.1.1/Sat Apr 27 11:01:42 2002//
+D/atheos////
+D/kdesu////
+D/khtml////
+D/kio////
+D/kparts////
+/Makefile.am/1.1.1.1/Sun Apr 28 16:41:07 2002//
+/kdebug.cpp/1.2/Mon Apr 29 12:34:03 2002//

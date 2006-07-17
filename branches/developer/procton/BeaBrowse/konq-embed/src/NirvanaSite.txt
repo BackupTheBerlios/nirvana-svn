@@ -1,0 +1,46 @@
+KHTML History
+
+Why WebCore?
+You may ask, why WebCore was chosen as basis of Nirvane project among other variants?
+Shortly, that was spontaneous and intuitive solution. For more arguments we need to recall KHTML history.
+
+KonqE
+There was Gtk-version of KHTML created by Gnome. That's second possible path of porting, where "big" Qt is replaced by Qt-embedded.
+Though, such components as KDE-Core and KDE IO are used also in this version.
+
+ABrowse.
+Uses Free Qt QPL license for non-GPL Open Source, creates set of wrappers for QT API around native one.
+Can be used mostly as reference implementations, because KHTML in ABrowse is obsolete (1999-2001).
+Also there are rumours about Syllabe team intentions to use Gecko in future.
+In role of reference it has only benefit - Syllabe API is isomewhat similar to Be API.
+
+WebCore.
+Uses latest KHTML. Huge work done to get rid as far as possible from KDE-dependencies (IO and Core).
+Bit troublesome for initial porting is fact that Qt-wrappers are written using Objective-C.
+Actualle those even aren't Qt-wrappers anymore, but set of clases similar to Qt and using native controls.
+
+NRCore
+Apple helped Nokia to port WebCore to mobile devices. There were two challenges - 
+first to replace Cocoa-controls with Gtk ones, second to remove Objective-C from KWQ.
+From test-screenshots it can conclude that they achieved some good results already at those two tasks.
+
+WebKit
+Born from NCore in some sense. Resulted in cental repository for all WebCore/KHTML related projects - webkit.opendarwin.org.
+Most modern KHTML repository synchronized with KDE. Idea of project is to merge all projects into common tree, so it would allow
+to make either Safari or Nokia version or any other project from single tree.
+E.g. it can build KJS using MS Visual Studio form that tree.
+
+
+Nirvana.
+Is someone wish to start from scratch, WebKit might be best choice, as this is really "bleeding edge" prject.
+But for historical reasons we use WebCore atm. Actually Apple and Nokia did half of required work - removed need for Objective-C.
+WebCore itself contains only essential parts of KHTM while WebKit contain too much extra things - editors, visual extensions etc etc.
+Due puristic style of BeOS itself it will be most logical to take mobile version of KHTML as basis of our work,
+while we can still use both richest KHTML repository WebKit aswell AtheOS ABrowse back-end.
+What about NCore, in reality it is frozen WebCore cleaned from Objective-C, and Apple tries to do it
+even for WebCore itself, in order to attract more projects and developers.
+
+Nirvana is intended to be mix of NCore/WebCore. Members of our little team do all work in spare-time, but for now some goals
+are achieved - KJS is building and passing all tests, as well as KHTML itself.
+Main task in TODO list is KWQ porting (Qt -> BeOS Interface Kit wrapper). It shouldn't be too hard task, 
+as KWQ uses pure C++ now, and there are good examples for such work.

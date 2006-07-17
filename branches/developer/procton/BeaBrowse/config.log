@@ -1,0 +1,186 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:637: checking host system type
+configure:658: checking target system type
+configure:676: checking build system type
+configure:736: checking for a BSD compatible install
+configure:793: checking for -p flag to install
+configure:816: checking whether build environment is sane
+configure:854: checking whether make sets ${MAKE}
+configure:900: checking for working aclocal
+configure:913: checking for working autoconf
+configure:926: checking for working automake
+configure:939: checking for working autoheader
+configure:952: checking for working makeinfo
+configure:1038: checking for a C-Compiler
+configure:1044: checking for gcc
+configure:1150: checking whether the C compiler (gcc  -L/boot/home/config/lib) works
+configure:1166: gcc -o conftest  -I/boot/home/config/include -L/boot/home/config/lib conftest.c  1>&5
+configure:1192: checking whether the C compiler (gcc  -L/boot/home/config/lib) is a cross-compiler
+configure:1197: checking whether we are using GNU C
+configure:1309: checking how to run the C preprocessor
+configure:1371: checking for a C++-Compiler
+configure:1377: checking for g++
+configure:1493: checking whether the C++ compiler (g++  -L/boot/home/config/lib) works
+configure:1514: rm -rf SunWS_cache; g++ -o conftest  -I/boot/home/config/include -L/boot/home/config/lib conftest.C  1>&5
+configure:1540: checking whether the C++ compiler (g++  -L/boot/home/config/lib) is a cross-compiler
+configure:1545: checking whether we are using GNU C++
+configure:1635: checking whether g++ supports -fno-check-new
+configure:1674: checking whether g++ supports -Wno-long-long
+configure:1706: checking whether g++ supports -fno-builtin
+configure:1751: checking whether g++ supports -fexceptions
+configure:1786: checking whether g++ supports -frtti
+configure:1867: checking how to run the C++ preprocessor
+configure:1950: checking whether g++ supports -frepo
+configure:2145: checking for ld used by GCC
+configure:2213: checking if the linker (/boot/develop/tools/gnupro/bin/ld) is GNU ld
+configure:2230: checking for /boot/develop/tools/gnupro/bin/ld option to reload object files
+configure:2242: checking for BSD-compatible nm
+configure:2279: checking whether ln -s works
+configure:2310: checking how to recognise dependant libraries
+configure:2596: checking for ranlib
+configure:2663: checking for strip
+configure:2835: checking for Cygwin environment
+configure:2868: checking for mingw32 environment
+ltconfig:670:checking for gcc option to produce PIC
+ltconfig:679:checking that gcc PIC flag   -DPIC works.
+ltconfig:741: checking if gcc static flag -static works
+ltconfig:787: checking if gcc supports -c -o file.o
+ltconfig:788: gcc -c -O2 -o out/conftest2.o -I/boot/home/config/include conftest.c 1>&5
+ltconfig:841: checking if gcc supports -fno-rtti -fno-exceptions
+ltconfig:842: gcc -c -O2 -fno-rtti -fno-exceptions -c conftest.c -I/boot/home/config/include conftest.c 1>&5
+ltconfig:1309: checking if global_symbol_pipe works
+ltconfig:1310: gcc -c -O2 -I/boot/home/config/include conftest.c 1>&5
+ltconfig:1313: eval "/boot/develop/tools/gnupro/bin/nm -B conftest.o | sed -n -e 's/^.*[ 	]\([ABCDGISTW]\)[ 	][ 	]*\(\)\([_A-Za-z][_A-Za-z0-9]*\)$/\1 \2\3 \3/p' > conftest.nm"
+ltconfig:1365: gcc -o conftest -O2 -fno-builtin -fno-rtti -fno-exceptions -I/boot/home/config/include -L/boot/home/config/lib conftest.c conftstm.o 1>&5
+g++ -E conftest.cc
+ltconfig:670:checking for g++ option to produce PIC
+ltconfig:679:checking that g++ PIC flag  -DPIC works.
+ltconfig:689: g++ -c -O2 -fno-check-new -Wall -pedantic -W -Wpointer-arith -Wmissing-prototypes -Wwrite-strings -Wno-long-long -fno-builtin  -DPIC -DPIC -I/boot/home/config/include conftest.cc 1>&5
+ltconfig:741: checking if g++ static flag -static works
+ltconfig:750: g++ -o conftest -O2 -fno-check-new -Wall -pedantic -W -Wpointer-arith -Wmissing-prototypes -Wwrite-strings -Wno-long-long -fno-builtin -I/boot/home/config/include -L/boot/home/config/lib -static conftest.cc  1>&5
+ltconfig:787: checking if g++ supports -c -o file.o
+ltconfig:788: g++ -c -O2 -fno-check-new -Wall -pedantic -W -Wpointer-arith -Wmissing-prototypes -Wwrite-strings -Wno-long-long -fno-builtin -o out/conftest2.o -I/boot/home/config/include conftest.cc 1>&5
+ltconfig:841: checking if g++ supports -fno-rtti -fno-exceptions
+ltconfig:842: g++ -c -O2 -fno-check-new -Wall -pedantic -W -Wpointer-arith -Wmissing-prototypes -Wwrite-strings -Wno-long-long -fno-builtin -fno-rtti -fno-exceptions -c conftest.cc -I/boot/home/config/include conftest.cc 1>&5
+ltconfig:1309: checking if global_symbol_pipe works
+ltconfig:1310: g++ -c -O2 -fno-check-new -Wall -pedantic -W -Wpointer-arith -Wmissing-prototypes -Wwrite-strings -Wno-long-long -fno-builtin -I/boot/home/config/include conftest.cc 1>&5
+ltconfig:1313: eval "/boot/develop/tools/gnupro/bin/nm -B conftest.o | sed -n -e 's/^.*[ 	]\([ABCDGISTW]\)[ 	][ 	]*\(\)\([_A-Za-z][_A-Za-z0-9]*\)$/\1 \2\3 \3/p' > conftest.nm"
+ltconfig:1365: g++ -o conftest -O2 -fno-check-new -Wall -pedantic -W -Wpointer-arith -Wmissing-prototypes -Wwrite-strings -Wno-long-long -fno-builtin -fno-builtin -fno-rtti -fno-exceptions -I/boot/home/config/include -L/boot/home/config/lib conftest.cc conftstm.o 1>&5
+configure:3016: checking for object suffix
+configure:3042: checking for executable suffix
+configure:3098: checking for msgfmt
+configure:3132: checking for gmsgfmt
+configure:3177: checking for xgettext
+configure:3244: checking for main in -lcompat
+configure:3281: checking for crypt in -lcrypt
+configure:3319: checking for crypt in -lc
+configure:3374: checking for the third argument of getsockname
+configure:3474: checking for dnet_ntoa in -ldnet
+configure:3515: checking for dnet_ntoa in -ldnet_stub
+configure:3556: checking for inet_ntoa
+configure:3605: checking for inet_ntoa in -lnsl
+configure:3646: checking for connect
+configure:3695: checking for connect in -lsocket
+configure:3737: checking for remove
+configure:3829: checking for shmat
+configure:3878: checking for shmat in -lipc
+configure:3931: checking for main in -latheos
+configure:3978: checking for killpg in -lucb
+configure:4066: checking size of int
+configure:4104: checking size of long
+configure:4142: checking size of char *
+configure:4182: checking for dlopen in -ldl
+configure:4226: checking for shl_unload in -ldld
+configure:4273: checking for bool
+configure:4328: checking for extra includes
+configure:4359: checking for extra libs
+configure:4393: checking for libz
+configure:4449: checking for X
+configure:4746: checking for IceConnectionNumber in -lICE
+configure:4904: checking for libpng
+configure:4966: checking for libjpeg6b
+configure:5027: checking for libjpeg
+configure:5226: checking for Qt
+configure:5445: checking if Qt compiles without flags
+configure:5595: checking for moc
+configure:5707: checking for dirent.h that defines DIR
+configure:5745: checking for opendir in -ldir
+configure:5828: checking for ANSI C header files
+configure:5940: checking for sys/time.h
+configure:5940: checking for crypt.h
+configure:5940: checking for sys/select.h
+configure:5940: checking for sys/ioctl.h
+configure:5940: checking for sys/stropts.h
+configure:5940: checking for stropts.h
+configure:5940: checking for termio.h
+configure:5940: checking for termios.h
+configure:5940: checking for lastlog.h
+configure:5940: checking for sys/sockio.h
+configure:5940: checking for krb5/krb5.h
+configure:5940: checking for rpc/rpc.h
+configure:5940: checking for rpc/key_prot.h
+configure:5940: checking for sys/m_wait.h
+configure:5940: checking for ncurses.h
+configure:5940: checking for paths.h
+configure:5940: checking for login_cap.h
+configure:5940: checking for syslog.h
+configure:5940: checking for sys/wait.h
+configure:5940: checking for sys/ucred.h
+configure:5940: checking for sys/mount.h
+configure:5940: checking for floatingpoint.h
+configure:5940: checking for fstab.h
+configure:5940: checking for mntent.h
+configure:5940: checking for Alib.h
+configure:5940: checking for libutil.h
+configure:5940: checking for util.h
+configure:5940: checking for strings.h
+configure:5940: checking for string.h
+configure:5940: checking for sys/stat.h
+configure:5989: checking whether time.h and sys/time.h may both be included
+configure:6026: checking for bool
+configure:6089: checking for long double
+configure:6132: checking for uid_t in sys/types.h
+configure:6166: checking type of array argument to getgroups
+configure:6238: checking size of char
+configure:6277: checking size of short
+configure:6316: checking size of int
+configure:6355: checking size of long
+configure:6394: checking whether byte ordering is bigendian
+configure:6487: checking for socket
+configure:6487: checking for powl
+configure:6487: checking for sqrtl
+configure:6487: checking for strdup
+configure:6487: checking for getdtablesize
+configure:6487: checking for vsnprintf
+configure:6487: checking for setpgid
+configure:6487: checking for nice
+configure:6487: checking for seteuid
+configure:6487: checking for snprintf
+configure:6487: checking for vsyslog
+configure:6487: checking for initgroups
+configure:6487: checking for setgroups
+configure:6487: checking for getgroups
+configure:6487: checking for grantpt
+configure:6487: checking for pw_encrypt
+configure:6487: checking for setpriority
+configure:6487: checking for getpt
+configure:6487: checking for unlockpt
+configure:6487: checking for ptsname
+configure:6487: checking for setenv
+configure:6487: checking for unsetenv
+configure:6487: checking for waitpid
+configure:6541: checking for getdomainname
+configure:6608: checking for gethostname
+configure:6673: checking for usleep
+configure:6735: checking for random
+configure:6796: checking for S_ISSOCK
+configure:6852: checking for MAXPATHLEN
+configure:6926: checking for ieeefp.h
+configure:6963: checking for isinf in -lm
+configure:7008: checking for finite in -lm
+configure:7053: checking for isnan in -lm
+configure:7101: checking for pcreposix
+configure:7162: checking if admin should be compiled
+configure:7162: checking if konq-embed should be compiled

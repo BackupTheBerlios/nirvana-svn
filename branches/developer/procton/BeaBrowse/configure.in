@@ -1,0 +1,167 @@
+# Original Author was Kalle@kde.org
+# I lifted it in some mater. (Stephan Kulow)
+# I used much code from Janos Farkas
+ 
+dnl Process this file with autoconf to produce a configure script.
+ 
+AC_INIT(acinclude.m4) dnl a source file from your sub dir
+ 
+dnl This is so we can use kde-common
+AC_CONFIG_AUX_DIR(admin)
+ 
+AC_CANONICAL_SYSTEM
+AC_ARG_PROGRAM
+ 
+dnl Automake doc recommends to do this only here. (Janos)
+AM_INIT_AUTOMAKE(konqueror-embedded, 0.1) dnl searches for some needed programs
+ 
+KDE_SET_PREFIX
+ 
+dnl generate the config header
+AM_CONFIG_HEADER(config.h) dnl at the distribution this done
+ 
+dnl Checks for programs.
+AC_CHECK_COMPILERS
+AC_ENABLE_SHARED(yes)
+AC_ENABLE_STATIC(no)
+KDE_PROG_LIBTOOL
+ 
+dnl for NLS support. Call them in this order!
+dnl WITH_NLS is for the po files
+AM_KDE_WITH_NLS
+
+AC_ARG_ENABLE(qt-embedded,[  --enable-qt-embedded    Enable Qt Embedded support (adds -fno-rtti and -DQWS)],
+            want_qte=$enableval,want_qte=no)
+
+if test "x$want_qte" = "xyes"; then
+    CXXFLAGS="$CXXFLAGS -fno-rtti -DQWS"
+    LDFLAGS="$LDFLAGS -fno-rtti"
+fi
+
+dnl We don't require an installed kdelibs (Simon) 
+dnl AC_PATH_KDE
+dnl Just Qt
+AC_PATH_QT
+AC_SUBST(all_libraries)
+AC_SUBST(all_includes)
+
+dnl ### hack for kdesrc/khtml/css/Makefile.am
+kde_datadir='${prefix}/share/apps'
+AC_SUBST(kde_datadir)
+ 
+dnl Perform program name transformation
+AC_ARG_PROGRAM                                                                                                                        
+
+dnl Image readers/writers
+dnl No need for that stuff (Simon)
+dnl KDE_CHECK_KIMGIO
+
+dnl Checks for header files.
+AC_HEADER_DIRENT
+AC_HEADER_STDC
+AC_CHECK_HEADERS(sys/time.h crypt.h \
+	sys/select.h sys/ioctl.h sys/stropts.h stropts.h termio.h termios.h lastlog.h \
+	sys/sockio.h krb5/krb5.h rpc/rpc.h rpc/key_prot.h \
+	sys/m_wait.h ncurses.h paths.h login_cap.h syslog.h \
+	sys/wait.h sys/ucred.h sys/mount.h floatingpoint.h fstab.h mntent.h \
+	Alib.h libutil.h util.h strings.h string.h sys/stat.h )
+
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+AC_LANG_CPLUSPLUS
+AC_HEADER_TIME
+
+dnl check if the compiler has bool
+AC_CHECK_BOOL
+AC_LANG_C
+AC_C_LONG_DOUBLE
+AC_TYPE_GETGROUPS
+
+dnl for libsmb
+AC_CHECK_SIZEOF(char,1)
+AC_CHECK_SIZEOF(short,2)
+AC_CHECK_SIZEOF(int,4)
+AC_CHECK_SIZEOF(long,4)
+AC_C_BIGENDIAN
+
+AC_CHECK_FUNCS(socket powl sqrtl strdup getdtablesize vsnprintf setpgid nice seteuid snprintf vsyslog initgroups setgroups getgroups grantpt pw_encrypt setpriority getpt unlockpt ptsname setenv unsetenv waitpid)
+AC_CHECK_GETDOMAINNAME
+AC_CHECK_GETHOSTNAME
+AC_CHECK_USLEEP
+AC_CHECK_RANDOM
+AC_CHECK_S_ISSOCK
+AC_CHECK_KDEMAXPATHLEN
+
+dnl Perform program name transformation
+AC_ARG_PROGRAM
+
+AC_DEFINE_UNQUOTED(KDEDIR, "$prefix", [The prefix to use as fallback])
+
+CXXFLAGS="$CXXFLAGS -Wno-multichar -DQT_CLEAN_NAMESPACE -DQT_NO_COMPAT -DQT_NO_ASCII_CAST"
+dnl don't remove
+dnl AC_OUTPUT(khtml/java/kjava.policy)
+dnl KDE JavaScript specific configure tests
+
+AC_CHECK_HEADERS(ieeefp.h)
+AC_CHECK_LIB(m, isinf, [
+  AC_DEFINE_UNQUOTED(HAVE_FUNC_ISINF, 1, [Define if you have isinf])
+])
+AC_CHECK_LIB(m, finite, [
+  AC_DEFINE_UNQUOTED(HAVE_FUNC_FINITE, 1, [Define if you have finite])
+])
+AC_CHECK_LIB(m, isnan, [
+  AC_DEFINE_UNQUOTED(HAVE_FUNC_ISNAN, 1, [Define if you have isnan])
+])
+
+AC_DEFUN(AC_CHECK_PCREPOSIX,
+[
+  AC_MSG_CHECKING([for pcreposix])
+  AC_CACHE_VAL(ac_cv_have_pcreposix,
+  [
+    ac_save_libs="$LIBS"
+    LIBS="-lpcre -lpcreposix"
+    AC_TRY_LINK(
+      [#include <pcreposix.h>],
+      [regfree(0);],
+      [ac_cv_have_pcreposix="yes"],
+      [ac_cv_have_pcreposix="no"]
+    )
+    LIBS="$ac_save_libs"
+  ])
+  AC_MSG_RESULT($ac_cv_have_pcreposix)
+  if test "$ac_cv_have_pcreposix" = "yes"; then
+    LIBPCRE="-lpcre -lpcreposix"
+    AC_DEFINE(HAVE_PCREPOSIX, 1, [Define if you have pcreposix libraries and header files.])
+  fi
+])
+AC_CHECK_PCREPOSIX
+AC_SUBST(LIBPCRE)
+KDE_CREATE_SUBDIRSLIST
+AC_OUTPUT( \
+./Makefile \
+konq-embed/Makefile \
+konq-embed/dropin/Makefile \
+konq-embed/dropin/atheos/Makefile \
+konq-embed/dropin/atheos/tests/Makefile \
+konq-embed/dropin/khtml/Makefile \
+konq-embed/dropin/khtml/java/Makefile \
+konq-embed/dropin/kio/Makefile \
+konq-embed/dropin/kparts/Makefile \
+konq-embed/kdesrc/Makefile \
+konq-embed/kdesrc/kdecore/Makefile \
+konq-embed/kdesrc/khtml/Makefile \
+konq-embed/kdesrc/khtml/css/Makefile \
+konq-embed/kdesrc/khtml/dom/Makefile \
+konq-embed/kdesrc/khtml/ecma/Makefile \
+konq-embed/kdesrc/khtml/html/Makefile \
+konq-embed/kdesrc/khtml/java/Makefile \
+konq-embed/kdesrc/khtml/java/tests/Makefile \
+konq-embed/kdesrc/khtml/misc/Makefile \
+konq-embed/kdesrc/khtml/pics/Makefile \
+konq-embed/kdesrc/khtml/rendering/Makefile \
+konq-embed/kdesrc/khtml/xml/Makefile \
+konq-embed/kdesrc/kjs/Makefile \
+konq-embed/kdesrc/kparts/Makefile \
+konq-embed/src/Makefile \
+khtml/java/kjava.policy
+)

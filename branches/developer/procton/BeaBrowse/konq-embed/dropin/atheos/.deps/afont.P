@@ -1,0 +1,161 @@
+afont.lo afont.o : afont.cpp \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/stdio.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/stdarg.h \
+ /boot/develop/headers/posix/be_setup.h \
+ /boot/develop/headers/be/BeBuild.h \
+ /boot/develop/headers/posix/size_t.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/stddef.h \
+ /boot/develop/headers/posix/null.h \
+ /boot/develop/headers/posix/va_list.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/wchar_t.h \
+ /boot/develop/headers/posix/gnu_stdio.h \
+ /boot/develop/headers/posix/sys/types.h \
+ /boot/develop/headers/posix/time.h \
+ /boot/develop/headers/posix/sys/select.h \
+ /boot/develop/headers/posix/sys/time.h \
+ /boot/develop/headers/posix/_G_config.h \
+ /boot/develop/headers/posix/libio.h \
+ /boot/develop/headers/be/app/Application.h \
+ /boot/develop/headers/be/app/AppDefs.h \
+ /boot/develop/headers/be/interface/InterfaceDefs.h \
+ /boot/develop/headers/be/interface/GraphicsDefs.h \
+ /boot/develop/headers/be/support/SupportDefs.h \
+ /boot/develop/headers/be/support/Errors.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/limits.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/syslimits.h \
+ /boot/develop/headers/posix/limits.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/float.h \
+ /boot/develop/headers/be/kernel/OS.h \
+ /boot/develop/headers/be/storage/StorageDefs.h \
+ /boot/develop/headers/posix/fcntl.h \
+ /boot/develop/headers/posix/sys/stat.h \
+ /boot/develop/headers/posix/sys/param.h \
+ /boot/develop/headers/be/interface/Rect.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/math.h \
+ /boot/develop/headers/be/interface/Point.h \
+ /boot/develop/headers/be/app/Looper.h \
+ /boot/develop/headers/be/support/List.h \
+ /boot/develop/headers/be/app/Handler.h \
+ /boot/develop/headers/be/support/Archivable.h \
+ /boot/develop/headers/be/kernel/image.h \
+ /boot/develop/headers/be/app/Messenger.h \
+ /boot/develop/headers/be/support/ByteOrder.h \
+ /boot/develop/headers/posix/endian.h \
+ /boot/develop/headers/be/support/TypeConstants.h \
+ /boot/develop/headers/be/app/Message.h \
+ /boot/develop/headers/be/support/DataIO.h \
+ /boot/develop/headers/be/support/Flattenable.h afont.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qstring.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qcstring.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qarray.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qgarray.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qshared.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qglobal.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qfeatures.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qconfig.h \
+ /boot/develop/headers/posix/string.h \
+ /boot/develop/headers/be/interface/Font.h \
+ /boot/develop/headers/cpp/map /boot/develop/headers/cpp/stl_tree.h \
+ /boot/develop/headers/cpp/stl_algobase.h \
+ /boot/develop/headers/cpp/stl_config.h \
+ /boot/develop/headers/cpp/stl_relops.h \
+ /boot/develop/headers/cpp/stl_pair.h \
+ /boot/develop/headers/cpp/type_traits.h \
+ /boot/develop/headers/posix/stdlib.h \
+ /boot/develop/headers/posix/div_t.h \
+ /boot/develop/headers/posix/sys/wait.h \
+ /boot/develop/headers/posix/alloca.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/new.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/new \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/exception \
+ /boot/develop/headers/cpp/iostream.h \
+ /boot/develop/headers/cpp/streambuf.h \
+ /boot/develop/headers/cpp/stl_iterator.h \
+ /boot/develop/headers/cpp/stl_alloc.h \
+ /boot/develop/headers/posix/assert.h \
+ /boot/develop/headers/cpp/stl_construct.h \
+ /boot/develop/headers/cpp/stl_function.h \
+ /boot/develop/headers/cpp/stl_map.h \
+ /boot/develop/headers/cpp/stl_multimap.h ../kdebug.h
+afont.cpp :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/stdio.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/stdarg.h :
+/boot/develop/headers/posix/be_setup.h :
+/boot/develop/headers/be/BeBuild.h :
+/boot/develop/headers/posix/size_t.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/stddef.h :
+/boot/develop/headers/posix/null.h :
+/boot/develop/headers/posix/va_list.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/wchar_t.h :
+/boot/develop/headers/posix/gnu_stdio.h :
+/boot/develop/headers/posix/sys/types.h :
+/boot/develop/headers/posix/time.h :
+/boot/develop/headers/posix/sys/select.h :
+/boot/develop/headers/posix/sys/time.h :
+/boot/develop/headers/posix/_G_config.h :
+/boot/develop/headers/posix/libio.h :
+/boot/develop/headers/be/app/Application.h :
+/boot/develop/headers/be/app/AppDefs.h :
+/boot/develop/headers/be/interface/InterfaceDefs.h :
+/boot/develop/headers/be/interface/GraphicsDefs.h :
+/boot/develop/headers/be/support/SupportDefs.h :
+/boot/develop/headers/be/support/Errors.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/limits.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/syslimits.h :
+/boot/develop/headers/posix/limits.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/float.h :
+/boot/develop/headers/be/kernel/OS.h :
+/boot/develop/headers/be/storage/StorageDefs.h :
+/boot/develop/headers/posix/fcntl.h :
+/boot/develop/headers/posix/sys/stat.h :
+/boot/develop/headers/posix/sys/param.h :
+/boot/develop/headers/be/interface/Rect.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/math.h :
+/boot/develop/headers/be/interface/Point.h :
+/boot/develop/headers/be/app/Looper.h :
+/boot/develop/headers/be/support/List.h :
+/boot/develop/headers/be/app/Handler.h :
+/boot/develop/headers/be/support/Archivable.h :
+/boot/develop/headers/be/kernel/image.h :
+/boot/develop/headers/be/app/Messenger.h :
+/boot/develop/headers/be/support/ByteOrder.h :
+/boot/develop/headers/posix/endian.h :
+/boot/develop/headers/be/support/TypeConstants.h :
+/boot/develop/headers/be/app/Message.h :
+/boot/develop/headers/be/support/DataIO.h :
+/boot/develop/headers/be/support/Flattenable.h :
+afont.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qstring.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qcstring.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qarray.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qgarray.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qshared.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qglobal.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qfeatures.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qconfig.h :
+/boot/develop/headers/posix/string.h :
+/boot/develop/headers/be/interface/Font.h :
+/boot/develop/headers/cpp/map :
+/boot/develop/headers/cpp/stl_tree.h :
+/boot/develop/headers/cpp/stl_algobase.h :
+/boot/develop/headers/cpp/stl_config.h :
+/boot/develop/headers/cpp/stl_relops.h :
+/boot/develop/headers/cpp/stl_pair.h :
+/boot/develop/headers/cpp/type_traits.h :
+/boot/develop/headers/posix/stdlib.h :
+/boot/develop/headers/posix/div_t.h :
+/boot/develop/headers/posix/sys/wait.h :
+/boot/develop/headers/posix/alloca.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/new.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/new :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-pc-beos/2.95.3-beos-041202/include/exception :
+/boot/develop/headers/cpp/iostream.h :
+/boot/develop/headers/cpp/streambuf.h :
+/boot/develop/headers/cpp/stl_iterator.h :
+/boot/develop/headers/cpp/stl_alloc.h :
+/boot/develop/headers/posix/assert.h :
+/boot/develop/headers/cpp/stl_construct.h :
+/boot/develop/headers/cpp/stl_function.h :
+/boot/develop/headers/cpp/stl_map.h :
+/boot/develop/headers/cpp/stl_multimap.h :
+../kdebug.h :

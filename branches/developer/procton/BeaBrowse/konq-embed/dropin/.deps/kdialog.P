@@ -1,0 +1,3 @@
+kdialog.lo kdialog.o : kdialog.cpp
+kdialog.o :
+kdialog.cpp :

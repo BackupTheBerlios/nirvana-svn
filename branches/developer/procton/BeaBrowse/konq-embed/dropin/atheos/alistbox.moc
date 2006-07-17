@@ -1,0 +1,230 @@
+/****************************************************************************
+** QListBoxItem meta object code from reading C++ file 'alistbox.h'
+**
+** Created: Mon Apr 29 09:52:21 2002
+**      by: The Qt MOC ($Id: mocgen.cpp,v 1.1.1.1 2002/04/27 11:02:23 procton Exp $)
+**
+** WARNING! All changes made in this file will be lost!
+*****************************************************************************/
+
+#if !defined(Q_MOC_OUTPUT_REVISION)
+#define Q_MOC_OUTPUT_REVISION 9
+#elif Q_MOC_OUTPUT_REVISION != 9
+#error "Moc format conflict - please regenerate all moc files"
+#endif
+
+#include "alistbox.h"
+#include <qmetaobject.h>
+#include <qapplication.h>
+
+
+
+const char *QListBoxItem::className() const
+{
+    return "QListBoxItem";
+}
+
+QMetaObject *QListBoxItem::metaObj = 0;
+
+void QListBoxItem::initMetaObject()
+{
+    if ( metaObj )
+	return;
+    if ( qstrcmp(QObject::className(), "QObject") != 0 )
+	badSuperclassWarning("QListBoxItem","QObject");
+    (void) staticMetaObject();
+}
+
+#ifndef QT_NO_TRANSLATION
+
+QString QListBoxItem::tr(const char* s)
+{
+    return qApp->translate( "QListBoxItem", s, 0 );
+}
+
+QString QListBoxItem::tr(const char* s, const char * c)
+{
+    return qApp->translate( "QListBoxItem", s, c );
+}
+
+#endif // QT_NO_TRANSLATION
+
+QMetaObject* QListBoxItem::staticMetaObject()
+{
+    if ( metaObj )
+	return metaObj;
+    (void) QObject::staticMetaObject();
+#ifndef QT_NO_PROPERTIES
+#endif // QT_NO_PROPERTIES
+    QMetaData::Access *slot_tbl_access = 0;
+    metaObj = QMetaObject::new_metaobject(
+	"QListBoxItem", "QObject",
+	0, 0,
+	0, 0,
+#ifndef QT_NO_PROPERTIES
+	0, 0,
+	0, 0,
+#endif // QT_NO_PROPERTIES
+	0, 0 );
+    metaObj->set_slot_access( slot_tbl_access );
+#ifndef QT_NO_PROPERTIES
+#endif // QT_NO_PROPERTIES
+    return metaObj;
+}
+
+
+const char *QListBox::className() const
+{
+    return "QListBox";
+}
+
+QMetaObject *QListBox::metaObj = 0;
+
+void QListBox::initMetaObject()
+{
+    if ( metaObj )
+	return;
+    if ( qstrcmp(QWidget::className(), "QWidget") != 0 )
+	badSuperclassWarning("QListBox","QWidget");
+    (void) staticMetaObject();
+}
+
+#ifndef QT_NO_TRANSLATION
+
+QString QListBox::tr(const char* s)
+{
+    return qApp->translate( "QListBox", s, 0 );
+}
+
+QString QListBox::tr(const char* s, const char * c)
+{
+    return qApp->translate( "QListBox", s, c );
+}
+
+#endif // QT_NO_TRANSLATION
+
+QMetaObject* QListBox::staticMetaObject()
+{
+    if ( metaObj )
+	return metaObj;
+    (void) QWidget::staticMetaObject();
+#ifndef QT_NO_PROPERTIES
+#endif // QT_NO_PROPERTIES
+    QMetaData::Access *slot_tbl_access = 0;
+    typedef void (QListBox::*m2_t0)(QListBoxItem*);
+    typedef void (QObject::*om2_t0)(QListBoxItem*);
+    m2_t0 v2_0 = &QListBox::pressed;
+    om2_t0 ov2_0 = (om2_t0)v2_0;
+    QMetaData *signal_tbl = QMetaObject::new_metadata(1);
+    signal_tbl[0].name = "pressed(QListBoxItem*)";
+    signal_tbl[0].ptr = (QMember)ov2_0;
+    metaObj = QMetaObject::new_metaobject(
+	"QListBox", "QWidget",
+	0, 0,
+	signal_tbl, 1,
+#ifndef QT_NO_PROPERTIES
+	0, 0,
+	0, 0,
+#endif // QT_NO_PROPERTIES
+	0, 0 );
+    metaObj->set_slot_access( slot_tbl_access );
+#ifndef QT_NO_PROPERTIES
+#endif // QT_NO_PROPERTIES
+    return metaObj;
+}
+
+#include <qobjectdefs.h>
+#include <qsignalslotimp.h>
+
+// SIGNAL pressed
+void QListBox::pressed( QListBoxItem* t0 )
+{
+    // No builtin function for signal parameter type QListBoxItem*
+    QConnectionList *clist = receivers("pressed(QListBoxItem*)");
+    if ( !clist || signalsBlocked() )
+	return;
+    typedef void (QObject::*RT0)();
+    typedef void (QObject::*RT1)(QListBoxItem*);
+    RT0 r0;
+    RT1 r1;
+    QConnectionListIt it(*clist);
+    QConnection   *c;
+    QSenderObject *object;
+    while ( (c=it.current()) ) {
+	++it;
+	object = (QSenderObject*)c->object();
+	object->setSender( this );
+	switch ( c->numArgs() ) {
+	    case 0:
+#ifdef Q_FP_CCAST_BROKEN
+		r0 = reinterpret_cast<RT0>(*(c->member()));
+#else
+		r0 = (RT0)*(c->member());
+#endif
+		(object->*r0)();
+		break;
+	    case 1:
+#ifdef Q_FP_CCAST_BROKEN
+		r1 = reinterpret_cast<RT1>(*(c->member()));
+#else
+		r1 = (RT1)*(c->member());
+#endif
+		(object->*r1)(t0);
+		break;
+	}
+    }
+}
+
+
+const char *KListBox::className() const
+{
+    return "KListBox";
+}
+
+QMetaObject *KListBox::metaObj = 0;
+
+void KListBox::initMetaObject()
+{
+    if ( metaObj )
+	return;
+    if ( qstrcmp(QListBox::className(), "QListBox") != 0 )
+	badSuperclassWarning("KListBox","QListBox");
+    (void) staticMetaObject();
+}
+
+#ifndef QT_NO_TRANSLATION
+
+QString KListBox::tr(const char* s)
+{
+    return qApp->translate( "KListBox", s, 0 );
+}
+
+QString KListBox::tr(const char* s, const char * c)
+{
+    return qApp->translate( "KListBox", s, c );
+}
+
+#endif // QT_NO_TRANSLATION
+
+QMetaObject* KListBox::staticMetaObject()
+{
+    if ( metaObj )
+	return metaObj;
+    (void) QListBox::staticMetaObject();
+#ifndef QT_NO_PROPERTIES
+#endif // QT_NO_PROPERTIES
+    QMetaData::Access *slot_tbl_access = 0;
+    metaObj = QMetaObject::new_metaobject(
+	"KListBox", "QListBox",
+	0, 0,
+	0, 0,
+#ifndef QT_NO_PROPERTIES
+	0, 0,
+	0, 0,
+#endif // QT_NO_PROPERTIES
+	0, 0 );
+    metaObj->set_slot_access( slot_tbl_access );
+#ifndef QT_NO_PROPERTIES
+#endif // QT_NO_PROPERTIES
+    return metaObj;
+}

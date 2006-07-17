@@ -1,0 +1,25 @@
+/.cvsignore/1.1.1.1/Sat Apr 27 11:01:51 2002//
+/ChangeLog/1.1.1.1/Sat Apr 27 11:01:51 2002//
+/KJAS_GRAMMAR.txt/1.1.1.1/Sat Apr 27 11:01:51 2002//
+/Makefile.am/1.1.1.1/Sat Apr 27 11:01:52 2002//
+/README/1.1.1.1/Sat Apr 27 11:01:52 2002//
+/TODO/1.1.1.1/Sat Apr 27 11:01:52 2002//
+/configure.in.in/1.1.1.1/Sat Apr 27 11:01:52 2002//
+/javaembed.cpp/1.1.1.1/Sat Apr 27 11:01:52 2002//
+/javaembed.h/1.1.1.1/Sat Apr 27 11:01:52 2002//
+/kjava.jar/1.1.1.1/Sat Apr 27 11:01:52 2002//
+/kjava.policy.in/1.1.1.1/Sat Apr 27 11:01:52 2002//
+/kjavaapplet.cpp/1.1.1.1/Sat Apr 27 11:01:52 2002//
+/kjavaapplet.h/1.1.1.1/Sat Apr 27 11:01:52 2002//
+/kjavaappletcontext.cpp/1.1.1.1/Sat Apr 27 11:01:52 2002//
+/kjavaappletcontext.h/1.1.1.1/Sat Apr 27 11:01:52 2002//
+/kjavaappletserver.cpp/1.1.1.1/Sat Apr 27 11:01:52 2002//
+/kjavaappletserver.h/1.1.1.1/Sat Apr 27 11:01:52 2002//
+/kjavaappletwidget.cpp/1.1.1.1/Sat Apr 27 11:01:52 2002//
+/kjavaappletwidget.h/1.1.1.1/Sat Apr 27 11:01:52 2002//
+/kjavadownloader.cpp/1.1.1.1/Sat Apr 27 11:01:52 2002//
+/kjavadownloader.h/1.1.1.1/Sat Apr 27 11:01:52 2002//
+/kjavaprocess.cpp/1.1.1.1/Sat Apr 27 11:01:52 2002//
+/kjavaprocess.h/1.1.1.1/Sat Apr 27 11:01:52 2002//
+D/org////
+D/tests////

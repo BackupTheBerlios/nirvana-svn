@@ -1,0 +1,3 @@
+mainwindow.o : mainwindow.cpp
+mainwindow.o :
+mainwindow.cpp :

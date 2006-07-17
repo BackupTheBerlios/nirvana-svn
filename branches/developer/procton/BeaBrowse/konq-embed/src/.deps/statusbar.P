@@ -1,0 +1,123 @@
+statusbar.o : statusbar.cpp statusbar.h \
+ /boot/develop/headers/be/interface/Box.h \
+ /boot/develop/headers/be/BeBuild.h \
+ /boot/develop/headers/be/interface/View.h \
+ /boot/develop/headers/be/interface/InterfaceDefs.h \
+ /boot/develop/headers/be/interface/GraphicsDefs.h \
+ /boot/develop/headers/be/support/SupportDefs.h \
+ /boot/develop/headers/posix/sys/types.h \
+ /boot/develop/headers/posix/time.h \
+ /boot/develop/headers/posix/be_setup.h \
+ /boot/develop/headers/posix/null.h \
+ /boot/develop/headers/posix/size_t.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/stddef.h \
+ /boot/develop/headers/posix/sys/select.h \
+ /boot/develop/headers/posix/sys/time.h \
+ /boot/develop/headers/be/support/Errors.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/limits.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/syslimits.h \
+ /boot/develop/headers/posix/limits.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/float.h \
+ /boot/develop/headers/be/kernel/OS.h \
+ /boot/develop/headers/be/storage/StorageDefs.h \
+ /boot/develop/headers/posix/fcntl.h \
+ /boot/develop/headers/posix/sys/stat.h \
+ /boot/develop/headers/posix/sys/param.h \
+ /boot/develop/headers/be/interface/Font.h \
+ /boot/develop/headers/be/app/Handler.h \
+ /boot/develop/headers/be/support/Archivable.h \
+ /boot/develop/headers/be/kernel/image.h \
+ /boot/develop/headers/be/interface/Rect.h \
+ /boot/develop/headers/posix/math.h \
+ /boot/develop/headers/be/interface/Point.h \
+ /boot/develop/headers/cpp/string \
+ /boot/develop/headers/cpp/std/bastring.h \
+ /boot/develop/headers/cpp/cstddef \
+ /boot/develop/headers/cpp/std/straits.h \
+ /boot/develop/headers/cpp/cctype /boot/develop/headers/posix/ctype.h \
+ /boot/develop/headers/cpp/cstring \
+ /boot/develop/headers/posix/string.h \
+ /boot/develop/headers/cpp/alloc.h \
+ /boot/develop/headers/cpp/stl_config.h \
+ /boot/develop/headers/posix/_G_config.h \
+ /boot/develop/headers/cpp/stl_alloc.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/new \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/exception \
+ /boot/develop/headers/posix/stdlib.h \
+ /boot/develop/headers/posix/div_t.h \
+ /boot/develop/headers/posix/wchar_t.h \
+ /boot/develop/headers/posix/sys/wait.h \
+ /boot/develop/headers/posix/alloca.h \
+ /boot/develop/headers/posix/assert.h \
+ /boot/develop/headers/cpp/iterator \
+ /boot/develop/headers/cpp/stl_relops.h \
+ /boot/develop/headers/cpp/iostream.h \
+ /boot/develop/headers/cpp/streambuf.h \
+ /boot/develop/headers/posix/libio.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/stdarg.h \
+ /boot/develop/headers/cpp/stl_iterator.h \
+ /boot/develop/headers/cpp/std/bastring.cc \
+ /boot/develop/headers/be/interface/StringView.h
+statusbar.o :
+statusbar.cpp :
+statusbar.h :
+/boot/develop/headers/be/interface/Box.h :
+/boot/develop/headers/be/BeBuild.h :
+/boot/develop/headers/be/interface/View.h :
+/boot/develop/headers/be/interface/InterfaceDefs.h :
+/boot/develop/headers/be/interface/GraphicsDefs.h :
+/boot/develop/headers/be/support/SupportDefs.h :
+/boot/develop/headers/posix/sys/types.h :
+/boot/develop/headers/posix/time.h :
+/boot/develop/headers/posix/be_setup.h :
+/boot/develop/headers/posix/null.h :
+/boot/develop/headers/posix/size_t.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/stddef.h :
+/boot/develop/headers/posix/sys/select.h :
+/boot/develop/headers/posix/sys/time.h :
+/boot/develop/headers/be/support/Errors.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/limits.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/syslimits.h :
+/boot/develop/headers/posix/limits.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/float.h :
+/boot/develop/headers/be/kernel/OS.h :
+/boot/develop/headers/be/storage/StorageDefs.h :
+/boot/develop/headers/posix/fcntl.h :
+/boot/develop/headers/posix/sys/stat.h :
+/boot/develop/headers/posix/sys/param.h :
+/boot/develop/headers/be/interface/Font.h :
+/boot/develop/headers/be/app/Handler.h :
+/boot/develop/headers/be/support/Archivable.h :
+/boot/develop/headers/be/kernel/image.h :
+/boot/develop/headers/be/interface/Rect.h :
+/boot/develop/headers/posix/math.h :
+/boot/develop/headers/be/interface/Point.h :
+/boot/develop/headers/cpp/string :
+/boot/develop/headers/cpp/std/bastring.h :
+/boot/develop/headers/cpp/cstddef :
+/boot/develop/headers/cpp/std/straits.h :
+/boot/develop/headers/cpp/cctype :
+/boot/develop/headers/posix/ctype.h :
+/boot/develop/headers/cpp/cstring :
+/boot/develop/headers/posix/string.h :
+/boot/develop/headers/cpp/alloc.h :
+/boot/develop/headers/cpp/stl_config.h :
+/boot/develop/headers/posix/_G_config.h :
+/boot/develop/headers/cpp/stl_alloc.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/new :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/exception :
+/boot/develop/headers/posix/stdlib.h :
+/boot/develop/headers/posix/div_t.h :
+/boot/develop/headers/posix/wchar_t.h :
+/boot/develop/headers/posix/sys/wait.h :
+/boot/develop/headers/posix/alloca.h :
+/boot/develop/headers/posix/assert.h :
+/boot/develop/headers/cpp/iterator :
+/boot/develop/headers/cpp/stl_relops.h :
+/boot/develop/headers/cpp/iostream.h :
+/boot/develop/headers/cpp/streambuf.h :
+/boot/develop/headers/posix/libio.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/stdarg.h :
+/boot/develop/headers/cpp/stl_iterator.h :
+/boot/develop/headers/cpp/std/bastring.cc :
+/boot/develop/headers/be/interface/StringView.h :

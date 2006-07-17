@@ -1,0 +1,3 @@
+kstdaction.lo kstdaction.o : kstdaction.cpp
+kstdaction.o :
+kstdaction.cpp :

@@ -1,0 +1,100 @@
+kjs_text.lo kjs_text.o : kjs_text.cpp /boot/develop/headers/posix/stdio.h \
+ /boot/develop/headers/posix/be_setup.h \
+ /boot/develop/headers/be/BeBuild.h \
+ /boot/develop/headers/posix/size_t.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/stddef.h \
+ /boot/develop/headers/posix/null.h \
+ /boot/develop/headers/posix/va_list.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/stdarg.h \
+ /boot/develop/headers/posix/wchar_t.h \
+ /boot/develop/headers/posix/gnu_stdio.h \
+ /boot/develop/headers/posix/sys/types.h \
+ /boot/develop/headers/posix/time.h \
+ /boot/develop/headers/posix/sys/select.h \
+ /boot/develop/headers/posix/sys/time.h \
+ /boot/develop/headers/posix/_G_config.h \
+ /boot/develop/headers/posix/libio.h ../../kjs/operations.h \
+ ../../kjs/object.h /boot/develop/headers/posix/stdlib.h \
+ /boot/develop/headers/posix/div_t.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/limits.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/syslimits.h \
+ /boot/develop/headers/posix/limits.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/float.h \
+ /boot/develop/headers/posix/sys/wait.h \
+ /boot/develop/headers/posix/alloca.h ../../kjs/ustring.h \
+ ../../../../config.h ../dom/dom_string.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qstring.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qcstring.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qarray.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qgarray.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qshared.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qglobal.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qfeatures.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qconfig.h \
+ /boot/develop/headers/posix/string.h ../dom/dom_exception.h kjs_dom.h \
+ ../dom/dom_node.h ../dom/dom_doc.h ../dom/dom_element.h \
+ ../dom/css_value.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qcolor.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qwindowdefs.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qobjectdefs.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qnamespace.h \
+ ../dom/dom_xml.h ../dom/dom_text.h ../../kjs/function.h \
+ /boot/develop/headers/posix/assert.h ../../kjs/types.h kjs_binding.h \
+ kjs_text.h
+kjs_text.o :
+kjs_text.cpp :
+/boot/develop/headers/posix/stdio.h :
+/boot/develop/headers/posix/be_setup.h :
+/boot/develop/headers/be/BeBuild.h :
+/boot/develop/headers/posix/size_t.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/stddef.h :
+/boot/develop/headers/posix/null.h :
+/boot/develop/headers/posix/va_list.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/stdarg.h :
+/boot/develop/headers/posix/wchar_t.h :
+/boot/develop/headers/posix/gnu_stdio.h :
+/boot/develop/headers/posix/sys/types.h :
+/boot/develop/headers/posix/time.h :
+/boot/develop/headers/posix/sys/select.h :
+/boot/develop/headers/posix/sys/time.h :
+/boot/develop/headers/posix/_G_config.h :
+/boot/develop/headers/posix/libio.h :
+../../kjs/operations.h :
+../../kjs/object.h :
+/boot/develop/headers/posix/stdlib.h :
+/boot/develop/headers/posix/div_t.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/limits.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/syslimits.h :
+/boot/develop/headers/posix/limits.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/float.h :
+/boot/develop/headers/posix/sys/wait.h :
+/boot/develop/headers/posix/alloca.h :
+../../kjs/ustring.h :
+../../../../config.h :
+../dom/dom_string.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qstring.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qcstring.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qarray.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qgarray.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qshared.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qglobal.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qfeatures.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qconfig.h :
+/boot/develop/headers/posix/string.h :
+../dom/dom_exception.h :
+kjs_dom.h :
+../dom/dom_node.h :
+../dom/dom_doc.h :
+../dom/dom_element.h :
+../dom/css_value.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qcolor.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qwindowdefs.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qobjectdefs.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qnamespace.h :
+../dom/dom_xml.h :
+../dom/dom_text.h :
+../../kjs/function.h :
+/boot/develop/headers/posix/assert.h :
+../../kjs/types.h :
+kjs_binding.h :
+kjs_text.h :

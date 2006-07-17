@@ -1,0 +1,3 @@
+kiconloader.lo kiconloader.o : kiconloader.cpp
+kiconloader.o :
+kiconloader.cpp :

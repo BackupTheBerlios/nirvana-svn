@@ -1,0 +1,73 @@
+/****************************************************************************
+** KApplication meta object code from reading C++ file 'kapp.h'
+**
+** Created: Mon Apr 29 09:52:25 2002
+**      by: The Qt MOC ($Id: mocgen.cpp,v 1.1.1.1 2002/04/27 11:02:23 procton Exp $)
+**
+** WARNING! All changes made in this file will be lost!
+*****************************************************************************/
+
+#if !defined(Q_MOC_OUTPUT_REVISION)
+#define Q_MOC_OUTPUT_REVISION 9
+#elif Q_MOC_OUTPUT_REVISION != 9
+#error "Moc format conflict - please regenerate all moc files"
+#endif
+
+#include "kapp.h"
+#include <qmetaobject.h>
+#include <qapplication.h>
+
+
+
+const char *KApplication::className() const
+{
+    return "KApplication";
+}
+
+QMetaObject *KApplication::metaObj = 0;
+
+void KApplication::initMetaObject()
+{
+    if ( metaObj )
+	return;
+    if ( qstrcmp(KInstance::className(), "KInstance") != 0 )
+	badSuperclassWarning("KApplication","KInstance");
+    (void) staticMetaObject();
+}
+
+#ifndef QT_NO_TRANSLATION
+
+QString KApplication::tr(const char* s)
+{
+    return qApp->translate( "KApplication", s, 0 );
+}
+
+QString KApplication::tr(const char* s, const char * c)
+{
+    return qApp->translate( "KApplication", s, c );
+}
+
+#endif // QT_NO_TRANSLATION
+
+QMetaObject* KApplication::staticMetaObject()
+{
+    if ( metaObj )
+	return metaObj;
+    (void) KInstance::staticMetaObject();
+#ifndef QT_NO_PROPERTIES
+#endif // QT_NO_PROPERTIES
+    QMetaData::Access *slot_tbl_access = 0;
+    metaObj = QMetaObject::new_metaobject(
+	"KApplication", "KInstance",
+	0, 0,
+	0, 0,
+#ifndef QT_NO_PROPERTIES
+	0, 0,
+	0, 0,
+#endif // QT_NO_PROPERTIES
+	0, 0 );
+    metaObj->set_slot_access( slot_tbl_access );
+#ifndef QT_NO_PROPERTIES
+#endif // QT_NO_PROPERTIES
+    return metaObj;
+}

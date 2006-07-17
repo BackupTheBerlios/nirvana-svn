@@ -1,0 +1,146 @@
+css_stylesheetimpl.lo css_stylesheetimpl.o : css_stylesheetimpl.cpp css_stylesheetimpl.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qlist.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qglist.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qcollection.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qglobal.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qfeatures.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qconfig.h \
+ ../dom/dom_string.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qstring.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qcstring.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qarray.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qgarray.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qshared.h \
+ /boot/develop/headers/posix/string.h \
+ /boot/develop/headers/posix/be_setup.h \
+ /boot/develop/headers/be/BeBuild.h \
+ /boot/develop/headers/posix/size_t.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/stddef.h \
+ /boot/develop/headers/posix/null.h cssparser.h ../dom/dom_misc.h \
+ ../misc/loader_client.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qpixmap.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/../../konq-embed/dropin/atheos/apixmap.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qpaintdevice.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/../../konq-embed/dropin/atheos/apaintdevice.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qnamespace.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qsize.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qpoint.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qwindowdefs.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qobjectdefs.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/limits.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/syslimits.h \
+ /boot/develop/headers/posix/limits.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/float.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qrect.h \
+ ../dom/css_stylesheet.h ../dom/dom_node.h ../dom/css_rule.h \
+ ../dom/css_value.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qcolor.h \
+ css_ruleimpl.h css_valueimpl.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qintdict.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qgdict.h \
+ ../dom/dom_exception.h ../xml/dom_nodeimpl.h \
+ ../html/html_documentimpl.h ../xml/dom_docimpl.h \
+ ../xml/dom2_traversalimpl.h ../dom/dom2_traversal.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qstringlist.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qvaluelist.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qdatastream.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qiodevice.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qregexp.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qobject.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qevent.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/../../konq-embed/dropin/atheos/aevent.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qdict.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qmap.h \
+ ../misc/loader.h ../../../../config.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qptrdict.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qbuffer.h \
+ ../misc/loader_atheos.h ../../kdecore/kurl.h \
+ ../../../dropin/kio/jobclasses.h ../../kio/global.h \
+ /boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qdatetime.h \
+ /boot/develop/headers/be/support/DataIO.h \
+ /boot/develop/headers/be/support/SupportDefs.h \
+ /boot/develop/headers/posix/sys/types.h \
+ /boot/develop/headers/posix/time.h \
+ /boot/develop/headers/posix/sys/select.h \
+ /boot/develop/headers/posix/sys/time.h \
+ /boot/develop/headers/be/support/Errors.h ../../../dropin/kdebug.h
+css_stylesheetimpl.o :
+css_stylesheetimpl.cpp :
+css_stylesheetimpl.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qlist.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qglist.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qcollection.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qglobal.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qfeatures.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qconfig.h :
+../dom/dom_string.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qstring.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qcstring.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qarray.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qgarray.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qshared.h :
+/boot/develop/headers/posix/string.h :
+/boot/develop/headers/posix/be_setup.h :
+/boot/develop/headers/be/BeBuild.h :
+/boot/develop/headers/posix/size_t.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/stddef.h :
+/boot/develop/headers/posix/null.h :
+cssparser.h :
+../dom/dom_misc.h :
+../misc/loader_client.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qpixmap.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/../../konq-embed/dropin/atheos/apixmap.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qpaintdevice.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/../../konq-embed/dropin/atheos/apaintdevice.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qnamespace.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qsize.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qpoint.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qwindowdefs.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qobjectdefs.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/limits.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/syslimits.h :
+/boot/develop/headers/posix/limits.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/float.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qrect.h :
+../dom/css_stylesheet.h :
+../dom/dom_node.h :
+../dom/css_rule.h :
+../dom/css_value.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qcolor.h :
+css_ruleimpl.h :
+css_valueimpl.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qintdict.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qgdict.h :
+../dom/dom_exception.h :
+../xml/dom_nodeimpl.h :
+../html/html_documentimpl.h :
+../xml/dom_docimpl.h :
+../xml/dom2_traversalimpl.h :
+../dom/dom2_traversal.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qstringlist.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qvaluelist.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qdatastream.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qiodevice.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qregexp.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qobject.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qevent.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/../../konq-embed/dropin/atheos/aevent.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qdict.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qmap.h :
+../misc/loader.h :
+../../../../config.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qptrdict.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qbuffer.h :
+../misc/loader_atheos.h :
+../../kdecore/kurl.h :
+../../../dropin/kio/jobclasses.h :
+../../kio/global.h :
+/boot/home/linus/sources/cvs/BeaBrowse/qt-2.3.0/include/qdatetime.h :
+/boot/develop/headers/be/support/DataIO.h :
+/boot/develop/headers/be/support/SupportDefs.h :
+/boot/develop/headers/posix/sys/types.h :
+/boot/develop/headers/posix/time.h :
+/boot/develop/headers/posix/sys/select.h :
+/boot/develop/headers/posix/sys/time.h :
+/boot/develop/headers/be/support/Errors.h :
+../../../dropin/kdebug.h :

@@ -1,0 +1,80 @@
+main.o : main.cpp /boot/develop/headers/be/app/Application.h \
+ /boot/develop/headers/be/BeBuild.h \
+ /boot/develop/headers/be/app/AppDefs.h \
+ /boot/develop/headers/be/interface/InterfaceDefs.h \
+ /boot/develop/headers/be/interface/GraphicsDefs.h \
+ /boot/develop/headers/be/support/SupportDefs.h \
+ /boot/develop/headers/posix/sys/types.h \
+ /boot/develop/headers/posix/time.h \
+ /boot/develop/headers/posix/be_setup.h \
+ /boot/develop/headers/posix/null.h \
+ /boot/develop/headers/posix/size_t.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/stddef.h \
+ /boot/develop/headers/posix/sys/select.h \
+ /boot/develop/headers/posix/sys/time.h \
+ /boot/develop/headers/be/support/Errors.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/limits.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/syslimits.h \
+ /boot/develop/headers/posix/limits.h \
+ /boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/float.h \
+ /boot/develop/headers/be/kernel/OS.h \
+ /boot/develop/headers/be/storage/StorageDefs.h \
+ /boot/develop/headers/posix/fcntl.h \
+ /boot/develop/headers/posix/sys/stat.h \
+ /boot/develop/headers/posix/sys/param.h \
+ /boot/develop/headers/be/interface/Rect.h \
+ /boot/develop/headers/posix/math.h \
+ /boot/develop/headers/be/interface/Point.h \
+ /boot/develop/headers/be/app/Looper.h \
+ /boot/develop/headers/be/support/List.h \
+ /boot/develop/headers/be/app/Handler.h \
+ /boot/develop/headers/be/support/Archivable.h \
+ /boot/develop/headers/be/kernel/image.h \
+ /boot/develop/headers/be/app/Messenger.h \
+ /boot/develop/headers/be/support/ByteOrder.h \
+ /boot/develop/headers/posix/endian.h \
+ /boot/develop/headers/be/support/TypeConstants.h \
+ /boot/develop/headers/be/app/Message.h \
+ /boot/develop/headers/be/support/DataIO.h \
+ /boot/develop/headers/be/support/Flattenable.h
+main.o :
+main.cpp :
+/boot/develop/headers/be/app/Application.h :
+/boot/develop/headers/be/BeBuild.h :
+/boot/develop/headers/be/app/AppDefs.h :
+/boot/develop/headers/be/interface/InterfaceDefs.h :
+/boot/develop/headers/be/interface/GraphicsDefs.h :
+/boot/develop/headers/be/support/SupportDefs.h :
+/boot/develop/headers/posix/sys/types.h :
+/boot/develop/headers/posix/time.h :
+/boot/develop/headers/posix/be_setup.h :
+/boot/develop/headers/posix/null.h :
+/boot/develop/headers/posix/size_t.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/stddef.h :
+/boot/develop/headers/posix/sys/select.h :
+/boot/develop/headers/posix/sys/time.h :
+/boot/develop/headers/be/support/Errors.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/limits.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/syslimits.h :
+/boot/develop/headers/posix/limits.h :
+/boot/develop/tools/gnupro/lib/gcc-lib/i586-beos/2.9-beos-991026/include/float.h :
+/boot/develop/headers/be/kernel/OS.h :
+/boot/develop/headers/be/storage/StorageDefs.h :
+/boot/develop/headers/posix/fcntl.h :
+/boot/develop/headers/posix/sys/stat.h :
+/boot/develop/headers/posix/sys/param.h :
+/boot/develop/headers/be/interface/Rect.h :
+/boot/develop/headers/posix/math.h :
+/boot/develop/headers/be/interface/Point.h :
+/boot/develop/headers/be/app/Looper.h :
+/boot/develop/headers/be/support/List.h :
+/boot/develop/headers/be/app/Handler.h :
+/boot/develop/headers/be/support/Archivable.h :
+/boot/develop/headers/be/kernel/image.h :
+/boot/develop/headers/be/app/Messenger.h :
+/boot/develop/headers/be/support/ByteOrder.h :
+/boot/develop/headers/posix/endian.h :
+/boot/develop/headers/be/support/TypeConstants.h :
+/boot/develop/headers/be/app/Message.h :
+/boot/develop/headers/be/support/DataIO.h :
+/boot/develop/headers/be/support/Flattenable.h :

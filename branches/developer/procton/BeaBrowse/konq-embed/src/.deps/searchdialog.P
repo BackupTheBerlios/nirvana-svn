@@ -1,0 +1,3 @@
+searchdialog.o : searchdialog.cpp
+searchdialog.o :
+searchdialog.cpp :
