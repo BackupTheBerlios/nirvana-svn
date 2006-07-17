@@ -26,9 +26,6 @@
 #ifndef QSTRING_H_
 #define QSTRING_H_
 
-#if !KWQUBE
-#include <CoreFoundation/CoreFoundation.h>
-#endif
 #include "KWQCString.h"
 #include "WebCoreUnicode.h"
 
@@ -37,12 +34,6 @@
 
 class QRegExp;
 
-#ifdef __OBJC__
-@class NSString;
-#else
-class NSString;
-#endif
-
 class QChar {
 public:
 
@@ -50,11 +41,7 @@ public:
         DirL = 0, DirR, DirEN, DirES, DirET, DirAN, DirCS, DirB, DirS, DirWS, DirON,
         DirLRE, DirLRO, DirAL, DirRLE, DirRLO, DirPDF, DirNSM, DirBN
     };
-#if !KWQUBE
-    static const char null = 0; // not a QChar as in Qt (can't have static constructor), but close enough to be compatible in most cases
-#else
     static const char null; // ANSI c++ forbids inclass initalization of non-integral type
-#endif
     
     QChar();
     QChar(char);
@@ -110,6 +97,7 @@ public:
     friend bool operator<=(char, QChar);
 
 private:
+
     UniChar c;
 
     friend class QString;
@@ -122,58 +110,18 @@ private:
     static int digitValueNonASCII(UniChar c);
     static UniChar lowerNonASCII(UniChar c);
     static UniChar upperNonASCII(UniChar c);
-    /*
-#if KWQUBE
-} Q_PACKED;
-#else
-};
-#endif
-*/
 };
 
-inline QChar::QChar() : c(0)
-{
-}
-
-inline QChar::QChar(char ch) : c((uchar) ch)
-{
-}
-
-inline QChar::QChar(uchar uch) : c(uch)
-{
-}
-
-inline QChar::QChar(short n) : c(n)
-{
-}
-
-inline QChar::QChar(ushort n) : c(n)
-{
-}
-
-inline QChar::QChar(uint n) : c(n)
-{
-}
-
-inline QChar::QChar(int n) : c(n)
-{
-}
-
-inline ushort QChar::unicode() const
-{
-    return c;
-}
-
-inline uchar QChar::cell() const
-{
-    return c;
-}
-
-inline bool QChar::isNull() const
-{
-    return c == 0;
-}
-
+inline QChar::QChar() : c(0) { }
+inline QChar::QChar(char ch) : c((uchar) ch) { }
+inline QChar::QChar(uchar uch) : c(uch) { }
+inline QChar::QChar(short n) : c(n) { }
+inline QChar::QChar(ushort n) : c(n) { }
+inline QChar::QChar(uint n) : c(n) { }
+inline QChar::QChar(int n) : c(n) { }
+inline ushort QChar::unicode() const { return c; }
+inline uchar QChar::cell() const { return c; }
+inline bool QChar::isNull() const { return c == 0; }
 inline bool QChar::isSpace() const
 {
     // Use isspace() for basic latin1.  This will include newlines, which
@@ -215,7 +163,6 @@ inline QChar QChar::upper() const
 {
     return c <= 0x7F ? toupper(c) : upperNonASCII(c);
 }
-
 
 inline QChar::Direction QChar::direction() const
 {
@@ -415,11 +362,6 @@ public:
     static QString fromUtf8(const char *);
     static QString fromUtf8(const char *, int len);
     
-#if !KWQUBE
-    static QString fromCFString(CFStringRef);
-    static QString fromNSString(NSString *);
-#endif
-    
     QString &operator=(char);
     QString &operator=(QChar);
     QString &operator=(const char *);
@@ -559,14 +501,7 @@ public:
     QString &operator+=(QChar c) { return append(c); }
     QString &operator+=(char c) { return append(c); }
 
-#if !KWQUBE
-    CFStringRef getCFString() const;
-    NSString *getNSString() const;
-
-    void setBufferFromCFString(CFStringRef);
-#else
     void setLength(uint newlen);
-#endif
 
 /*
     friend bool operator==(const QString &, const QString &);
@@ -585,10 +520,6 @@ private:
     void deref();
     QChar *forceUnicode();
     
-#ifndef KWQUBE
-    void setLength(uint);
-#endif
-
     KWQStringData **dataHandle;
     KWQStringData internalData;
     
@@ -649,13 +580,6 @@ inline const QChar *QString::unicode() const
 {
     return dataHandle[0]->unicode();
 }
-
-#if !KWQUBE
-inline CFStringRef QString::getCFString() const
-{
-    return (CFStringRef)getNSString();
-}
-#endif
 
 inline QString QString::fromLatin1(const char *chs)
 {
@@ -772,7 +696,6 @@ inline bool operator>=(const char *chs, const QString &qs)
     return qs.compare(chs) <= 0;
 }
 
-
 class QConstString : private QString {
 public:
     QConstString(const QChar *, uint);
@@ -780,8 +703,4 @@ public:
     const QString &string() const { return *this; }
 };
 
-#if !KWQUBE
-extern const CFDictionaryKeyCallBacks CFDictionaryQStringKeyCallBacks;
-#endif
-
-#endif
+#endif /* QString */

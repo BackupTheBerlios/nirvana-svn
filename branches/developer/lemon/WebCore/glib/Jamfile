@@ -1,0 +1,16 @@
+SubDir WEBCORE_TOP glib ;
+
+LOCATE_TARGET = [ FDirName $(WEBCORE_TOP) objects ] ;
+
+SubDirHdrs [ FDirName $(WEBCORE_TOP) glib ] ;
+
+StaticLibrary libG.a
+    :
+    gerror.c
+    gunibreak.c
+    gunidecomp.c
+    guniprop.c
+    gutf8.c
+    localcharset.c
+    ghash.c
+    ;
