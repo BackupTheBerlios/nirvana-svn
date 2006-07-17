@@ -165,8 +165,11 @@ g_hash_table_new_full (GHashFunc       hash_func,
 GHashTable*
 g_hash_table_ref (GHashTable *hash_table)
 {
-  g_return_val_if_fail (hash_table != NULL, NULL);
-  g_return_val_if_fail (hash_table->ref_count > 0, hash_table);
+
+  if (hash_table == NULL) return NULL;
+  if (hash_table->ref_count < 1) return hash_table;
+ // g_return_val_if_fail (hash_table != NULL, NULL);
+ // g_return_val_if_fail (hash_table->ref_count > 0, hash_table);
 
   g_atomic_int_add (&hash_table->ref_count, 1);
   return hash_table;
@@ -186,8 +189,10 @@ g_hash_table_ref (GHashTable *hash_table)
 void
 g_hash_table_unref (GHashTable *hash_table)
 {
-  g_return_if_fail (hash_table != NULL);
-  g_return_if_fail (hash_table->ref_count > 0);
+  if (hash_table == NULL) return;
+  if (hash_table->ref_count < 1) return;
+  //g_return_if_fail (hash_table != NULL);
+  //g_return_if_fail (hash_table->ref_count > 0);
 
   if (g_atomic_int_exchange_and_add (&hash_table->ref_count, -1) - 1 == 0)
     {
@@ -217,8 +222,10 @@ g_hash_table_unref (GHashTable *hash_table)
 void
 g_hash_table_destroy (GHashTable *hash_table)
 {
-  g_return_if_fail (hash_table != NULL);
-  g_return_if_fail (hash_table->ref_count > 0);
+  if (hash_table == NULL) return;
+  if (hash_table->ref_count < 1) return;
+  //g_return_if_fail (hash_table != NULL);
+  //g_return_if_fail (hash_table->ref_count > 0);
   
   g_hash_table_remove_all (hash_table);
   g_hash_table_unref (hash_table);
@@ -266,7 +273,8 @@ g_hash_table_lookup (GHashTable	  *hash_table,
 {
   GHashNode *node;
   
-  g_return_val_if_fail (hash_table != NULL, NULL);
+  if (hash_table == NULL) return NULL;
+  //g_return_val_if_fail (hash_table != NULL, NULL);
   
   node = *g_hash_table_lookup_node (hash_table, key);
   
@@ -295,7 +303,8 @@ g_hash_table_lookup_extended (GHashTable    *hash_table,
 {
   GHashNode *node;
   
-  g_return_val_if_fail (hash_table != NULL, FALSE);
+  if (hash_table == NULL) return FALSE;
+  //g_return_val_if_fail (hash_table != NULL, FALSE);
   
   node = *g_hash_table_lookup_node (hash_table, lookup_key);
   
@@ -332,8 +341,10 @@ g_hash_table_insert (GHashTable *hash_table,
 {
   GHashNode **node;
   
-  g_return_if_fail (hash_table != NULL);
-  g_return_if_fail (hash_table->ref_count > 0);
+  if (hash_table == NULL) return;
+  if (hash_table->ref_count < 1) return;
+  //g_return_if_fail (hash_table != NULL);
+  //g_return_if_fail (hash_table->ref_count > 0);
   
   node = g_hash_table_lookup_node (hash_table, key);
   
@@ -381,8 +392,11 @@ g_hash_table_replace (GHashTable *hash_table,
 {
   GHashNode **node;
   
-  g_return_if_fail (hash_table != NULL);
-  g_return_if_fail (hash_table->ref_count > 0);
+  if (hash_table == NULL) return;
+  if (hash_table->ref_count < 1) return;
+  
+  //g_return_if_fail (hash_table != NULL);
+  //g_return_if_fail (hash_table->ref_count > 0);
   
   node = g_hash_table_lookup_node (hash_table, key);
   
@@ -425,7 +439,8 @@ g_hash_table_remove (GHashTable	   *hash_table,
 {
   GHashNode **node, *dest;
   
-  g_return_val_if_fail (hash_table != NULL, FALSE);
+  if (hash_table == NULL) return FALSE;
+  //g_return_val_if_fail (hash_table != NULL, FALSE);
   
   node = g_hash_table_lookup_node (hash_table, key);
   if (*node)
@@ -463,7 +478,8 @@ g_hash_table_remove_all (GHashTable *hash_table)
 {
   guint i;
 
-  g_return_if_fail (hash_table != NULL);
+  if (hash_table == NULL) return;
+  //g_return_if_fail (hash_table != NULL);
 
   for (i = 0; i < hash_table->size; i++)
     {
@@ -493,7 +509,8 @@ g_hash_table_steal (GHashTable    *hash_table,
 {
   GHashNode **node, *dest;
   
-  g_return_val_if_fail (hash_table != NULL, FALSE);
+  if (hash_table == NULL) return FALSE;
+  //g_return_val_if_fail (hash_table != NULL, FALSE);
   
   node = g_hash_table_lookup_node (hash_table, key);
   if (*node)
@@ -525,7 +542,8 @@ g_hash_table_steal_all (GHashTable *hash_table)
 {
   guint i;
 
-  g_return_if_fail (hash_table != NULL);
+  if (hash_table == NULL) return;
+  ///g_return_if_fail (hash_table != NULL);
 
   for (i = 0; i < hash_table->size; i++)
     {
@@ -557,8 +575,10 @@ g_hash_table_foreach_remove (GHashTable	*hash_table,
 			     GHRFunc	 func,
 			     gpointer	 user_data)
 {
-  g_return_val_if_fail (hash_table != NULL, 0);
-  g_return_val_if_fail (func != NULL, 0);
+ if (hash_table == NULL) return 0;
+ if (func == NULL) return 0;
+  //g_return_val_if_fail (hash_table != NULL, 0);
+  //g_return_val_if_fail (func != NULL, 0);
   
   return g_hash_table_foreach_remove_or_steal (hash_table, func, user_data, TRUE);
 }
@@ -580,8 +600,10 @@ g_hash_table_foreach_steal (GHashTable *hash_table,
                             GHRFunc	func,
                             gpointer	user_data)
 {
-  g_return_val_if_fail (hash_table != NULL, 0);
-  g_return_val_if_fail (func != NULL, 0);
+  if( hash_table == NULL) return 0;
+  if (func == NULL) return 0;
+  //g_return_val_if_fail (hash_table != NULL, 0);
+  //g_return_val_if_fail (func != NULL, 0);
   
   return g_hash_table_foreach_remove_or_steal (hash_table, func, user_data, FALSE);
 }
@@ -656,8 +678,10 @@ g_hash_table_foreach (GHashTable *hash_table,
   GHashNode *node;
   gint i;
   
-  g_return_if_fail (hash_table != NULL);
-  g_return_if_fail (func != NULL);
+  if (hash_table == NULL) return NULL;
+  if (func == NULL) return NULL;
+  //g_return_if_fail (hash_table != NULL);
+  //g_return_if_fail (func != NULL);
   
   for (i = 0; i < hash_table->size; i++)
     for (node = hash_table->nodes[i]; node; node = node->next)
@@ -689,8 +713,10 @@ g_hash_table_find (GHashTable	   *hash_table,
   GHashNode *node;
   gint i;
   
-  g_return_val_if_fail (hash_table != NULL, NULL);
-  g_return_val_if_fail (predicate != NULL, NULL);
+  if (hash_table == NULL) return NULL;
+  if (predicate == NULL) return NULL;
+  //g_return_val_if_fail (hash_table != NULL, NULL);
+  //g_return_val_if_fail (predicate != NULL, NULL);
   
   for (i = 0; i < hash_table->size; i++)
     for (node = hash_table->nodes[i]; node; node = node->next)
@@ -710,7 +736,8 @@ g_hash_table_find (GHashTable	   *hash_table,
 guint
 g_hash_table_size (GHashTable *hash_table)
 {
-  g_return_val_if_fail (hash_table != NULL, 0);
+  if (hash_table == NULL) return 0;
+  //g_return_val_if_fail (hash_table != NULL, 0);
   
   return hash_table->nnodes;
 }

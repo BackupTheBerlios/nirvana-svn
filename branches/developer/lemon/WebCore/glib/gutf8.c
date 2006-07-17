@@ -221,7 +221,8 @@ g_utf8_strlen (const gchar *p,
 {
   glong len = 0;
   const gchar *start = p;
-  g_return_val_if_fail (p != NULL || max == 0, 0);
+  //g_return_val_if_fail (p != NULL || max == 0, 0);
+  if (!(p != NULL || max == 0)) return 0;
 
   if (max < 0)
     {
@@ -823,7 +824,8 @@ g_utf8_to_ucs4_fast (const gchar *str,
   gint n_chars, i;
   const gchar *p;
 
-  g_return_val_if_fail (str != NULL, NULL);
+  if (str == NULL) return NULL;
+  //g_return_val_if_fail (str != NULL, NULL);
 
   p = str;
   n_chars = 0;
@@ -953,11 +955,11 @@ g_utf8_to_ucs4 (const gchar *str,
 		break;
 	      else
 		g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_PARTIAL_INPUT,
-			     _("Partial character sequence at end of input"));
+			     ("Partial character sequence at end of input"));
 	    }
 	  else
 	    g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_ILLEGAL_SEQUENCE,
-			 _("Invalid byte sequence in conversion input"));
+			 ("Invalid byte sequence in conversion input"));
 
 	  goto err_out;
 	}
@@ -1031,7 +1033,7 @@ g_ucs4_to_utf8 (const gunichar *str,
       if (str[i] >= 0x80000000)
 	{
 	  g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_ILLEGAL_SEQUENCE,
-		       _("Character out of range for UTF-8"));
+		       ("Character out of range for UTF-8"));
 	  goto err_out;
 	}
       
@@ -1105,7 +1107,8 @@ g_utf16_to_utf8 (const gunichar2  *str,
   gint n_bytes;
   gunichar high_surrogate;
 
-  g_return_val_if_fail (str != 0, NULL);
+  if (str == 0) return NULL;
+  //g_return_val_if_fail (str != 0, NULL);
 
   n_bytes = 0;
   in = str;
@@ -1125,7 +1128,7 @@ g_utf16_to_utf8 (const gunichar2  *str,
 	  else
 	    {
 	      g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_ILLEGAL_SEQUENCE,
-			   _("Invalid sequence in conversion input"));
+			   ("Invalid sequence in conversion input"));
 	      goto err_out;
 	    }
 	}
@@ -1134,7 +1137,7 @@ g_utf16_to_utf8 (const gunichar2  *str,
 	  if (high_surrogate)
 	    {
 	      g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_ILLEGAL_SEQUENCE,
-			   _("Invalid sequence in conversion input"));
+			   ("Invalid sequence in conversion input"));
 	      goto err_out;
 	    }
 
@@ -1157,7 +1160,7 @@ g_utf16_to_utf8 (const gunichar2  *str,
   if (high_surrogate && !items_read)
     {
       g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_PARTIAL_INPUT,
-		   _("Partial character sequence at end of input"));
+		   ("Partial character sequence at end of input"));
       goto err_out;
     }
   
@@ -1246,7 +1249,8 @@ g_utf16_to_ucs4 (const gunichar2  *str,
   gint n_bytes;
   gunichar high_surrogate;
 
-  g_return_val_if_fail (str != 0, NULL);
+  if (str ==  0) return NULL;
+  //g_return_val_if_fail (str != 0, NULL);
 
   n_bytes = 0;
   in = str;
@@ -1266,7 +1270,7 @@ g_utf16_to_ucs4 (const gunichar2  *str,
 	  else
 	    {
 	      g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_ILLEGAL_SEQUENCE,
-			   _("Invalid sequence in conversion input"));
+			   ("Invalid sequence in conversion input"));
 	      goto err_out;
 	    }
 	}
@@ -1275,7 +1279,7 @@ g_utf16_to_ucs4 (const gunichar2  *str,
 	  if (high_surrogate)
 	    {
 	      g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_ILLEGAL_SEQUENCE,
-			   _("Invalid sequence in conversion input"));
+			   ("Invalid sequence in conversion input"));
 	      goto err_out;
 	    }
 
@@ -1298,7 +1302,7 @@ g_utf16_to_ucs4 (const gunichar2  *str,
   if (high_surrogate && !items_read)
     {
       g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_PARTIAL_INPUT,
-		   _("Partial character sequence at end of input"));
+		   ("Partial character sequence at end of input"));
       goto err_out;
     }
   
@@ -1387,7 +1391,8 @@ g_utf8_to_utf16 (const gchar *str,
   const gchar *in;
   gint i;
 
-  g_return_val_if_fail (str != NULL, NULL);
+  if (str == NULL) return NULL;
+  ///g_return_val_if_fail (str != NULL, NULL);
 
   in = str;
   n16 = 0;
@@ -1402,11 +1407,11 @@ g_utf8_to_utf16 (const gchar *str,
 		break;
 	      else
 		g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_PARTIAL_INPUT,
-			     _("Partial character sequence at end of input"));
+			     ("Partial character sequence at end of input"));
 	    }
 	  else
 	    g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_ILLEGAL_SEQUENCE,
-			 _("Invalid byte sequence in conversion input"));
+			 ("Invalid byte sequence in conversion input"));
 
 	  goto err_out;
 	}
@@ -1416,7 +1421,7 @@ g_utf8_to_utf16 (const gchar *str,
       else if (wc < 0xe000)
 	{
 	  g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_ILLEGAL_SEQUENCE,
-		       _("Invalid sequence in conversion input"));
+		       ("Invalid sequence in conversion input"));
 
 	  goto err_out;
 	}
@@ -1427,7 +1432,7 @@ g_utf8_to_utf16 (const gchar *str,
       else
 	{
 	  g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_ILLEGAL_SEQUENCE,
-		       _("Character out of range for UTF-16"));
+		       ("Character out of range for UTF-16"));
 
 	  goto err_out;
 	}
@@ -1512,7 +1517,7 @@ g_ucs4_to_utf16 (const gunichar  *str,
       else if (wc < 0xe000)
 	{
 	  g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_ILLEGAL_SEQUENCE,
-		       _("Invalid sequence in conversion input"));
+		       ("Invalid sequence in conversion input"));
 
 	  goto err_out;
 	}
@@ -1523,7 +1528,7 @@ g_ucs4_to_utf16 (const gunichar  *str,
       else
 	{
 	  g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_ILLEGAL_SEQUENCE,
-		       _("Character out of range for UTF-16"));
+		       ("Character out of range for UTF-16"));
 
 	  goto err_out;
 	}

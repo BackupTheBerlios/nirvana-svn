@@ -4,7 +4,7 @@ LOCATE_TARGET = [ FDirName $(WEBCORE_TOP) objects ] ;
 
 SubDirHdrs [ FDirName $(WEBCORE_TOP) glib ] ;
 
-StaticLibrary libG.a
+StaticLibrary libNanoG.a
     :
     gerror.c
     gunibreak.c
@@ -14,3 +14,4 @@ StaticLibrary libG.a
     localcharset.c
     ghash.c
     ;
+
