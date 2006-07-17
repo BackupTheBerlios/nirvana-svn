@@ -3,10 +3,10 @@ SubDir WEBCORE_TOP ;
 DEFINES = BEOS KWQUBE APPLE_CHANGES _KWQ_IOSTREAM_ ;
 LOCATE_TARGET = [ FDirName $(WEBCORE_TOP) objects ] ;
 
-SharedLibrary libWebCore.so
-    :
-    WebCore.cpp
-    ;
+#SharedLibrary libWebCore.so
+#    :
+#    WebCore.cpp
+#    ;
 
 LinkAgainst libWebCore.so
     :
@@ -23,6 +23,10 @@ LinkAgainst libWebCore.so
 
 StdLibs libWebCore.so : be stdc++ JavaScriptCore ;
 
-SubInclude WEBCORE_TOP khtml ;
-SubInclude WEBCORE_TOP kwqube ;
+SharedLibrary libNanoG.so ;
+LinkAgainst libNanoG.so : libNanoG.a ;
+StdLibs libG.so : be ;  
+
+#SubInclude WEBCORE_TOP khtml ;
+#SubInclude WEBCORE_TOP kwqube ;
 SubInclude WEBCORE_TOP glib ;
