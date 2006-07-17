@@ -33,7 +33,7 @@ g_error_copy (const GError *error)
   if (error == NULL) return NULL;
   copy = malloc(sizeof(GError));
   *copy = *error;
-  copy->message = g_strdup (error->message);
+  copy->message = strdup (error->message);
   return copy;
 }
 

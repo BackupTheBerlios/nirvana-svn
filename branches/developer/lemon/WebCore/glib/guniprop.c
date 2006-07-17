@@ -872,7 +872,8 @@ g_utf8_strup (const gchar *str,
   LocaleType locale_type;
   gchar *result;
 
-  g_return_val_if_fail (str != NULL, NULL);
+  if (str == NULL) return NULL;
+  //g_return_val_if_fail (str != NULL, NULL);
 
   locale_type = get_locale_type ();
   
@@ -880,7 +881,7 @@ g_utf8_strup (const gchar *str,
    * We use a two pass approach to keep memory management simple
    */
   result_len = real_toupper (str, len, NULL, locale_type);
-  result = g_malloc (result_len + 1);
+  result = malloc(result_len+1);//g_malloc (result_len + 1);
   real_toupper (str, len, result, locale_type);
   result[result_len] = '\0';
 
@@ -1055,7 +1056,8 @@ g_utf8_strdown (const gchar *str,
   LocaleType locale_type;
   gchar *result;
 
-  g_return_val_if_fail (str != NULL, NULL);
+  if (str == NULL) return NULL;
+  //g_return_val_if_fail (str != NULL, NULL);
 
   locale_type = get_locale_type ();
   
@@ -1063,7 +1065,7 @@ g_utf8_strdown (const gchar *str,
    * We use a two pass approach to keep memory management simple
    */
   result_len = real_tolower (str, len, NULL, locale_type);
-  result = g_malloc (result_len + 1);
+  result = malloc(result_len+1);//g_malloc (result_len + 1);
   real_tolower (str, len, result, locale_type);
   result[result_len] = '\0';
 

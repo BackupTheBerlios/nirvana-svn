@@ -220,7 +220,7 @@ g_unicode_canonical_decomposition (gunichar ch,
   if (ch >= 0xac00 && ch <= 0xd7a3)
     {
       decompose_hangul (ch, NULL, result_len);
-      r = g_malloc (*result_len * sizeof (gunichar));
+      r = malloc (sizeof(*result_len)* sizeof(gunichar)); //g_malloc (*result_len * sizeof (gunichar));
       decompose_hangul (ch, r, result_len);
     }
   else if ((decomp = find_decomposition (ch, FALSE)) != NULL)
@@ -229,7 +229,7 @@ g_unicode_canonical_decomposition (gunichar ch,
       int i;
       
       *result_len = g_utf8_strlen (decomp, -1);
-      r = g_malloc (*result_len * sizeof (gunichar));
+      r = malloc(sizeof(*result_len)*sizeof(gunichar)); //g_malloc (*result_len * sizeof (gunichar));
       
       for (p = decomp, i = 0; *p != '\0'; p = g_utf8_next_char (p), i++)
         r[i] = g_utf8_get_char (p);
@@ -237,7 +237,7 @@ g_unicode_canonical_decomposition (gunichar ch,
   else
     {
       /* Not in our table.  */
-      r = g_malloc (sizeof (gunichar));
+      r = malloc(sizeof(gunichar));//g_malloc (sizeof (gunichar));
       *r = ch;
       *result_len = 1;
     }

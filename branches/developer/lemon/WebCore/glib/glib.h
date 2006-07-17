@@ -6,6 +6,11 @@
 #include "gtypes.h"
 #include "gerror.h"
 
+#define GINT_TO_POINTER(i)	((gpointer)  (i))
+#define GPOINTER_TO_INT(p)	((gint)   (p))
+#define GUINT_TO_POINTER(u)	((gpointer)  (u))
+#define GPOINTER_TO_UINT(p)	((guint)  (p))
+
 #define G_CONVERT_ERROR 1000
 typedef enum
 {

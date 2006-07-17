@@ -556,9 +556,9 @@ g_get_charset (/*G_CONST_RETURN*/const char **charset)
 	    
       g_free (cache->raw);
       g_free (cache->charset);
-      cache->raw = g_strdup (raw);
+      cache->raw = /*g_*/ strdup (raw);
       cache->is_utf8 = g_utf8_get_charset_internal (raw, &new_charset);
-      cache->charset = g_strdup (new_charset);
+      cache->charset = /*g_*/ strdup (new_charset);
     }
 
   if (charset)
@@ -1040,7 +1040,7 @@ g_ucs4_to_utf8 (const gunichar *str,
       result_length += UTF8_LENGTH (str[i]);
     }
 
-  result = g_malloc (result_length + 1);
+  result = malloc(result_length+1);//g_malloc (result_length + 1);
   p = result;
 
   i = 0;
@@ -1167,7 +1167,7 @@ g_utf16_to_utf8 (const gunichar2  *str,
   /* At this point, everything is valid, and we just need to convert
    */
   /********** DIFFERENT for UTF8/UCS4 **********/
-  result = g_malloc (n_bytes + 1);
+  result = malloc(n_bytes+1);//g_malloc (n_bytes + 1);
   
   high_surrogate = 0;
   out = result;
@@ -1309,7 +1309,7 @@ g_utf16_to_ucs4 (const gunichar2  *str,
   /* At this point, everything is valid, and we just need to convert
    */
   /********** DIFFERENT for UTF8/UCS4 **********/
-  result = g_malloc (n_bytes + 4);
+  result = malloc(n_bytes+4);//g_malloc (n_bytes + 4);
   
   high_surrogate = 0;
   out = result;
