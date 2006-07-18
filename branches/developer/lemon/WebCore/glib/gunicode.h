@@ -22,8 +22,8 @@
 #ifndef __G_UNICODE_H__
 #define __G_UNICODE_H__
 
-#include "gerror.h"
-#include "gtypes.h"
+#include "glib.h"
+#include "gmacros.h"
 
 G_BEGIN_DECLS
 
@@ -118,7 +118,7 @@ typedef enum
  * in case the locale's charset will be changed later using setlocale()
  * or in some other way.
  */
-gboolean g_get_charset (G_CONST_RETURN char **charset);
+gboolean g_get_charset (const char **charset);
 
 /* These are all analogs of the <ctype.h> functions.
  */

@@ -7,11 +7,9 @@ SubDirHdrs [ FDirName $(WEBCORE_TOP) glib ] ;
 StaticLibrary libNanoG.a
     :
     gerror.c
-    gunibreak.c
-    gunidecomp.c
     guniprop.c
     gutf8.c
     localcharset.c
     ghash.c
+    gstring.c
     ;
-

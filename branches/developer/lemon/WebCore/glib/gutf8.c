@@ -1,5 +1,4 @@
-/* gutf8.c - Operations on UTF-8 strings.
- *
+/*
  * Copyright (C) 1999 Tom Tromey
  * Copyright (C) 2000 Red Hat, Inc.
  *
@@ -33,7 +32,7 @@
 #include "gmacros.h"
 #include "glib.h"
 #include "ghash.h"
-//#include "galias.h"
+#include "gstring.h"
 
 #ifdef G_PLATFORM_WIN32
 #include <stdio.h>
@@ -538,14 +537,19 @@ charset_cache_free (gpointer data)
 gboolean
 g_get_charset (/*G_CONST_RETURN*/const char **charset) 
 {
-  static GStaticPrivate cache_private = G_STATIC_PRIVATE_INIT;
-  GCharsetCache *cache = g_static_private_get (&cache_private);
+
+    // LEMON TODO
+    // every thread has its own charset
+    // use TLS
+
+  //static GStaticPrivate cache_private = G_STATIC_PRIVATE_INIT;
+  GCharsetCache *cache = NULL; //g_static_private_get (&cache_private);
   const gchar *raw;
 
   if (!cache)
     {
       cache = calloc(1, sizeof(GCharsetCache));//g_new0 (GCharsetCache, 1);
-      g_static_private_set (&cache_private, cache, charset_cache_free);
+      //g_static_private_set (&cache_private, cache, charset_cache_free);
     }
 
   raw = _g_locale_charset_raw ();
@@ -556,9 +560,9 @@ g_get_charset (/*G_CONST_RETURN*/const char **charset)
 	    
       g_free (cache->raw);
       g_free (cache->charset);
-      cache->raw = /*g_*/ strdup (raw);
+      cache->raw = g_strdup (raw);
       cache->is_utf8 = g_utf8_get_charset_internal (raw, &new_charset);
-      cache->charset = /*g_*/ strdup (new_charset);
+      cache->charset = g_strdup (new_charset);
     }
 
   if (charset)

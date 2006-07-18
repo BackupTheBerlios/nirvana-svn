@@ -3,8 +3,6 @@
 
 #include "gmacros.h"
 
-//#include <glibconfig.h>
-
 G_BEGIN_DECLS
 
 /* Provide type definitions for commonly used types.

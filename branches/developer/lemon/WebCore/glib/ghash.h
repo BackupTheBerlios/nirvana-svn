@@ -1,7 +1,7 @@
 #ifndef G_HASH_H
 #define G_HASH_H
 
-#include "gtypes.h"
+#include "gmacros.h"
 
 G_BEGIN_DECLS
 

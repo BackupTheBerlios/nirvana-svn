@@ -14,7 +14,7 @@ g_error_new_literal (GQuark         domain,
   err = malloc (sizeof(GError));
   err->domain = domain;
   err->code = code;
-  err->message = strdup (message);
+  err->message = g_strdup (message);
   return err;
 }
 
@@ -33,7 +33,7 @@ g_error_copy (const GError *error)
   if (error == NULL) return NULL;
   copy = malloc(sizeof(GError));
   *copy = *error;
-  copy->message = strdup (error->message);
+  copy->message = g_strdup (error->message);
   return copy;
 }
 
@@ -97,6 +97,3 @@ g_clear_error (GError **err)
       *err = NULL;
     }
 }
-
-#define __G_ERROR_C__
-//#include "galiasdef.c"

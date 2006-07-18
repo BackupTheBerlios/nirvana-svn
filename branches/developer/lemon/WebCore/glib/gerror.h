@@ -2,7 +2,7 @@
 #define G_ERROR_H
 
 #include "gmacros.h"
-#include "gtypes.h"
+#include "glib.h"
 
 G_BEGIN_DECLS
 
