@@ -13,6 +13,18 @@ g_direct_hash (gconstpointer v)
     return GPOINTER_TO_UINT (v);
 }
 
+gboolean
+g_int_equal (gconstpointer v1, gconstpointer v2)
+{
+    return *((const gint*) v1) == *((const gint*) v2);
+} 
+
+guint
+g_int_hash (gconstpointer v)
+{
+  return *(const gint*) v;
+} 
+
 struct _GHashNode
 {
   gpointer   key;

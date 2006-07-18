@@ -8,16 +8,8 @@
 #include "gstring.h"
 #include "ghash.h"
 #include "gunicode.h"
+#include "gconvert.h"
 #include "libcharset.h"
-
-typedef enum {
-    G_CONVERT_ERROR_NO_CONVERSION,
-    G_CONVERT_ERROR_ILLEGAL_SEQUENCE,
-    G_CONVERT_ERROR_FAILED,
-    G_CONVERT_ERROR_PARTIAL_INPUT,
-    G_CONVERT_ERROR_BAD_URI,
-    G_CONVERT_ERROR_NOT_ABSOLUTE_PATH
-} GConvertError;
 
 struct _GStaticPrivate { guint index; };
 typedef struct _GStaticPrivate GStaticPrivate;
@@ -28,6 +20,9 @@ typedef struct _GStaticPrivate GStaticPrivate;
 #define GPOINTER_TO_INT(p)	((gint)   (p))
 #define GUINT_TO_POINTER(u)	((gpointer)  (u))
 #define GPOINTER_TO_UINT(p)	((guint)  (p))
+#define REPORT_G_CONV_ERROR(err) report_g_conv_error(__FILE__,__LINE__,err)
+#define g_assert(expr)          G_STMT_START{ (void)0; }G_STMT_END
+#define g_assert_not_reached()  G_STMT_START{ (void)0; }G_STMT_END   
 
 #define g_new(struct_type, n_structs) malloc (((gsize) sizeof (struct_type)) * ((gsize) (n_structs))))
 #define g_new(struct_type, n_structs) malloc (((gsize) sizeof (struct_type)) * ((gsize) (n_structs))))
