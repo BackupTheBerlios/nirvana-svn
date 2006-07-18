@@ -1,0 +1,20 @@
+SubDir WEBCORE_TOP kwqube ;
+
+LOCATE_TARGET = [ FDirName $(WEBCORE_TOP) objects ] ;
+
+SubDirHdrs [ FDirName $(WEBCORE_TOP) ForwardingHeaders ] ;
+SubDirHdrs [ FDirName $(WEBCORE_TOP) khtml ] ;
+SubDirHdrs [ FDirName $(WEBCORE_TOP) kwqube ] ;
+SubDirHdrs [ FDirName $(WEBCORE_TOP) glib ] ;
+
+StaticLibrary libKWQ.a
+    :
+    QAssertions.cpp
+    QArrayImpl.cpp
+    QChar.cpp
+    QGlobal.cpp
+    CString.cpp
+    QString.cpp
+    QRegExp.cpp
+    WebCoreUnicode.cpp
+    ;
