@@ -32,6 +32,7 @@ void     g_set_error           (GError       **err,
 void     g_propagate_error     (GError       **dest,
 				GError        *src);
 void     g_clear_error         (GError       **err);
+void report_g_conv_error(const char* file,int line, GError* err);
 
 G_END_DECLS
 

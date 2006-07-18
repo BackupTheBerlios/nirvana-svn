@@ -24,11 +24,9 @@
  */
 
 #include "KWQTextCodec.h"
-
 #include "KWQAssertions.h"
 #include "KWQCharsets.h"
-
-#if KWIQ
+#if KWQUBE
 #include "KWIQMacros.h"
 #include <glib.h>
 #endif    

@@ -27,6 +27,10 @@ SharedLibrary libNanoG.so ;
 LinkAgainst libNanoG.so : libNanoG.a ;
 StdLibs libG.so : be ;  
 
+SharedLibrary libKWQ.so ;
+LinkAgainst libKWQ.so : libKWQ.a ;
+StdLibs libKWQ.so : be NanoG JavaScriptCore ;
+
 #SubInclude WEBCORE_TOP khtml ;
-#SubInclude WEBCORE_TOP kwqube ;
+SubInclude WEBCORE_TOP kwqube ;
 SubInclude WEBCORE_TOP glib ;
