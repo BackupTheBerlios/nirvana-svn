@@ -23,5 +23,8 @@
 #define G_STMT_END while (0)
 
 #define G_CONST_RETURN const
-
+#define G_UNLIKELY(expr) (expr)
+#define CLAMP(x, low, high)  (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
+#define G_N_ELEMENTS(arr)               (sizeof (arr) / sizeof ((arr)[0]))
+     
 #endif 
