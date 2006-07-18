@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003 Apple Computer, Inc.  All rights reserved.
+ * Copyright (C) 2001, 2002 Apple Computer, Inc.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -23,36 +23,39 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#include "KWQFrame.h"
-#include "khtmlview.h"
-#include "KWQKHTMLPart.h"
-#include "WebCoreBridge.h"
+#include "KWQPalette.h"
 
-void QFrame::setFrameStyle(int s)
+const QColor& QPalette::color(ColorGroup cg, QColorGroup::ColorRole role) const
 {
-    _frameStyle = s;
-
-    // Tell the other side of the bridge about the frame style change.
-    KHTMLView *view;
-    if (this->inherits("KHTMLView")){
-	view = static_cast<KHTMLView *>(this);
-	if (view) {
-	    KHTMLPart *part = view->part();
-	    if (part) {
-		KWQ(part)->bridge()->setHasBorder(s != NoFrame);
-	    }
-	}
+    switch (cg) {
+    default: // keep GCC from complaining about NColorGroups
+    case Active:
+        return m_active.color(role);
+    case Inactive:
+        return m_inactive.color(role);
+    case Disabled:
+        return m_disabled.color(role);
     }
 }
 
-int QFrame::frameStyle()
+void QPalette::setColor(ColorGroup cg, QColorGroup::ColorRole role, const QColor &color)
 {
-    return _frameStyle;
+    switch (cg) {
+    case Active:
+        m_active.setColor(role, color);
+        break;
+    case Inactive:
+        m_inactive.setColor(role, color);
+        break;
+    case Disabled:
+        m_disabled.setColor(role, color);
+        break;
+    default: // keep GCC from complaining about NColorGroups
+        break;
+    }
 }
 
-int QFrame::frameWidth() const
+bool QPalette::operator==(QPalette const &other) const
 {
-    if (_frameStyle == (StyledPanel | Sunken))
-        return 3;
-    return 0;
+    return m_active == other.m_active && m_inactive == other.m_inactive && m_disabled == other.m_disabled;
 }

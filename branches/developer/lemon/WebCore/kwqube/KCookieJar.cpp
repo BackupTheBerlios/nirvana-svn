@@ -20,39 +20,47 @@
  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
  * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "KWQFrame.h"
-#include "khtmlview.h"
-#include "KWQKHTMLPart.h"
-#include "WebCoreBridge.h"
+#include "KWQKCookieJar.h"
 
-void QFrame::setFrameStyle(int s)
+#include "KWQKURL.h"
+#include "KWQLogging.h"
+QString KWQKCookieJar::cookie(const KURL &url)
 {
-    _frameStyle = s;
+#if 0    
+    KWQ_BLOCK_EXCEPTIONS;
+    return QString::fromNSString([[WebCoreCookieAdapter sharedAdapter] cookiesForURL:url.url().getNSString()]);
+    KWQ_UNBLOCK_EXCEPTIONS;
+#endif
 
-    // Tell the other side of the bridge about the frame style change.
-    KHTMLView *view;
-    if (this->inherits("KHTMLView")){
-	view = static_cast<KHTMLView *>(this);
-	if (view) {
-	    KHTMLPart *part = view->part();
-	    if (part) {
-		KWQ(part)->bridge()->setHasBorder(s != NoFrame);
-	    }
-	}
-    }
+    LOG(NotYetImplemented,"KWIQ");    
+    return QString();    
 }
 
-int QFrame::frameStyle()
+void KWQKCookieJar::setCookie(const KURL &url, const KURL &policyBaseURL, const QString &cookie)
 {
-    return _frameStyle;
+#if 0    
+    KWQ_BLOCK_EXCEPTIONS;
+
+    [[WebCoreCookieAdapter sharedAdapter] setCookies:cookie.getNSString()
+     forURL:url.url().getNSString() policyBaseURL:policyBaseURL.url().getNSString()];
+
+    KWQ_UNBLOCK_EXCEPTIONS;
+#endif    
+
+    LOG(NotYetImplemented,"KWIQ");
 }
 
-int QFrame::frameWidth() const
+bool KWQKCookieJar::cookieEnabled()
 {
-    if (_frameStyle == (StyledPanel | Sunken))
-        return 3;
-    return 0;
+#if 0    
+    KWQ_BLOCK_EXCEPTIONS;
+    return [[WebCoreCookieAdapter sharedAdapter] cookiesEnabled];
+    KWQ_UNBLOCK_EXCEPTIONS;
+#endif
+    
+    LOG(NotYetImplemented,"KWIQ");    
+    return false;
 }

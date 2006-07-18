@@ -27,7 +27,6 @@
 #define QREGEXP_H_
 
 #include "KWQString.h"
-
 #include "KWQRefPtr.h"
 
 class QRegExp {

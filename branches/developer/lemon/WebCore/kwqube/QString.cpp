@@ -2447,6 +2447,21 @@ bool operator==(const QString &s1, const QString &s2)
     return QString::equals(s1,s2);
 }
 
+bool operator==(QString &s1, QString &s2)
+{
+    return QString::equals(s1,s2);
+}
+
+bool operator==(const QString &s1, QString s2)
+{
+    return QString::equals(s1,s2);
+}
+
+bool operator==(QString &s1, const QString &s2)
+{
+    return QString::equals(s1,s2);
+}
+
 bool operator==(const QString &s1, const char *chs)
 {
     return QString::equals(s1,chs);

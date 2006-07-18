@@ -24,7 +24,7 @@ class WebCoreTextRendererFactory
 public:
     static WebCoreTextRendererFactory* sharedFactory() { return m_sharedFactory; }
 
-    virtual NSFont* fontWithFamilies(const gchar * const * families, NSFontTraitMask traits, float size) = 0;
+    virtual NSFont* fontWithFamilies(const char * const * families, NSFontTraitMask traits, float size) = 0;
     virtual WebCoreTextRenderer* rendererWithFont(NSFont *font, bool isPrinterFont) = 0;
     virtual bool isFontFixedPitch(NSFont* f) =0;
     

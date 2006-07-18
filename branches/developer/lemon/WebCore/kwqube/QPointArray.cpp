@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003 Apple Computer, Inc.  All rights reserved.
+ * Copyright (C) 2001, 2002 Apple Computer, Inc.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -23,36 +23,66 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#include "KWQFrame.h"
-#include "khtmlview.h"
-#include "KWQKHTMLPart.h"
-#include "WebCoreBridge.h"
+#include "KWQPointArray.h"
+#include <stdarg.h>
 
-void QFrame::setFrameStyle(int s)
+QPointArray::QPointArray(int nPoints, const int *points)
 {
-    _frameStyle = s;
+    setPoints( nPoints, points );
+}
 
-    // Tell the other side of the bridge about the frame style change.
-    KHTMLView *view;
-    if (this->inherits("KHTMLView")){
-	view = static_cast<KHTMLView *>(this);
-	if (view) {
-	    KHTMLPart *part = view->part();
-	    if (part) {
-		KWQ(part)->bridge()->setHasBorder(s != NoFrame);
-	    }
-	}
+
+void QPointArray::setPoint( uint index, int x, int y )
+{
+    QMemArray<QPoint>::at( index ) = QPoint( x, y );
+}
+
+
+bool QPointArray::setPoints( int nPoints, const int *points )
+{
+    if ( !resize(nPoints) )
+	return FALSE;
+    int i = 0;
+    while ( nPoints-- ) {			// make array of points
+	setPoint( i++, *points, *(points+1) );
+	points++;
+	points++;
     }
+    return TRUE;
 }
 
-int QFrame::frameStyle()
+// FIXME: Workaround for Radar 2921061
+#if 0
+
+bool QPointArray::setPoints( int nPoints, int firstx, int firsty, ... )
 {
-    return _frameStyle;
+    va_list ap;
+    if ( !resize(nPoints) )
+	return FALSE;
+    setPoint( 0, firstx, firsty );		// set first point
+    int i = 1, x, y;
+    nPoints--;
+    va_start( ap, firsty );
+    while ( nPoints-- ) {
+	x = va_arg( ap, int );
+	y = va_arg( ap, int );
+	setPoint( i++, x, y );
+    }
+    va_end( ap );
+    return TRUE;
 }
 
-int QFrame::frameWidth() const
+#else
+
+bool QPointArray::setPoints( int nPoints, int x0, int y0, int x1, int y1, int x2, int y2, int x3, int y3)
 {
-    if (_frameStyle == (StyledPanel | Sunken))
-        return 3;
-    return 0;
+    if ( !resize(nPoints) )
+	return FALSE;
+    setPoint( 0, x0, y0 );
+    setPoint( 1, x1, y1 );
+    setPoint( 2, x2, y2 );
+    setPoint( 3, x3, y3 );
+    return TRUE;
 }
+
+#endif

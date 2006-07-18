@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003 Apple Computer, Inc.  All rights reserved.
+ * Copyright (C) 2001, 2002 Apple Computer, Inc.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -23,36 +23,70 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#include "KWQFrame.h"
-#include "khtmlview.h"
-#include "KWQKHTMLPart.h"
-#include "WebCoreBridge.h"
+#include "KWQFile.h"
 
-void QFrame::setFrameStyle(int s)
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+QFile::QFile(const QString &n)
 {
-    _frameStyle = s;
+    name = n;
+    fd = -1;
+}
 
-    // Tell the other side of the bridge about the frame style change.
-    KHTMLView *view;
-    if (this->inherits("KHTMLView")){
-	view = static_cast<KHTMLView *>(this);
-	if (view) {
-	    KHTMLPart *part = view->part();
-	    if (part) {
-		KWQ(part)->bridge()->setHasBorder(s != NoFrame);
-	    }
-	}
+QFile::~QFile()
+{
+    close();
+}
+
+bool QFile::exists() const
+{
+    return access(name.ascii(), F_OK) == 0;
+}
+
+bool QFile::open(int mode)
+{
+    close();
+
+    if (mode == IO_ReadOnly) {
+	fd = ::open(name.ascii(), O_RDONLY);
+    }
+
+    return fd != -1;
+}
+
+void QFile::close()
+{
+    if (fd != -1) {
+	::close(fd);
+    }
+
+    fd = -1;
+}
+
+int QFile::readBlock(char *data, uint bytesToRead)
+{
+    if (fd == -1) {
+	return -1;
+    } else {
+	return read(fd, data, bytesToRead);
     }
 }
 
-int QFrame::frameStyle()
+uint QFile::size() const
 {
-    return _frameStyle;
+    struct stat statbuf;
+    
+    if (stat(name.ascii(), &statbuf) == 0) {
+	return statbuf.st_size;
+    } else {
+	return 0;
+    }
 }
 
-int QFrame::frameWidth() const
+bool QFile::exists(const QString &path)
 {
-    if (_frameStyle == (StyledPanel | Sunken))
-        return 3;
-    return 0;
+    return QFile(path).exists();
 }

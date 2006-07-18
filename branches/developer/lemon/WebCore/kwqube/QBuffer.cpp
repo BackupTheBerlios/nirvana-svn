@@ -23,36 +23,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#include "KWQFrame.h"
-#include "khtmlview.h"
-#include "KWQKHTMLPart.h"
-#include "WebCoreBridge.h"
+#include "KWQBuffer.h"
 
-void QFrame::setFrameStyle(int s)
+void QBuffer::open(int)
 {
-    _frameStyle = s;
-
-    // Tell the other side of the bridge about the frame style change.
-    KHTMLView *view;
-    if (this->inherits("KHTMLView")){
-	view = static_cast<KHTMLView *>(this);
-	if (view) {
-	    KHTMLPart *part = view->part();
-	    if (part) {
-		KWQ(part)->bridge()->setHasBorder(s != NoFrame);
-	    }
-	}
+    if (!opened) {
+        opened = true;
+        pos = 0;
     }
 }
 
-int QFrame::frameStyle()
+int QBuffer::writeBlock(const char *data, uint len)
 {
-    return _frameStyle;
-}
+    // FIXME: could easily be optimized a lot - leave extra space in
+    // buffer for amortized constant time growth
 
-int QFrame::frameWidth() const
-{
-    if (_frameStyle == (StyledPanel | Sunken))
-        return 3;
-    return 0;
+    if (pos+len > ba.size()) {
+        if (!ba.resize(pos+len)) {
+	    return -1;
+	}
+    }
+    memcpy(ba.data()+pos, data, len);
+    pos += len;
+
+    return len;
 }

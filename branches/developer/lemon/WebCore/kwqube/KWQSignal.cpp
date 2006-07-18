@@ -26,7 +26,7 @@
 #include "KWQSignal.h"
 
 #include "KWQObject.h"
-#if KWIQ
+#if KWQUBE
 // FIXME:KWIQ: remove logging when done with QSignal debuggin
 #include "KWQLogging.h"
 #else
@@ -185,7 +185,7 @@ void KWQSignal::call(Job *j, const KURL &u) const
         }
     }
 }
-#if !KWIQ
+#if !KWQUBE
 void KWQSignal::call(Job *j, void *d) const
 {
     if (!_object->_signalsBlocked) {

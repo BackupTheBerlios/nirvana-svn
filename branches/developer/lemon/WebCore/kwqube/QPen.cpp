@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003 Apple Computer, Inc.  All rights reserved.
+ * Copyright (C) 2001, 2002 Apple Computer, Inc.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -23,36 +23,52 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#include "KWQFrame.h"
-#include "khtmlview.h"
-#include "KWQKHTMLPart.h"
-#include "WebCoreBridge.h"
+#include "KWQPen.h"
 
-void QFrame::setFrameStyle(int s)
+QPen::QPen(const QColor &color, uint width, PenStyle style) : penStyle(style), penWidth(width), penColor(color)
 {
-    _frameStyle = s;
-
-    // Tell the other side of the bridge about the frame style change.
-    KHTMLView *view;
-    if (this->inherits("KHTMLView")){
-	view = static_cast<KHTMLView *>(this);
-	if (view) {
-	    KHTMLPart *part = view->part();
-	    if (part) {
-		KWQ(part)->bridge()->setHasBorder(s != NoFrame);
-	    }
-	}
-    }
 }
 
-int QFrame::frameStyle()
+const QColor &QPen::color() const
 {
-    return _frameStyle;
+    return penColor;
 }
 
-int QFrame::frameWidth() const
+uint QPen::width() const
 {
-    if (_frameStyle == (StyledPanel | Sunken))
-        return 3;
-    return 0;
+    return penWidth;
 }
+
+QPen::PenStyle QPen::style() const
+{
+    return penStyle;
+}
+
+void QPen::setColor(const QColor &color)
+{
+    penColor = color;
+}
+
+void QPen::setWidth(uint width)
+{
+    penWidth = width;
+}
+
+void QPen::setStyle(PenStyle style)
+{
+    penStyle = style;
+}
+
+bool QPen::operator==(const QPen &compareTo) const
+{
+    return (penWidth == compareTo.penWidth) &&
+        (penStyle == compareTo.penStyle) &&
+        (penColor == compareTo.penColor);
+}
+
+bool QPen::operator!=(const QPen &compareTo) const
+{
+    return !(*this == compareTo);
+}
+
+

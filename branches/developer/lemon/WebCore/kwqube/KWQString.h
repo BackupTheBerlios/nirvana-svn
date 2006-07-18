@@ -542,6 +542,7 @@ QString operator+(QChar, const QString &);
 QString operator+(char, const QString &);
 
 bool operator==(QString &, QString &);
+bool operator==(QString &, const QString &);
 bool operator==(const QString &, const QString &);
 bool operator==(const QString &, QString);
 bool operator==(const QString &, const char *);

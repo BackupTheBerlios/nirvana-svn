@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2003 Apple Computer, Inc.  All rights reserved.
+ * Copyright (C) 2001, 2002 Apple Computer, Inc.  All rights reserved.
+ * Copyright (C) 2003 Nokia Corporation.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -23,36 +24,72 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#include "KWQFrame.h"
-#include "khtmlview.h"
-#include "KWQKHTMLPart.h"
-#include "WebCoreBridge.h"
+#include "KWQRegion.h"
 
-void QFrame::setFrameStyle(int s)
+QRegion::QRegion(const QRect &rect)
 {
-    _frameStyle = s;
+    r=rect;
+    t=Rectangle;
+}
 
-    // Tell the other side of the bridge about the frame style change.
-    KHTMLView *view;
-    if (this->inherits("KHTMLView")){
-	view = static_cast<KHTMLView *>(this);
-	if (view) {
-	    KHTMLPart *part = view->part();
-	    if (part) {
-		KWQ(part)->bridge()->setHasBorder(s != NoFrame);
-	    }
-	}
+QRegion::QRegion(int x, int y, int w, int h, RegionType _t)
+{
+    
+    r = QRect(x,y,w,h);
+    t = _t;
+    
+}
+
+QRegion::QRegion(const QPointArray &arr)
+{
+    // ### poly
+}
+
+QRegion::~QRegion()
+{
+}
+
+QRegion::QRegion(const QRegion &other)
+{
+    r=other.r;
+    t=other.t;
+}
+
+QRegion &QRegion::operator=(const QRegion &other)
+{
+    if (&other == this)
+	return *this;
+    r=other.r;
+    t=other.t;
+    return *this;
+}
+
+bool QRegion::contains(const QPoint &point) const
+{
+    if ( t == Rectangle)
+	return const_cast<QRegion*>(this)->r.contains(point.x(),point.y());
+    else {
+	int r2x = (r.width() * r.width()) / 4;
+	int r2y = (r.height() * r.height()) / 4;
+	
+	if (!r2x || !r2y)  /*avoid division by zero*/
+	    return false;
+
+	int cx = (r.x() + r.width()) / 2;
+	int cy = (r.y() + r.height()) / 2;
+	int dx = point.x() - cx;
+	int dy = point.y() - cy;
+	return r2x >= ((dx*dx) + ((r2y * dy * dy) / r2x));
     }
 }
 
-int QFrame::frameStyle()
+void QRegion::translate(int deltaX, int deltaY)
 {
-    return _frameStyle;
+    r.setX(r.x()+deltaX);
+    r.setY(r.y()+deltaY);
 }
 
-int QFrame::frameWidth() const
+QRect QRegion::boundingRect() const
 {
-    if (_frameStyle == (StyledPanel | Sunken))
-        return 3;
-    return 0;
+    return r;
 }

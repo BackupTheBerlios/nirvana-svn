@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003 Apple Computer, Inc.  All rights reserved.
+ * Copyright (C) 2001, 2002 Apple Computer, Inc.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -23,36 +23,29 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#include "KWQFrame.h"
-#include "khtmlview.h"
-#include "KWQKHTMLPart.h"
-#include "WebCoreBridge.h"
+#include "KWQPointArray.h"
 
-void QFrame::setFrameStyle(int s)
+QPoint::QPoint() : xCoord(0), yCoord(0)
 {
-    _frameStyle = s;
-
-    // Tell the other side of the bridge about the frame style change.
-    KHTMLView *view;
-    if (this->inherits("KHTMLView")){
-	view = static_cast<KHTMLView *>(this);
-	if (view) {
-	    KHTMLPart *part = view->part();
-	    if (part) {
-		KWQ(part)->bridge()->setHasBorder(s != NoFrame);
-	    }
-	}
-    }
 }
 
-int QFrame::frameStyle()
+QPoint::QPoint(int xIn, int yIn) : xCoord(xIn), yCoord(yIn)
 {
-    return _frameStyle;
 }
 
-int QFrame::frameWidth() const
+QPoint operator+(const QPoint &a, const QPoint &b)
 {
-    if (_frameStyle == (StyledPanel | Sunken))
-        return 3;
-    return 0;
+    return QPoint(a.xCoord + b.xCoord, a.yCoord + b.yCoord);
 }
+
+QPoint operator-(const QPoint &a, const QPoint &b)
+{
+    return QPoint(a.xCoord - b.xCoord, a.yCoord - b.yCoord);
+}
+
+#ifdef _KWQ_IOSTREAM_
+std::ostream &operator<<(std::ostream &o, const QPoint &p)
+{
+	return o << "QPoint: [x: " << p.x() << "; h: " << p.y() << "]";
+}
+#endif

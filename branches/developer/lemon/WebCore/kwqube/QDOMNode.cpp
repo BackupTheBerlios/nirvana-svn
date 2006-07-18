@@ -20,39 +20,15 @@
  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
  * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "KWQFrame.h"
-#include "khtmlview.h"
-#include "KWQKHTMLPart.h"
-#include "WebCoreBridge.h"
+#include "KWQDOMNode.h"
 
-void QFrame::setFrameStyle(int s)
+using DOM::NodeImpl;
+
+// This needs to be in a C++ source file because id is a reserved word in Objective-C++.
+NodeImpl::Id idFromNode(NodeImpl *node)
 {
-    _frameStyle = s;
-
-    // Tell the other side of the bridge about the frame style change.
-    KHTMLView *view;
-    if (this->inherits("KHTMLView")){
-	view = static_cast<KHTMLView *>(this);
-	if (view) {
-	    KHTMLPart *part = view->part();
-	    if (part) {
-		KWQ(part)->bridge()->setHasBorder(s != NoFrame);
-	    }
-	}
-    }
-}
-
-int QFrame::frameStyle()
-{
-    return _frameStyle;
-}
-
-int QFrame::frameWidth() const
-{
-    if (_frameStyle == (StyledPanel | Sunken))
-        return 3;
-    return 0;
+    return node->id();
 }

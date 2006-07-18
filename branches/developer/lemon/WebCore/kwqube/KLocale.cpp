@@ -23,36 +23,32 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#include "KWQFrame.h"
-#include "khtmlview.h"
-#include "KWQKHTMLPart.h"
-#include "WebCoreBridge.h"
+#include "KWQKLocale.h"
 
-void QFrame::setFrameStyle(int s)
+#include "KWQString.h"
+#include "WebCoreViewFactory.h"
+
+QString inputElementAltText()
 {
-    _frameStyle = s;
-
-    // Tell the other side of the bridge about the frame style change.
-    KHTMLView *view;
-    if (this->inherits("KHTMLView")){
-	view = static_cast<KHTMLView *>(this);
-	if (view) {
-	    KHTMLPart *part = view->part();
-	    if (part) {
-		KWQ(part)->bridge()->setHasBorder(s != NoFrame);
-	    }
-	}
-    }
+  return QString::fromUtf8(WebCoreViewFactory::sharedFactory()->inputElementAltText());
 }
 
-int QFrame::frameStyle()
+QString resetButtonDefaultLabel()
 {
-    return _frameStyle;
+  return QString::fromUtf8(WebCoreViewFactory::sharedFactory()->resetButtonDefaultLabel());
 }
 
-int QFrame::frameWidth() const
+QString searchableIndexIntroduction()
 {
-    if (_frameStyle == (StyledPanel | Sunken))
-        return 3;
-    return 0;
+  return QString::fromUtf8(WebCoreViewFactory::sharedFactory()->searchableIndexIntroduction());
+}
+
+QString submitButtonDefaultLabel()
+{
+  return QString::fromUtf8(WebCoreViewFactory::sharedFactory()->submitButtonDefaultLabel());
+}
+
+QString KLocale::language()
+{
+  return QString::fromUtf8(WebCoreViewFactory::sharedFactory()->defaultLanguageCode());
 }

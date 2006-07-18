@@ -23,7 +23,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "dom_nodeimpl.h"
+#include "xml/dom_nodeimpl.h"
 
 DOM::NodeImpl::Id idFromNode(DOM::NodeImpl *);
 

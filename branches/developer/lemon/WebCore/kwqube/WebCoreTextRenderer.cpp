@@ -1,5 +1,5 @@
 #include <string.h> 		// memcpy
-#include <glib.h>
+#include "glib.h"
 
 #include "KWQAssertions.h"
 

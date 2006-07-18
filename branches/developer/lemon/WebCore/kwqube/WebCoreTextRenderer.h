@@ -26,7 +26,7 @@
 #ifndef WebCoreTextRenderer_h
 #define WebCoreTextRenderer_h
 
-//#include <glib.h>
+#include "glib.h"
 //#include <gdk/gdk.h>
 
 typedef char gchar;
@@ -123,7 +123,7 @@ public:
     // drawing
     virtual void drawRun(const WebCoreTextRun *run, const WebCoreTextStyle *style, int x, int y) =0;
     virtual void drawHighlightForRun(const WebCoreTextRun *run, const WebCoreTextStyle *style, const WebCoreTextGeometry* geom) =0;
-    virtual void drawLineForCharacters(int x, int y, float yOffset, int width, GdkColor *color)=0;
+    virtual void drawLineForCharacters(int x, int y, float yOffset, int width, rgb_color *color)=0;
     
     // selection point check
     virtual int pointToOffset(const WebCoreTextRun *run, const WebCoreTextStyle *style, int x, bool reversed, bool includePartialGlyphs) =0;

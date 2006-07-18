@@ -23,24 +23,62 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#include "KWQKStandardDirs.h"
-#include <string.h>
-#include "glib.h"
+#include "KWQStringList.h"
 
-QString locate(const char *type, const QString &filename, const KInstance *instance)
+#include <CoreFoundation/CoreFoundation.h>
+
+#if !KWQUBE //Unneeded GetCFString
+// No need to CFRelease return value
+static CFStringRef GetCFString(const QString &s)
 {
-    if (g_ascii_strcasecmp("data", type) == 0){
-	if (strcmp(filename.latin1(), "khtml/css/html4.css") == 0)
-	    return PKGDATADIR"/html4.css";
-	if (strcmp(filename.latin1(),"khtml/css/quirks.css") == 0)
-	    return PKGDATADIR"/quirks.css";
-
+    CFStringRef cfs = s.getCFString();
+    if (cfs == NULL) {
+        cfs = CFSTR("");
     }
-    g_warning("locate called with type: %s, filename: %s, but no such file is defined to be found", type, filename.latin1());
-    return "";
+    return cfs;
+}
+#endif
+
+QStringList QStringList::split(const QString &separator, const QString &s, bool allowEmptyEntries)
+{
+    int p;
+    QString rem=s;
+    QStringList result;
+    QString entry;
+    while ((p=rem.find(separator))>-1)
+    {
+        entry = rem.left(p);
+	rem = rem.mid(p+separator.length());
+	if (!entry.isEmpty() || allowEmptyEntries) {
+	    result.append(entry);
+	}
+    }
+    if (result.isEmpty()) result.append(s); 
+    return result;
+}
+ 
+QStringList QStringList::split(const QChar &separator, const QString &s, bool allowEmptyEntries)
+{
+    return QStringList::split(QString(separator), s, allowEmptyEntries);
 }
 
-QString locateLocal(const char *type, const QString &filename, const KInstance *instance)
+QString QStringList::join(const QString &separator) const
 {
-    return QString();
+    QString result;
+    
+    for (ConstIterator i = begin(), j = ++begin(); i != end(); ++i, ++j) {
+        result += *i;
+	if (j != end()) {
+	    result += separator;
+	}
+    }
+
+    return result;
+}
+
+QString QStringList::pop_front()
+{
+    QString front = first();
+    remove(begin());
+    return front;
 }

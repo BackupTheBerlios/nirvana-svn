@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003 Apple Computer, Inc.  All rights reserved.
+ * Copyright (C) 2001, 2002 Apple Computer, Inc.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -23,36 +23,67 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#include "KWQFrame.h"
-#include "khtmlview.h"
-#include "KWQKHTMLPart.h"
-#include "WebCoreBridge.h"
+#include "KWQSize.h"
+#include <Rect.h>
 
-void QFrame::setFrameStyle(int s)
+#ifdef _KWQ_IOSTREAM_
+#include <iostream.h>
+#endif
+
+QSize::QSize() : w(-1), h(-1)
 {
-    _frameStyle = s;
-
-    // Tell the other side of the bridge about the frame style change.
-    KHTMLView *view;
-    if (this->inherits("KHTMLView")){
-	view = static_cast<KHTMLView *>(this);
-	if (view) {
-	    KHTMLPart *part = view->part();
-	    if (part) {
-		KWQ(part)->bridge()->setHasBorder(s != NoFrame);
-	    }
-	}
-    }
 }
 
-int QFrame::frameStyle()
+QSize::QSize(int width, int height) : w(width), h(height)
 {
-    return _frameStyle;
 }
 
-int QFrame::frameWidth() const
+QSize::QSize(BRect * rect) : w((int)rect->Width()), h((int)rect->Height())
 {
-    if (_frameStyle == (StyledPanel | Sunken))
-        return 3;
-    return 0;
 }
+
+/*QSize::QSize(const NSSize &s) : w((int)s.width), h((int)s.height)
+{
+}*/
+
+bool QSize::isValid() const
+{
+    return w >= 0 && h >= 0;
+}
+
+QSize QSize::expandedTo(const QSize &o) const
+{
+    return QSize(w > o.w ? w : o.w, h > o.h ? h : o.h);
+}
+
+/*QSize::operator NSSize() const
+{
+    return NSMakeSize(w, h);
+}*/
+
+QSize operator+(const QSize &a, const QSize &b)
+{
+    return QSize(a.w + b.w, a.h + b.h);
+}
+
+bool QSize::equals(const QSize &a, const QSize &b)
+{
+    return a.w == b.w && a.h == b.h;
+}
+
+bool operator==(const QSize &a, const QSize &b)
+{
+    return a.w == b.w && a.h == b.h;
+}
+
+bool operator!=(const QSize &a, const QSize &b)
+{
+    return a.w != b.w || a.h != b.h;
+}
+
+#ifdef _KWQ_IOSTREAM_
+std::ostream &operator<<(std::ostream &o, const QSize &s)
+{
+    return o << "QSize: [w: " << s.width() << "; h: " << s.height() << "]";
+}
+#endif

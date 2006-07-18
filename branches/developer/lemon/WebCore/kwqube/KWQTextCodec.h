@@ -37,7 +37,7 @@ public:
     static QTextCodec *codecForName(const char *);
     static QTextCodec *codecForNameEightBitOnly(const char *);
     static QTextCodec *codecForLocale();
-#if KWIQ
+#if KWQUBE
     QTextCodec(CFStringEncoding e, KWQEncodingFlags f = NoEncodingFlags);
 #else 
     explicit QTextCodec(CFStringEncoding e, KWQEncodingFlags f = NoEncodingFlags) : _encoding(e), _flags(f) { }

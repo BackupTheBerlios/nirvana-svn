@@ -23,36 +23,45 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#include "KWQFrame.h"
-#include "khtmlview.h"
-#include "KWQKHTMLPart.h"
-#include "WebCoreBridge.h"
+#include "KWQKMimeType.h"
+#include "KWQLogging.h"
 
-void QFrame::setFrameStyle(int s)
+KMimeType::Ptr KMimeType::findByURL(const KURL &, mode_t, bool, bool)
 {
-    _frameStyle = s;
-
-    // Tell the other side of the bridge about the frame style change.
-    KHTMLView *view;
-    if (this->inherits("KHTMLView")){
-	view = static_cast<KHTMLView *>(this);
-	if (view) {
-	    KHTMLPart *part = view->part();
-	    if (part) {
-		KWQ(part)->bridge()->setHasBorder(s != NoFrame);
-	    }
-	}
-    }
+    ERROR("not yet implemented");
+    return KMimeType::Ptr();
 }
 
-int QFrame::frameStyle()
+
+KMimeType::~KMimeType()
 {
-    return _frameStyle;
+    ERROR("not yet implemented");
 }
 
-int QFrame::frameWidth() const
+
+QString KMimeType::name() const
 {
-    if (_frameStyle == (StyledPanel | Sunken))
-        return 3;
-    return 0;
+    ERROR("not yet implemented");
+    return QString();
 }
+
+QString KMimeType::comment() const
+{
+    ERROR("not yet implemented");
+    return QString();
+}
+
+
+KMimeType::Ptr KMimeType::mimeType(QString serviceType)
+{
+    ERROR("not yet implemented");
+    return KMimeType::Ptr();
+}
+
+
+QString KMimeType::defaultMimeType()
+{
+    ERROR("not yet implemented");
+    return QString();
+}
+

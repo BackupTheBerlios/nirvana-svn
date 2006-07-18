@@ -23,36 +23,34 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#include "KWQFrame.h"
-#include "khtmlview.h"
-#include "KWQKHTMLPart.h"
-#include "WebCoreBridge.h"
+#include "KWQKGlobal.h"
 
-void QFrame::setFrameStyle(int s)
+#include "KWQKCharsets.h"
+#include "KWQKConfigBase.h"
+#include "KWQDict.h"
+
+KConfig *KGlobal::config()
 {
-    _frameStyle = s;
+    static KConfig c("");
+    return &c;
+}
 
-    // Tell the other side of the bridge about the frame style change.
-    KHTMLView *view;
-    if (this->inherits("KHTMLView")){
-	view = static_cast<KHTMLView *>(this);
-	if (view) {
-	    KHTMLPart *part = view->part();
-	    if (part) {
-		KWQ(part)->bridge()->setHasBorder(s != NoFrame);
-	    }
-	}
+const QString &KGlobal::staticQString(const QString &str)
+{
+    static QDict<QString> stringDict;
+    QString *result = stringDict.find(str);
+    if (!result) {
+        result = new QString(str);
+        stringDict.insert(str, result);
     }
+    return *result;
 }
 
-int QFrame::frameStyle()
-{
-    return _frameStyle;
-}
-
-int QFrame::frameWidth() const
-{
-    if (_frameStyle == (StyledPanel | Sunken))
-        return 3;
-    return 0;
+// KWIQ: Apple's code in html_formimpl.cpp:326
+//        if((codec = KGlobal::charsets()->codecForName(enc.latin1())))
+// causes crashes, eventhough codecForName doesn't have any instance data
+KCharsets *KGlobal::charsets() 
+{ 
+    static KCharsets single;
+    return &single;
 }

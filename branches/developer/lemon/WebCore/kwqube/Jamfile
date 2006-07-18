@@ -9,12 +9,54 @@ SubDirHdrs [ FDirName $(WEBCORE_TOP) glib ] ;
 
 StaticLibrary libKWQ.a
     :
-    QAssertions.cpp
+    QAccObject.cpp
+    QAccObjectCache.cpp
     QArrayImpl.cpp
+    QAssertions.cpp
+    QBuffer.cpp
     QChar.cpp
+    QCharsets.cpp
+    QCollection.cpp
+    QColor.cpp
+    QColorGroup.cpp
+    QCompletion.cpp
+    QConstString.cpp
+    QDOMNode.cpp
+#   QDateTime.cpp
+    QDictImpl.cpp
+    QFile.cpp
+    QFont.cpp
+    QFontFamily.cpp
+    QFontInfo.cpp
+    QFontMetrics.cpp
     QGlobal.cpp
-    CString.cpp
-    QString.cpp
+    QGuardedPtr.cpp
+    QLogging.cpp
+    QMapImpl.cpp
+#    QMovie.cpp
+#    QObject.cpp
+    QPalette.cpp
+    QPen.cpp
+#    QPixmap.cpp
+    QPoint.cpp
+    QPointArray.cpp
+    QPtrDictImpl.cpp
+    QRect.cpp
     QRegExp.cpp
+    QRegion.cpp
+    QSize.cpp
+    QString.cpp
+    QStringList.cpp
+    QTextCodec.cpp
+    QTextStream.cpp
+    QValueListImpl.cpp
+    QVariant.cpp
+    QVectorImpl.cpp
+    QXmlAttributes.cpp
+    QXmlDefaultHandler.cpp
+#    QXmlSimpleReader.cpp
+    KCharsets.cpp
+    WebCoreTextRenderer.cpp
+    WebCoreTextRendererFactory.cpp
     WebCoreUnicode.cpp
     ;

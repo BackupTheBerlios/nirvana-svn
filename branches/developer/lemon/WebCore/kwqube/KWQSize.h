@@ -41,8 +41,8 @@ class QSize {
 public:
     QSize();    
     QSize(int,int);
-    //QSize(GdkRectangle * rect);
-    QSize(BPoint *rect);
+    QSize(BRect* rect);
+    QSize(BPoint* rect);
     //explicit QSize(const NSSize &);
     explicit QSize(const BPoint &);
 

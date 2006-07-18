@@ -23,36 +23,34 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#include "KWQFrame.h"
-#include "khtmlview.h"
-#include "KWQKHTMLPart.h"
-#include "WebCoreBridge.h"
+#include "KWQKCharsets.h"
 
-void QFrame::setFrameStyle(int s)
+#include "KWQTextCodec.h"
+class QTextCodec;
+
+QTextCodec *KCharsets::codecForName(const char *s) const
 {
-    _frameStyle = s;
+    return QTextCodec::codecForName(s);
+}
 
-    // Tell the other side of the bridge about the frame style change.
-    KHTMLView *view;
-    if (this->inherits("KHTMLView")){
-	view = static_cast<KHTMLView *>(this);
-	if (view) {
-	    KHTMLPart *part = view->part();
-	    if (part) {
-		KWQ(part)->bridge()->setHasBorder(s != NoFrame);
-	    }
-	}
+QTextCodec *KCharsets::codecForName(const char *s, bool &ok) const
+{
+    QTextCodec *codec = QTextCodec::codecForName(s);
+    if (codec == NULL) {
+        ok = false;
+        codec = QTextCodec::codecForName("ISO-8859-1");
+    } else {
+        ok = true;
     }
+    return codec;
 }
 
-int QFrame::frameStyle()
+QTextCodec *KCharsets::codecForName(const QCString &qs, bool &ok) const
 {
-    return _frameStyle;
+    return codecForName(qs.data(), ok);
 }
 
-int QFrame::frameWidth() const
+QTextCodec *KCharsets::codecForName(const QString &qs, bool &ok) const
 {
-    if (_frameStyle == (StyledPanel | Sunken))
-        return 3;
-    return 0;
+    return codecForName(qs.latin1(), ok);
 }
