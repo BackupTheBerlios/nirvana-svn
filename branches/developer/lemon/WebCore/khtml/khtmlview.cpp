@@ -21,10 +21,8 @@
  * the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  */
-#include "khtmlview.moc"
 
 #include "khtmlview.h"
-
 #include "khtml_part.h"
 #include "khtml_events.h"
 

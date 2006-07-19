@@ -5456,4 +5456,3 @@ void KHTMLPart::print()
 #endif
 
 using namespace KParts;
-#include "khtml_part.moc"

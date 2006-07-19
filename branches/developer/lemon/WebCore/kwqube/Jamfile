@@ -22,7 +22,7 @@ StaticLibrary libKWQ.a
     QCompletion.cpp
     QConstString.cpp
     QDOMNode.cpp
-#   QDateTime.cpp
+#    QDateTime.cpp
     QDictImpl.cpp
     QFile.cpp
     QFont.cpp
@@ -31,6 +31,7 @@ StaticLibrary libKWQ.a
     QFontMetrics.cpp
     QGlobal.cpp
     QGuardedPtr.cpp
+    QListImpl.cpp
     QLogging.cpp
     QMapImpl.cpp
 #    QMovie.cpp
