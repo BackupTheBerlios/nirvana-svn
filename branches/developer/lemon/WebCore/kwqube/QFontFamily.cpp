@@ -24,11 +24,11 @@
  */
 
 #include "KWQFontFamily.h"
-#include "xml/dom_stringimpl.h"
+//#include "xml/dom_stringimpl.h"
 #include "glib.h"
 
-using DOM::AtomicString;
-using DOM::DOMStringImpl;
+//using DOM::AtomicString;
+//using DOM::DOMStringImpl;
 
 KWQFontFamily::KWQFontFamily()
     : _next(0)
@@ -78,7 +78,8 @@ struct GHashHolder
 extern "C"{
 void families_keys_destroy(gpointer data)
 {
-    DOMStringImpl* value = static_cast<DOMStringImpl*>(data);
+    //DOMStringImpl* value = static_cast<DOMStringImpl*>(data);
+    QString* value = static_cast<QString*>(data);
     value->deref();    
 }
 
@@ -100,18 +101,19 @@ const gchar* KWQFontFamily::getNSFamily() const
 							  families_keys_destroy, 
 							  families_values_destroy));
 	
-        _NSFamily = static_cast<gchar*>(g_hash_table_lookup(families.table, _family.implementation()));
+        _NSFamily = static_cast<gchar*>(g_hash_table_lookup(families.table, &_family /*getFamilyRef() /*.implementation()*/));
         if (!_NSFamily) {
-            _NSFamily = g_strdup(_family.string().utf8());
-	    _family.implementation()->ref();
-            g_hash_table_insert(families.table,_family.implementation() , _NSFamily); 
+            _NSFamily = g_strdup(_family./*string().*/utf8());
+	    //_family.implementation().ref();
+	    ((QString)_family).ref();
+            g_hash_table_insert(families.table, (void *)&_family /*getFamilyRef() /*.implementation()*/ , _NSFamily); 
         }
     }
     return _NSFamily;
 }
 
 
-void KWQFontFamily::setFamily(const AtomicString &family)
+void KWQFontFamily::setFamily(const /*AtomicString*/QString &family)
 {
     _family = family;
     _NSFamily = 0;
@@ -125,5 +127,5 @@ bool KWQFontFamily::operator==(const KWQFontFamily &compareFontFamily) const
         return false;
     }
 
-    return _family==compareFontFamily._family;
+    return QString::equals(_family, compareFontFamily._family);
 }

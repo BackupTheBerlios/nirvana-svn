@@ -32,6 +32,7 @@
 #ifndef KWQ_ASSERTIONS_H_
 #define KWQ_ASSERTIONS_H_
 
+
 #ifdef NDEBUG
 #define KWQ_ASSERTIONS_DISABLED_DEFAULT 1
 #else

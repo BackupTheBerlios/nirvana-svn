@@ -26,19 +26,15 @@
 #include "KWQRect.h"
 #include "KWQAssertions.h"
 
-
-
 QRect::QRect() : xp(0), yp(0), w(1), h(1)
 {
 }
 
 /*QRect::QRect(GdkRectangle * rect) : xp(rect->x), yp(rect->y), w(rect->width), h(rect->height)
 {
-    
 }*/
 QRect::QRect(BRect *rect) : xp((int)rect->left), yp((int)rect->top), w((int)rect->Width()), h((int)rect->Height())
 {
-    
 }
 
 QRect::QRect(int x, int y, int width, int height) : xp(x), yp(y), w(width), h(height)

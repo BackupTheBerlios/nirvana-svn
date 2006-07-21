@@ -23,51 +23,44 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#ifndef QFONT_H_
-#define QFONT_H_
+#ifndef QFONT_H
+#define QFONT_H
 
 #include "KWQFontFamily.h"
-#include "WebCoreTextRendererFactory.h" //NSFont
+#include "glib.h"
+#include "WebCoreTextRendererFactory.h" // NSFont
 
 class QFont {
 public:
     enum Weight { Normal = 50, Bold = 63 };
 
     QFont();
-    ~QFont();
-    
     QFont(const QFont &);
     QFont &operator=(const QFont &);
+    ~QFont();
     
     void setFamily(const QString &);
     QString family() const;
-
     const KWQFontFamily *firstFamily() const { return &_family; }
     KWQFontFamily *firstFamily() { return &_family; }
     void setFirstFamily(const KWQFontFamily &family);
-    
     void setWeight(int);
     int weight() const;
     bool bold() const;
-
     void setItalic(bool);
     bool italic() const;
-
     void setPixelSize(float s);
     int pixelSize() const { return (int)_size; }
-
     bool isFixedPitch() const;
-    
     void setPrinterFont(bool);
     bool isPrinterFont() const { return _isPrinterFont; }
     
     bool operator==(const QFont &x) const;
     bool operator!=(const QFont &x) const { return !(*this == x); }
     
-    const char* getNSFamily() const { return _family.getNSFamily(); }
+    const gchar* getNSFamily() const { return _family.getNSFamily(); }
     int getNSTraits() const { return _trait; }
     float getNSSize() const { return _size; }
-    
     NSFont *getNSFont() const;
 
 private:

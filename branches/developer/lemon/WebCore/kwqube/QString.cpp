@@ -1797,6 +1797,11 @@ void QString::deref()
     dataHandle[0]->deref();
 }
 
+void QString::ref()
+{
+    dataHandle[0]->ref();
+}
+
 QString &QString::setUnicode(const QChar *uni, uint len)
 {
     detachAndDiscardCharacters();

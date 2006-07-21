@@ -22,39 +22,41 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
-#ifndef QFONTFAMILY_H_
-#define QFONTFAMILY_H_
 
-//#include <glib.h>
-typedef char gchar;
+#ifndef QFONTFAMILY_H
+#define QFONTFAMILY_H
 
 #include "KWQString.h"
-#include "xml/dom_atomicstring.h"
+#include "glib.h"
 
+// #include "xml/dom_atomicstring.h"
 // KWIQ: NSStrings here refer to gchar*
+
+// LEMON: There is no QFontFamily in Qt
+// but it is present in Cocoa. So it is
+// historical decision by Apple.
+
 class KWQFontFamily {
 public:
     KWQFontFamily();
     ~KWQFontFamily() { if (_next) _next->deref();  }
-    
     KWQFontFamily(const KWQFontFamily &);    
     KWQFontFamily &operator=(const KWQFontFamily &);
-        
-    void setFamily(const DOM::AtomicString &);
-    const DOM::AtomicString& family() const { return _family; }
-    bool familyIsEmpty() const { return _family.isEmpty(); }
     
+    // LEMON - I prefer to remove dependence from upper KDE layer
+    // void setFamily(const DOM::AtomicString &);
+    // const DOM::AtomicString& family() const { return _family; }
+    void setFamily(const QString &);
+    const QString& family() const { return _family; }
+    QString* getFamilyRef() { return &_family; } 
+    bool familyIsEmpty() const { return _family.isEmpty(); }
     const gchar* getNSFamily() const;
-
     KWQFontFamily *next() { return _next; }
     const KWQFontFamily *next() const { return _next; }
-
     void appendFamily(KWQFontFamily *family) 
     {
-        if (family)
-            family->ref();
-        if (_next) 
-            _next->deref(); 
+        if (family) family->ref();
+        if (_next) _next->deref(); 
         _next = family; 
     }
     
@@ -65,7 +67,9 @@ public:
     void deref() { _refCnt--; if (_refCnt == 0) delete this; }
     
 private:
-    DOM::AtomicString _family;
+    // LEMON - unexpected dependance removal
+    // DOM::AtomicString _family;
+    QString _family;
     KWQFontFamily *_next;
     int _refCnt;
     mutable gchar *_NSFamily;

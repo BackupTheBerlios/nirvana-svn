@@ -343,7 +343,9 @@ private:
 
 class QString {
 public:
-    static const char * const null; // not a QString as in Qt (can't have static constructor), but close enough to be compatible in most cases
+    static const char * const null;
+    // not a QString as in Qt (can't have static constructor),
+    // but close enough to be compatible in most cases
 
     QString();
     QString(QChar);
@@ -509,6 +511,8 @@ public:
     friend bool operator==(const QString &, char *);
     friend bool operator!=(const QString &, const char *);
 */
+    void ref();
+    void deref();
 
 private:
     // Used by QConstString.
@@ -517,7 +521,6 @@ private:
     void detachAndDiscardCharacters();
     void detachIfInternal();
     void detachInternal();
-    void deref();
     QChar *forceUnicode();
     
     KWQStringData **dataHandle;
