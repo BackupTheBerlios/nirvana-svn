@@ -32,6 +32,7 @@ class HelloWindow : public BWindow {
 		~HelloWindow();
 		virtual bool QuitRequested();
 		virtual void MessageReceived(BMessage *message);
+		virtual void KeyDown(char * s, int num);
 		virtual void DispatchMessage(BMessage *message, BHandler *target);
 		BTextView *textview;
 	
@@ -86,6 +87,59 @@ HelloWindow::HelloWindow(BRect frame) :
 }
 
 HelloWindow::~HelloWindow() { Unregister(); }
+
+void HelloWindow::KeyDown(char *charstring, int numbytes) {
+    charstring[numbytes] = 0;
+    char s[] = "01234567";
+    int *a = (int *)charstring;
+    sprintf(s,"%x", a);
+    HelloWindow::textview->Insert(s);
+    HelloWindow::textview->Invalidate();
+}
+
+void HelloWindow::DispatchMessage(BMessage *message, BHandler *target)
+{
+    switch (message->what)
+    {
+	case B_MOUSE_DOWN:	    
+	case B_KEY_DOWN:
+	    {
+		char keycode[] = "01234567\n";
+		char buttonscode[] = "01234567\n";
+		char bytecode[] = "01234567\n";
+		char *smods = (char *)calloc(1, 1024);
+		uint32 mods = message->FindInt32("modifiers");
+		uint32 key = message->FindInt32("key");
+		uint32 byte = 0;
+		message->FindInt8("byte", (int8*)&byte);
+		uint32 buttons = message->FindInt32("buttons");
+		if (mods & B_SHIFT_KEY) smods = strcat(smods, "SHIFT ");
+		if (mods & B_CONTROL_KEY) smods = strcat(smods, "CONTROL ");
+		if (mods & B_OPTION_KEY) smods = strcat(smods, "OPTION ");
+		if (mods & B_COMMAND_KEY) smods = strcat(smods, "COMMAND ");
+		if (message->what == B_KEY_DOWN) {
+		    sprintf(keycode, "%08x ", key);
+		    sprintf(bytecode, "%08x \n", byte);
+		    smods = strcat(smods, "KEY ");
+		    smods = strcat(smods, keycode);
+		    smods = strcat(smods, "BYTE ");
+		    smods = strcat(smods, bytecode);
+		}
+		if (message->what == B_MOUSE_DOWN) {
+		    sprintf(buttonscode, "%08x\n", buttons);
+		    smods = strcat(smods, "MOUSE ");
+		    smods = strcat(smods, buttonscode);
+		}
+					
+	        HelloWindow::textview->Insert(smods);
+	        HelloWindow::textview->Invalidate();
+		
+		//BWindow::MessageReceived(message);
+	    }
+	    break;
+    }
+    BWindow::DispatchMessage(message, target);
+}
 
 void HelloWindow::MessageReceived(BMessage *message) {
     switch(message->what) {
@@ -180,43 +234,6 @@ HelloApp::HelloApp(): BApplication(APP_SIGNATURE) {
     new HelloWindow(windowRect);
 }
 
-void HelloWindow::DispatchMessage(BMessage *message, BHandler *target)
-{
-    switch (message->what)
-    {
-	case B_MOUSE_DOWN:	    
-	case B_KEY_DOWN:
-	    {
-		char keycode[] = "01234567\n";
-		char buttonscode[] = "01234567\n";
-		char *smods = (char *)calloc(1, 1024);
-		uint32 mods = message->FindInt32("modifiers");
-		uint32 key = message->FindInt32("key");
-		uint32 buttons = message->FindInt32("buttons");
-		if (mods & B_SHIFT_KEY) smods = strcat(smods, "SHIFT ");
-		if (mods & B_CONTROL_KEY) smods = strcat(smods, "CONTROL ");
-		if (mods & B_OPTION_KEY) smods = strcat(smods, "OPTION ");
-		if (mods & B_COMMAND_KEY) smods = strcat(smods, "COMMAND ");
-		if (message->what == B_KEY_DOWN) {
-		    sprintf(keycode, "%08x\n", key);
-		    smods = strcat(smods, "KEY ");
-		    smods = strcat(smods, keycode);
-		}
-		if (message->what == B_MOUSE_DOWN) {
-		    sprintf(buttonscode, "%08x\n", buttons);
-		    smods = strcat(smods, "MOUSE ");
-		    smods = strcat(smods, buttonscode);
-		}
-					
-		HelloWindow::textview->Insert(smods);
-		HelloWindow::textview->Invalidate();
-		
-		//BWindow::MessageReceived(message);
-	    }
-	    break;
-    }
-    BWindow::DispatchMessage(message, target);
-}
 
 void HelloApp::MessageReceived(BMessage *message) {
     switch(message->what) {
