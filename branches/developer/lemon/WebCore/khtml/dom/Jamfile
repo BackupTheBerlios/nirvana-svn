@@ -7,30 +7,30 @@ SubDirHdrs [ FDirName $(WEBCORE_TOP) khtml ] ;
 SubDirHdrs [ FDirName $(WEBCORE_TOP) kwqube ] ;
 
 StaticLibrary libDOM.a :
-    css_rule.cpp
-    css_stylesheet.cpp
-    css_value.cpp
+#    css_rule.cpp
+#    css_stylesheet.cpp
+#    css_value.cpp
     dom2_events.cpp
     dom2_range.cpp
     dom2_traversal.cpp
     dom2_views.cpp
-    dom_doc.cpp
-    dom_element.cpp
+#    dom_doc.cpp
+#    dom_element.cpp
     dom_misc.cpp
-    dom_node.cpp
+#    dom_node.cpp
     dom_string.cpp
-    dom_text.cpp
-    dom_xml.cpp
-    html_base.cpp
-    html_block.cpp
-    html_document.cpp
-    html_element.cpp
-    html_form.cpp
-    html_head.cpp
-    html_image.cpp
-    html_inline.cpp
-    html_list.cpp
-    html_misc.cpp
-    html_object.cpp
-    html_table.cpp
+#    dom_text.cpp
+#    dom_xml.cpp
+#    html_base.cpp
+#    html_block.cpp
+#    html_document.cpp
+#    html_element.cpp
+#    html_form.cpp
+#    html_head.cpp
+#    html_image.cpp
+#    html_inline.cpp
+#    html_list.cpp
+#    html_misc.cpp
+#    html_object.cpp
+#    html_table.cpp
     ;

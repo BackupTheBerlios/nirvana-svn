@@ -26,7 +26,7 @@
 #ifndef _PositionIterator_h_
 #define _PositionIterator_h_
 
-#include "dom_position.h"
+#include "xml/dom_position.h"
 
 namespace DOM {
 

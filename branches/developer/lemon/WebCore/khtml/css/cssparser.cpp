@@ -40,6 +40,8 @@ using namespace DOM;
 
 #include <stdlib.h>
 
+#define KHTML_NO_XBL
+
 #if APPLE_CHANGES
 void qFatal ( const char * msg ) {}
 #endif

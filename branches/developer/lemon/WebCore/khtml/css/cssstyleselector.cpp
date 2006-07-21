@@ -107,6 +107,8 @@ if (id == propID) \
     return;\
 }
 
+#define KHTML_NO_XBL
+
 namespace khtml {
 
 CSSRuleSet *CSSStyleSelector::defaultStyle = 0;

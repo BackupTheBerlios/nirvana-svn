@@ -36,7 +36,6 @@
 
 class QEvent : public Qt {
 public:
-
     enum Type {
 	None,
 	Enter,
@@ -54,10 +53,8 @@ public:
         Resize,
 	KParts
     };
-
     QEvent(Type type) : _type(type) { }
     virtual ~QEvent();
-
     Type type() const { return _type; }
 
 private:
@@ -68,14 +65,11 @@ typedef QEvent QCustomEvent;
 
 class QMouseEvent : public QEvent {
 public:
-
     //QMouseEvent(Type, GdkEvent* event);
     /** Constructor for mouse move event. */
     //QMouseEvent(GdkEventMotion* event);
-    
     QMouseEvent(Type, BMessage* event);
     QMouseEvent(BMessage* event);
-    
     QMouseEvent(Type, const QPoint &pos, int button, int state);
     QMouseEvent(Type type, const QPoint &pos, int button, int state, int count);
     const QPoint &pos() const { return _position; }
@@ -86,7 +80,6 @@ public:
     ButtonState button() const { return static_cast<ButtonState>(_button); }
     ButtonState state() const { return static_cast<ButtonState>(_state); }
     ButtonState stateAfter() const { return static_cast<ButtonState>(_stateAfter); }
-
     int clickCount() { return _clickCount; }
 
 private:
@@ -100,7 +93,6 @@ private:
 class QTimerEvent : public QEvent {
 public:
     QTimerEvent(int timerId) : QEvent(Timer), _timerId(timerId) { }
-
     int timerId() const { return _timerId; }
 
 private:
@@ -109,17 +101,14 @@ private:
 
 class QKeyEvent : public QEvent {
 public:
-
     //QKeyEvent(GdkEventKey *, bool forceAutoRepeat = false);
     QKeyEvent(BMessage *, bool forceAutoRepeat = false);
-
     ButtonState state() const { return static_cast<ButtonState>(_state); }
     bool isAccepted() const { return _isAccepted; }
     QString text() const { return _text; }
     bool isAutoRepeat() const { return _autoRepeat; }
     void accept() { _isAccepted = true; }
     void ignore() { _isAccepted = false; }
-
     int WindowsKeyCode() const { return _WindowsKeyCode; }
     QString unmodifiedText() const { return _unmodifiedText; }
     QString keyIdentifier() const { return _keyIdentifier; }
@@ -137,9 +126,7 @@ private:
 class QFocusEvent : public QEvent {
 public:
     enum Reason { Popup, Other };
-
     QFocusEvent(Type type) : QEvent(type) { }
-
     static Reason reason() { return Other; }
 };
 

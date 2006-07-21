@@ -20,7 +20,7 @@
  *
  */
 
-#include "dom_misc.h"
+#include "dom/dom_misc.h"
 using namespace DOM;
 
 DomShared::~DomShared()

@@ -36,6 +36,7 @@
 
 #include <malloc.h>
 #include <stdlib.h>
+#include <new>
 #include "xml/dom_atomicstring.h"
 #include "xml/dom_stringimpl.h"
 

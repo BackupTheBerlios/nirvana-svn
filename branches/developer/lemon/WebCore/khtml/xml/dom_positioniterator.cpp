@@ -23,9 +23,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#include "dom_positioniterator.h"
-
-#include "dom_nodeimpl.h"
+#include "xml/dom_positioniterator.h"
+#include "xml/dom_nodeimpl.h"
 
 namespace DOM {
 
