@@ -7,16 +7,23 @@
 #include <SupportKit.h>
 
 #include "KWQString.h"
+#include "KWQAssertions.h"
 
 #include <string.h>
 #include <stdio.h>
 #include <malloc.h>
 
-
 int main(void) {
     printf("QString test\n");
-    char *string = "\0xD1\0x8Bs\0";
+    char *string = "\xD1\x8B";
     QString s = QString::fromUtf8(string);
-    printf("strlen - %i\n", s.length());
+    ASSERT(s.length() == 1);
+    printf("\nstrlen - %i\n", s.length());
+    fflush(stdout);
+    string = "\x8B\xD1";
+    s =  QString::fromUtf8(string);
+    ASSERT(s.length() == 0);
+    printf("\nstrlen - %i\n", s.length());
+    fflush(stdout);
     return 0;
 }
