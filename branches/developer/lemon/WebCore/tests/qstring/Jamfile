@@ -9,4 +9,4 @@ SubDirHdrs [ FDirName $(WEBCORE_TOP) glib ] ;
 
 Application qstring_test : qstring_test.cpp ;
 LinkAgainst qstring_test : ;
-StdLibs qstring_test : be WebCore ; 
+StdLibs qstring_test : be stdc++ WebCore ; 
