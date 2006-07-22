@@ -31,6 +31,17 @@ rule SharedLibraryFromObjects {
 	MainFromObjects $(_lib) : $(2) ;
 }
 
+rule ApplicationFromObjects {
+	# ApplicationFromObjects <exe> : <objects> : <libraries> ;
+	local _lib = $(1) ;
+	LINKLIBS = ;
+	LinkAgainst $(_lib) : $(3) ;
+	local objdir = [ FDirName $(WEBCORE_TOP) objects ] ;
+	LINKFLAGS on $(_lib) = [ on $(_lib) return $(LINKFLAGS) ]
+	    -L$(objdir)  $(LINKLIBS) ;
+	MainFromObjects $(_lib) : $(2) ;
+}
+
 rule SharedLibrary {
 	# SharedLibrary <lib> : <sources> : <libraries> ;
 	local lib = $(1) ;
@@ -39,4 +50,14 @@ rule SharedLibrary {
 	local libs = $(3) ;
 	Objects $(sources) ;
 	SharedLibraryFromObjects $(lib) : $(objects) : $(libs) ;
+}
+
+rule Application {
+	# Application <exe> : <sources> : <libraries> ;
+	local exe = $(1) ;
+	local sources = [ FGristFiles $(2) ] ;
+	local objects = $(sources:S=$(SUFOBJ)) ;
+	local libs = $(3) ;
+	Objects $(sources) ;
+	ApplicationFromObjects $(exe) : $(objects) : $(libs) ;
 }

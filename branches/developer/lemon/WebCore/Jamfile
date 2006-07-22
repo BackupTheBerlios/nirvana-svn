@@ -31,3 +31,4 @@ StdLibs libWebCore.so : be iconv stdc++ JavaScriptCore ;
 #SubInclude WEBCORE_TOP khtml ;
 SubInclude WEBCORE_TOP glib ;
 SubInclude WEBCORE_TOP kwqube ;
+SubInclude WEBCORE_TOP tests ;
