@@ -19,6 +19,12 @@ g_int_equal (gconstpointer v1, gconstpointer v2)
     return *((const gint*) v1) == *((const gint*) v2);
 } 
 
+gboolean
+g_direct_equal (gconstpointer v1, gconstpointer v2)
+{
+    return v1 == v2;
+} 
+
 guint
 g_int_hash (gconstpointer v)
 {

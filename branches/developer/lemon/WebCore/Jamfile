@@ -28,6 +28,6 @@ StdLibs libWebCore.so : be iconv stdc++ JavaScriptCore ;
 #LinkAgainst libG.so : libG.a ;
 #StdLibs libG.so : be iconv ;
 
-SubInclude WEBCORE_TOP khtml ;
+#SubInclude WEBCORE_TOP khtml ;
 SubInclude WEBCORE_TOP glib ;
 SubInclude WEBCORE_TOP kwqube ;

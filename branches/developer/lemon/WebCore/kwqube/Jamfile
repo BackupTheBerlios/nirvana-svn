@@ -24,6 +24,7 @@ StaticLibrary libKWQ.a
     QDOMNode.cpp
 #    QDateTime.cpp
     QDictImpl.cpp
+    QEvent.cpp
     QFile.cpp
     QFont.cpp
     QFontFamily.cpp

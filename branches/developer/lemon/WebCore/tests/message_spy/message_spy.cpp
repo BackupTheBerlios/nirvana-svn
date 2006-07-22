@@ -26,13 +26,24 @@ const uint32 MENU_FILE_PRINT		= 'MFpr';
 const uint32 MENU_FILE_QUIT		= 'MFqu';
 const uint32 MENU_OPT_HELLO		= 'MOhl';
 
+class TextView : public BTextView {
+public:
+    TextView(BRect r, char *s, BRect rr, int i, int j );
+    ~TextView() {} 
+    virtual void KeyDown(const char * c, int n);
+};
+
+TextView::TextView(BRect r, char *s, BRect rr, int i, int j ): BTextView(r, s, rr, i, j)
+{
+}
+
 class HelloWindow : public BWindow {
 	public:
 		HelloWindow(BRect frame);
 		~HelloWindow();
 		virtual bool QuitRequested();
 		virtual void MessageReceived(BMessage *message);
-		virtual void KeyDown(char * s, int num);
+		//virtual void KeyDown(char * s, int num);
 		virtual void DispatchMessage(BMessage *message, BHandler *target);
 		BTextView *textview;
 	
@@ -76,7 +87,7 @@ HelloWindow::HelloWindow(BRect frame) :
     r.bottom -= B_H_SCROLL_BAR_HEIGHT ; 
 	
     // add textview
-    textview = new BTextView(r, "textView", r, B_FOLLOW_ALL_SIDES, B_WILL_DRAW | B_NAVIGABLE);
+    textview = new TextView(r, "textView", r, B_FOLLOW_ALL_SIDES, B_WILL_DRAW | B_NAVIGABLE);
     textview->SetStylable(true);   
     textview->MakeEditable(false);
 	
@@ -88,13 +99,14 @@ HelloWindow::HelloWindow(BRect frame) :
 
 HelloWindow::~HelloWindow() { Unregister(); }
 
-void HelloWindow::KeyDown(char *charstring, int numbytes) {
-    charstring[numbytes] = 0;
+void TextView::KeyDown(const char *charstring, int numbytes) {
+//    charstring[numbytes] = 0;
     char s[] = "01234567";
     int *a = (int *)charstring;
     sprintf(s,"%x", a);
-    HelloWindow::textview->Insert(s);
-    HelloWindow::textview->Invalidate();
+    Insert(s);
+    Invalidate();
+    BTextView::KeyDown(charstring, numbytes);
 }
 
 void HelloWindow::DispatchMessage(BMessage *message, BHandler *target)
@@ -106,23 +118,27 @@ void HelloWindow::DispatchMessage(BMessage *message, BHandler *target)
 	    {
 		char keycode[] = "01234567\n";
 		char buttonscode[] = "01234567\n";
-		char bytecode[] = "01234567\n";
+		char *bytecode = (char *)calloc(1, 1024);
 		char *smods = (char *)calloc(1, 1024);
 		uint32 mods = message->FindInt32("modifiers");
 		uint32 key = message->FindInt32("key");
-		uint32 byte = 0;
-		message->FindInt8("byte", (int8*)&byte);
+		char *bytes = (char *)calloc(1,133);//"01234555\n\0x00";
+		int8 one;
+		int8 two;
+		int8 three;
+		message->FindInt8("byte", 0, &one);
+		message->FindInt8("byte", 1, &two);
+		message->FindInt8("byte", 2, &three);
+		message->FindString((const char *)"bytes", (const char **)&bytes);
 		uint32 buttons = message->FindInt32("buttons");
 		if (mods & B_SHIFT_KEY) smods = strcat(smods, "SHIFT ");
 		if (mods & B_CONTROL_KEY) smods = strcat(smods, "CONTROL ");
 		if (mods & B_OPTION_KEY) smods = strcat(smods, "OPTION ");
 		if (mods & B_COMMAND_KEY) smods = strcat(smods, "COMMAND ");
 		if (message->what == B_KEY_DOWN) {
-		    sprintf(keycode, "%08x ", key);
-		    sprintf(bytecode, "%08x \n", byte);
-		    smods = strcat(smods, "KEY ");
-		    smods = strcat(smods, keycode);
-		    smods = strcat(smods, "BYTE ");
+		    int iii = ((int)bytes[3] << (int)24) | ((int)bytes[2] << (int)16) | ((int)bytes[1] << (int)8) + ((int)bytes[0]);
+		    int bbb = ((int)three << (int)16) | ((int)two << (int)8) | ((int)one);
+		    sprintf(bytecode, "KEY %08x BYTES %s BYTE [%06X] [%i]\n", key, bytes, /*one, two, three*/*((int *)bytes), (int)2.5);
 		    smods = strcat(smods, bytecode);
 		}
 		if (message->what == B_MOUSE_DOWN) {

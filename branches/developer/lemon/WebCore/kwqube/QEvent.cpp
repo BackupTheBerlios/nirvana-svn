@@ -27,7 +27,7 @@
 #include "KWQLogging.h"
 
 #include <InterfaceKit.h>
-#include <ApplicationKit.h>
+#include <AppKit.h>
 
 //#include <gdk/gdkevents.h>
 //#include <gdk/gdkkeysyms.h>
@@ -44,8 +44,8 @@ enum {
     B_6_KEY = 0x17, B_7_KEY = 0x18, B_8_KEY = 0x19, B_9_KEY = 0x1a,
     B_0_KEY = 0x1b, B_MINUS_KEY = 0x1c, B_PLUS_KEY = 0x1d,
     B_BACKSPACE_KEY = 0x1e, B_INSERT_KEY = 0x1f, B_HOME_KEY = 0x20, 
-    B_PAGEUP_KEY = 0x21, B_NUMPAD_DIV = 0x23, B_NUMPAD_MUL = 0x24,
-    B_NUMPAD_MINUS = 0x25, B_TAB_KET = 0x26,
+    B_PAGEUP_KEY = 0x21, B_NUMPAD_DIV_KEY = 0x23, B_NUMPAD_MUL_KEY = 0x24,
+    B_NUMPAD_MINUS_KEY = 0x25, B_TAB_KEY = 0x26,
     B_Q_KEY = 0x27, B_W_KEY = 0x28, B_E_KEY = 0x29, B_R_KEY = 0x2a,
     B_T_KEY = 0x2b, B_Y_KEY = 0x2c, B_U_KEY = 0x2d, B_I_KEY = 0x2e,
     B_O_KEY = 0x2f, B_P_KEY = 0x30,
@@ -57,7 +57,7 @@ enum {
     B_A_KEY = 0x3c, B_S_KEY = 0x3d, B_D_KEY = 0x3e, B_F_KEY = 0x3f, B_G_KEY = 0x40,
     B_H_KEY = 0x41, B_J_KEY = 0x42, B_K_KEY = 0x43, B_L_KEY = 0x44,
     B_SEMICOLON_KEY = 0x45, B_BRACKET_KEY = 0x46, B_RETURN_KEY = 0x47,
-    B_NUMPAD_4_KEY = 0x48, B_NUMPAD_5_KEY = 0x49, B_NUMPAD_6 = 0x4a,
+    B_NUMPAD_4_KEY = 0x48, B_NUMPAD_5_KEY = 0x49, B_NUMPAD_6_KEY = 0x4a,
     B_Z_KEY = 0x4c, B_X_KEY = 0x4d, B_C_KEY = 0x4e, B_V_KEY = 0x4f, B_B_KEY = 0x50,
     B_N_KEY = 0x51, B_M_KEY = 0x52, B_LT_KEY = 0x53, B_GT_KEY = 0x54, B_SLASH_KEY = 0x55,
     B_UP_KEY = 0x57, B_NUMPAD_1_KEY = 0x58, B_NUMPAD_2_KEY = 0x59,
@@ -81,14 +81,22 @@ static QString keyIdentifierForKeyEvent(BMessage *event)
     guint c = event->keyval;
 */
 
-    uint32 key = event->FintInt32("key");
+    uint32 key = event->FindInt32("key");
+    char *bytes;
+    event->FindString("bytes", (const char **)&bytes);
+    QString s = QString::fromUtf8(bytes);
+    
+    if (s.length() != 1) {
+        LOG(Events, "received an unexpected number of characters in key event: %u", s.length());
+        return "Unidentified";
+    }
     
     switch (key) {
 	B_BACKSPACE_KEY:	return "Undo";
 	B_UP_KEY:		return "Up";
 	B_DOWN_KEY:		return "Down";
 	B_LEFT_KEY:		return "Left";
-	B_DOWN_KEY:		return "Right";
+	B_RIGHT_KEY:		return "Right";
 	B_NUMPAD_RETURN_KEY:
 	B_RETURN_KEY:		return "Enter";
 	B_F1_KEY:		return "F1";
@@ -108,7 +116,6 @@ static QString keyIdentifierForKeyEvent(BMessage *event)
 	B_INSERT_KEY:		return "Insert";
 	B_PAGEUP_KEY:		return "PageUp";
 	B_PAGEDOWN_KEY:		return "PageDown";
-    }
     
 /*    
     switch (c) {
@@ -340,7 +347,7 @@ static QString keyIdentifierForKeyEvent(BMessage *event)
             return "U+000008";
 
         default:
-            return QString().sprintf( "U+%06X", key /*s.at(0).upper().unicode()*/ );
+            return QString().sprintf("U+%06X", s.at(0).upper().unicode() );
     }
 }
 
@@ -410,13 +417,13 @@ static bool isKeypadEvent(BMessage *event)
     }
 */     
 
-    uint32 key = event->FintInt32("key");
+    uint32 key = event->FindInt32("key");
     switch (key)
     {
     case B_NUMPAD_DIV_KEY: case B_NUMPAD_MUL_KEY: case B_NUMPAD_MINUS_KEY:
-    case B_NUMPAD_PLUS_KEY: case B_NUMPAD_ENTER_KEY: B_NUMPAD_POINT_KEY:
+    case B_NUMPAD_PLUS_KEY: case B_NUMPAD_RETURN_KEY: B_NUMPAD_POINT_KEY:
     case B_NUMPAD_0_KEY: case B_NUMPAD_1_KEY: case B_NUMPAD_2_KEY:
-    case B_NUMAPD_3_KEY: case B_NUMPAD_4_KEY: case B_NUMPAD_5_KEY:
+    case B_NUMPAD_3_KEY: case B_NUMPAD_4_KEY: case B_NUMPAD_5_KEY:
     case B_NUMPAD_6_KEY: case B_NUMPAD_7_KEY: case B_NUMPAD_8_KEY:
     case B_NUMPAD_9_KEY:
 	return true;
@@ -425,8 +432,13 @@ static bool isKeypadEvent(BMessage *event)
     return false;
 }
 
-static int WindowsKeyCodeForKeyEvent(GdkEventKey *event)
+//static int WindowsKeyCodeForKeyEvent(GdkEventKey *event)
+static int WindowsKeyCodeForKeyEvent(BMessage *event)
 {
+
+/*
+
+
     switch (event->keyval) {
         // VK_CLEAR (0C) CLEAR key
         case GDK_Clear: return 0x0C;
@@ -763,10 +775,17 @@ static int WindowsKeyCodeForKeyEvent(GdkEventKey *event)
         // VK_PA1 (FD) PA1 key
         // VK_OEM_CLEAR (FE) Clear key
     }
+*/
 
-    return 0;
+    // In some sense we are compatible with Microsoft Virtual Keys
+    char *bytes;
+    event->FindString("bytes", (const char **)&bytes);
+    QString s = QString::fromUtf8(bytes);
+    if (s.length() != 1) return 0;
+    return *((int*)bytes); 
 }
 
+/*
 //static int _get_state(GdkEvent *event)
 static int _get_state(BMessage *event)
 {
@@ -787,6 +806,7 @@ static int _get_state(BMessage *event)
     }
     return 0;
 }
+*/
 
 //static int mouseButtonForEvent(GdkEvent *event)
 static int mouseButtonForEvent(BMessage *event)
@@ -803,7 +823,7 @@ static int mouseButtonForEvent(BMessage *event)
     return qstate;
 */
     int state = Qt::NoButton;
-    uint32 buttons = e->FindInt32("buttons");
+    uint32 buttons = event->FindInt32("buttons");
     if (buttons & B_PRIMARY_MOUSE_BUTTON) state |= Qt::LeftButton;
     if (buttons & B_SECONDARY_MOUSE_BUTTON) state |= Qt::MidButton;
     if (buttons & B_TERTIARY_MOUSE_BUTTON) state |= Qt::RightButton;
@@ -828,20 +848,9 @@ static int nonMouseButtonsForEvent(BMessage *event)
         qstate |= Qt::Keypad;
     }
     return qstate;
-        NoButton        = 0x0000,
-	LeftButton      = 0x0001,
-	RightButton     = 0x0002,
-	MidButton       = 0x0004,
-	MouseButtonMask = 0x0007,
-	ShiftButton     = 0x0008,
-	ControlButton   = 0x0010,
-	AltButton       = 0x0020,
-	MetaButton      = 0x0040,
-	KeyButtonMask   = 0x0078,
-	Keypad          = 0x4000      
 */
     int state = Qt::NoButton;
-    uint32 mods = msg->FindInt32("modifiers");    
+    uint32 mods = event->FindInt32("modifiers");    
     if (mods & B_SHIFT_KEY) state |= Qt::ShiftButton;
     if (mods & B_CONTROL_KEY) state |= Qt::ControlButton;
     if (mods & B_OPTION_KEY) state |= Qt::MetaButton;
@@ -869,6 +878,13 @@ QMouseEvent::QMouseEvent( Type t, BMessage* e ): QEvent(t)
 	_button = (ButtonState)0;
 	_clickCount = 0;
     */	
+
+	BPoint *where;
+	e->FindPoint("where", where);
+	_position = QPoint((int)where->x, (int)where->y);
+	_button = (ButtonState)0;
+	_clickCount = 0; //
+
     } else if (t == MouseButtonPress || t == MouseButtonRelease) {
     
     /*
@@ -881,22 +897,26 @@ QMouseEvent::QMouseEvent( Type t, BMessage* e ): QEvent(t)
 	_button = (ButtonState) mouseButtonForEvent(e) | nonMouseButtonsForEvent(e);
 	_clickCount =  (state & GDK_3BUTTON_PRESS)? 3 : ((state & GDK_2BUTTON_PRESS)? 2 : 1);
     */
-    
-	_button = (ButtonState) mouseButtonForEvent(e) | nonMouseButtonForEvent(e);
+
+	BPoint *where;
+	e->FindPoint("where", where);
+	_position = QPoint((int)where->x, (int)where->y);
+	_clickCount = e->FindInt32("clicks");
+	_button = (ButtonState) mouseButtonForEvent(e) | nonMouseButtonsForEvent(e);
 	
     } else {
 
     }
 }
 
-QMouseEvent::QMouseEvent(GdkEventMotion* event)
-    : QEvent(MouseMove)
+//QMouseEvent::QMouseEvent(GdkEventMotion* event) : QEvent(MouseMove)
+QMouseEvent::QMouseEvent(BMessage* event) : QEvent(MouseMove)
 {
-  gint x = (gint) event->x;
-  gint y = (gint) event->y;
-  _position = QPoint(x, y);
-  _button = (ButtonState)0;
-  _clickCount = 0;
+    BPoint *where;
+    event->FindPoint("where", where);
+    _position = QPoint((int)where->x, (int)where->y);
+    _button = (ButtonState)0; // LEMON: ???
+    _clickCount = 0;
 }
 
 QMouseEvent::QMouseEvent( Type t, const QPoint &pos, int b, int s, int count )
@@ -908,6 +928,7 @@ QMouseEvent::QMouseEvent( Type t, const QPoint &pos, int b, int s, int count )
 QMouseEvent::QMouseEvent(Type type, const QPoint &position, int button, int state)
     : QEvent(type), _position(position)
 {
+    // bred
     _button = button;
     if (type == MouseMove) {
         _clickCount = 0;
@@ -925,23 +946,31 @@ QMouseEvent::QMouseEvent(Type type, const QPoint &position, int button, int stat
     }
 }
 
+static int64 _last_keyevent_time = 0;
+static int32 _last_keyevent_keyval = 0;
 
-// ========
-
-
-static guint32 _last_keyevent_time = 0;
-static guint   _last_keyevent_keyval = 0;
-
-QKeyEvent::QKeyEvent(GdkEventKey *event, bool forceAutoRepeat)
-    : QEvent(event->type == GDK_KEY_PRESS ? KeyPress : KeyRelease),
-      _state(nonMouseButtonsForEvent(((GdkEvent*)event))),
-      _text(QString::fromUtf8(event->string)),
-      _unmodifiedText(QString::fromUtf8(event->string)),
+//QKeyEvent::QKeyEvent(GdkEventKey *event, bool forceAutoRepeat)
+QKeyEvent::QKeyEvent(BMessage *event, bool forceAutoRepeat)
+    : QEvent(event->what == B_KEY_DOWN ? KeyPress : KeyRelease),
+//      _state(nonMouseButtonsForEvent(event)),
+//      _text(QString::fromUtf8(event->string)),
+//      _unmodifiedText(QString::fromUtf8(event->string)),
       _keyIdentifier(keyIdentifierForKeyEvent(event)),
       _autoRepeat(forceAutoRepeat),
       _isAccepted(false),
       _WindowsKeyCode(WindowsKeyCodeForKeyEvent(event))
 {
+    char *bytes;
+    int64 when;
+    int8 key;
+    event->FindString("bytes", (const char **)&bytes);
+    event->FindInt64("when", &when);
+    event->FindInt8("key", &key);
+    _text = QString::fromUtf8(bytes);
+    _state = nonMouseButtonsForEvent(event);
+    _unmodifiedText = QString::fromUtf8(bytes);
+    
+    // LEMON: was is das ? why it must be 0x7f ?
     // Turn 0x7F into 0x08, because backspace needs to always be 0x08.
     if (_text == "\x7F") {
         _text = "\x8";
@@ -951,12 +980,12 @@ QKeyEvent::QKeyEvent(GdkEventKey *event, bool forceAutoRepeat)
     }
 
     if (!_autoRepeat) {
-      if ( (_last_keyevent_time - event->time) < _autorepeat_threshold &&
-	    (_last_keyevent_keyval == event->keyval) ) {
+      if ( (_last_keyevent_time - when) < _autorepeat_threshold &&
+	    (_last_keyevent_keyval == *((int*)bytes)) ) {
 	    _autoRepeat = true;
 	}
     }
     
-    _last_keyevent_time = event->time;
-    _last_keyevent_keyval = event->keyval;
+    _last_keyevent_time = when;
+    _last_keyevent_keyval = *((int*)bytes);
 }
