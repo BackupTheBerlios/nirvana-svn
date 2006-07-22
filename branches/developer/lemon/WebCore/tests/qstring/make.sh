@@ -1,0 +1,1 @@
+gcc -o qstring_test qstring_test.cpp -I../../kwqube -L../../objects -lWebCore -lbe -lstdc++
