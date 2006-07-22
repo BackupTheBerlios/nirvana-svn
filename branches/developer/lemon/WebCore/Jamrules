@@ -26,8 +26,9 @@ rule SharedLibraryFromObjects {
 	local _lib = $(1) ;
 	LINKLIBS = ;
 	LinkAgainst $(_lib) : $(3) ;
+	local objdir = [ FDirName $(WEBCORE_TOP) objects ] ;
 	LINKFLAGS on $(_lib) = [ on $(_lib) return $(LINKFLAGS) ]
-	    -nostart -L. -Xlinker -soname=\"$(_lib)\" $(LINKLIBS) ;
+	    -nostart -L$(objdir) -Xlinker -soname=\"$(_lib)\" $(LINKLIBS) ;
 	MainFromObjects $(_lib) : $(2) ;
 }
 
