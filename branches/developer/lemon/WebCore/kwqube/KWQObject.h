@@ -26,6 +26,8 @@
 #ifndef QOBJECT_H_
 #define QOBJECT_H_
 
+#include <AppKit.h>
+
 #include "KWQDef.h"
 #include "KWQSignal.h"
 
@@ -150,6 +152,7 @@ class QObject : public Qt {
 public:
     QObject(QObject *parent = 0, const char *name = 0);
     virtual ~QObject();
+    static BLooper *looper;
 
     static void connect(const QObject *sender, const char *signal, const QObject *receiver, const char *member);
     static void disconnect(const QObject *sender, const char *signal, const QObject *receiver, const char *member);
@@ -162,9 +165,7 @@ public:
     virtual bool eventFilter(QObject *object, QEvent *event) { return false; }
     virtual bool event(QEvent *);
 
-    void connect(const QObject *sender, const char *signal, const char *member) const
-        { connect(sender, signal, this, member); }
-
+    void connect(const QObject *sender, const char *signal, const char *member) const { connect(sender, signal, this, member); }
     bool inherits(const char *className) const;
     int startTimer(int);
     void killTimer(int);
@@ -209,5 +210,7 @@ public:
 private:
     const QObject *_savedSender;
 };
+
+BLooper* getLooperForObjectTimers();
 
 #endif

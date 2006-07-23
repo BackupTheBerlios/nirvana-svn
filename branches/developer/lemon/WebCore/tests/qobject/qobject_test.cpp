@@ -23,15 +23,20 @@ public:
 
 QObjectDerived::QObjectDerived(char *name) : _objectName(name) { }
 void QObjectDerived::timerEvent(QTimerEvent *e) {
-    printf("Timer %i generated event for %s object\n", e->timerId(), _objectName);
+    printf("Timer %i generates event for object %s\n", e->timerId(), _objectName);
     fflush(stdout);
 }
 
 int main(void) {
-    printf("QObject Test...\n");
+    printf("QObject test...\n");
     QObject *o1 = new QObjectDerived("1");
     QObject *o2 = new QObjectDerived("2");
-    int i = o1->startTimer(1000);
+    int i = o1->startTimer(0);
     printf("Timer %i started\n", i);
+    getLooperForObjectTimers()->Run();
+    getLooperForObjectTimers()->Lock();
+    printf("Looper has %i handlers\n", getLooperForObjectTimers()->CountHandlers());
+    getLooperForObjectTimers()->Unlock();
+    getchar();
     return 0;
 }

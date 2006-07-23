@@ -9,6 +9,7 @@
 #include "ghash.h"
 #include "gunicode.h"
 #include "gconvert.h"
+#include "gtimer.h"
 #include "libcharset.h"
 
 struct _GStaticPrivate { guint index; };

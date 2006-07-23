@@ -13,8 +13,13 @@
 # define G_END_DECLS
 #endif
 
+#ifndef FALSE
 #define	FALSE	(0)
-#define	TRUE	(!FALSE)
+#endif
+
+#ifndef TRUE
+#define	TRUE	(1)
+#endif
 
 //#define GPOINTER_TO_SIZE(p)	((gsize) (p))
 //#define GSIZE_TO_POINTER(s)	((gpointer) (gsize) (s))

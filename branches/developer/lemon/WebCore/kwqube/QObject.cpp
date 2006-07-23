@@ -23,8 +23,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
+
 #include <AppKit.h>
 #include <sys/time.h>
+#include <stdio.h>
 #include "glib.h"
 
 #include "KWQObject.h"
@@ -43,6 +45,8 @@ static QPtrDict<PausedTimerList> allPausedTimers;
 static QPtrList<KWQObjectTimerTarget> deferredTimers;
 static bool deferringTimers = false;
 
+static BLooper *looperForObjectTimers = NULL;
+BLooper* getLooperForObjectTimers() { return looperForObjectTimers; }
 
 struct _initer {
     _initer() {
@@ -56,6 +60,8 @@ class KWQObjectTimerTarget : BHandler
     struct timeval firesAt;
     guint sid; // GSource id
     BMessageRunner *runner;
+    BMessage *message;
+    BMessenger *messenger;
 
 public:
     QObject* target;
@@ -328,8 +334,9 @@ void KWQObjectTimerTarget::MessageReceived(BMessage *message)
     KWQObjectTimerTarget *p = static_cast<KWQObjectTimerTarget*>(data);
     if (fraction) p->scheduleWithInterval(p->interval);
     p->timerFired(); 
+    printf("Timer message recieved\n");
     //return FALSE; // remove source
-    p->invalidate();
+    //if (fraction) p->invalidate();
 }
 /*
 extern "C" { 
@@ -384,18 +391,23 @@ void KWQObjectTimerTarget::addTimeout(guint intervalMS, gpointer data, int fract
 	sid = g_timeout_add_full(G_PRIORITY_HIGH_IDLE, intervalMS, func, data, NULL);
     */
 
-    BMessage *message = new BMessage();
+    /// LEMON: fix memory leaks later
+    
+    message = new BMessage();
     message->AddPointer("data", data);
     message->AddInt32("fraction", fraction);
     status_t error;
-    BMessenger *messanger = new BMessenger(this, NULL, &error);
+    if (looperForObjectTimers == NULL) looperForObjectTimers = new BLooper("QObject timers looper");
+    looperForObjectTimers->AddHandler(static_cast<BHandler*>(this));
+    messenger = new BMessenger(NULL, looperForObjectTimers, &error);
+    if (error != B_OK) ERROR("ERROR cannot create BMessenger");
     
     if (interval==0) {
         message->AddInt32("forever", 1);
-	runner = new BMessageRunner(*messanger, message, -1, -1);
+	runner = new BMessageRunner(*messenger, message, -1, -1);
     } else {
         message->AddInt32("forever", 0);
-	runner = new BMessageRunner(*messanger, message, intervalMS, -1);
+	runner = new BMessageRunner(*messenger, message, intervalMS, -1);
     }
     
 }
@@ -420,6 +432,7 @@ void KWQObjectTimerTarget::invalidate()
 {
     //if (sid!=0) g_source_remove(sid);    
     if (runner) delete runner;
+    if (looperForObjectTimers) looperForObjectTimers->RemoveHandler(static_cast<BHandler*>(this));
 }
 
 void KWQObjectTimerTarget::sendTimerEvent()
@@ -430,6 +443,7 @@ void KWQObjectTimerTarget::sendTimerEvent()
 
 void KWQObjectTimerTarget::timerFired()
 {
+    sendTimerEvent();
     if (deferringTimers) {
 	if (!deferredTimers.containsRef(this)) {
 	    deferredTimers.append(this);

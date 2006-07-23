@@ -13,5 +13,6 @@ StaticLibrary libG.a
     ghash.c
     gstring.c
     gconvert.c
+    gtimer.c
     ;
 

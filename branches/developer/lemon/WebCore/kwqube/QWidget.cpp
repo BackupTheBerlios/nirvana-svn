@@ -31,7 +31,6 @@
 #include "KWQWindowWidget.h"
 #include "WebCoreBridge.h"
 
-
 //#include "khtmlview.h"
 //#include "render_canvas.h"
 //#include "render_replaced.h"
