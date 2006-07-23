@@ -334,9 +334,7 @@ void KWQObjectTimerTarget::MessageReceived(BMessage *message)
     KWQObjectTimerTarget *p = static_cast<KWQObjectTimerTarget*>(data);
     if (fraction) p->scheduleWithInterval(p->interval);
     p->timerFired(); 
-    //printf("Timer message recieved\n");
-    //BHandler::MessageReceived(message);
-    //return FALSE; // remove source
+    // LEMON: ... what fraction timer is I don't well understand
     //if (fraction) p->invalidate();
 }
 /*
@@ -365,7 +363,10 @@ KWQObjectTimerTarget::KWQObjectTimerTarget(QObject* t, int _timerId)
      ,target(t)
      ,timerId(_timerId)
      ,interval(0)
-{    
+{   
+    runner = NULL;
+    messenger = NULL;
+    message = NULL;
 }
 
 KWQObjectTimerTarget::~KWQObjectTimerTarget()
@@ -392,14 +393,12 @@ void KWQObjectTimerTarget::addTimeout(guint intervalMS, gpointer data, int fract
 	sid = g_timeout_add_full(G_PRIORITY_HIGH_IDLE, intervalMS, func, data, NULL);
     */
 
-    /// LEMON: fix memory leaks later
-    
     message = new BMessage();
     message->AddPointer("data", data);
     message->AddInt32("fraction", fraction);
     status_t error;
     if (looperForObjectTimers == NULL) looperForObjectTimers = new BLooper("QObject timers looper");
-    looperForObjectTimers->AddHandler(static_cast<BHandler*>(this));
+    looperForObjectTimers->AddHandler(this);
     
     messenger = new BMessenger(this, looperForObjectTimers, &error);
     if (error != B_OK) ERROR("ERROR cannot create BMessenger");
@@ -432,11 +431,13 @@ void KWQObjectTimerTarget::scheduleWithFractionInterval(int firstIntervalMS, int
 
 void KWQObjectTimerTarget::invalidate()
 {
-/*
-    //if (sid!=0) g_source_remove(sid);    
+    //if (sid!=0) g_source_remove(sid);
+
     if (looperForObjectTimers) looperForObjectTimers->RemoveHandler(this);
     if (runner) delete runner;
-*/
+    if (messenger) delete messenger;
+    if (message) delete message;
+    
 }
 
 void KWQObjectTimerTarget::sendTimerEvent()
