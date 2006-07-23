@@ -153,36 +153,28 @@ public:
 
     static void connect(const QObject *sender, const char *signal, const QObject *receiver, const char *member);
     static void disconnect(const QObject *sender, const char *signal, const QObject *receiver, const char *member);
+    static void clearPausedTimers (const void *key);
+    static const QObject *sender() { return _sender; }
+    static bool defersTimers() { return _defersTimers; }
+    static void setDefersTimers(bool defers);
+
+    virtual void timerEvent(QTimerEvent *);
+    virtual bool eventFilter(QObject *object, QEvent *event) { return false; }
+    virtual bool event(QEvent *);
+
     void connect(const QObject *sender, const char *signal, const char *member) const
         { connect(sender, signal, this, member); }
 
     bool inherits(const char *className) const;
-
     int startTimer(int);
     void killTimer(int);
     void killTimers();
     void pauseTimer(int _timerId, const void *key);
     void resumeTimers(const void *key, QObject *target);
-    static void clearPausedTimers (const void *key);
-    
-    virtual void timerEvent(QTimerEvent *);
-
     void installEventFilter(const QObject *o) { _eventFilterObject = o; }
     void removeEventFilter(const QObject *) { _eventFilterObject = 0; }
     const QObject *eventFilterObject() const { return _eventFilterObject; }
-
-    virtual bool eventFilter(QObject *object, QEvent *event) { return false; }
-
     void blockSignals(bool b) { _signalsBlocked = b; }
-
-    virtual bool event(QEvent *);
-
-    static const QObject *sender() { return _sender; }
-
-    static bool defersTimers() { return _defersTimers; }
-    static void setDefersTimers(bool defers);
-
-
     bool is_a(int t) const { return _class_type & t; }
 
 protected:
@@ -193,26 +185,16 @@ private:
     // no copying or assignment
     QObject(const QObject &);
     QObject &operator=(const QObject &);  
-
     KWQSignal *findSignal(const char *signalName) const;    
-    
     QPtrList<QObject> _guardedPtrDummyList;
-    
     mutable KWQSignal *_signalListHead;
     bool _signalsBlocked;
     static const QObject *_sender;
-
     KWQSignal _destroyed;
-
     const QObject *_eventFilterObject;
-
     static bool _defersTimers;
-
-    
     QPtrList<KWQObjectTimerTarget> _timers;
-    
     int _class_type;
-    
     friend class KWQGuardedPtrBase;
     friend class KWQSignal;
     friend class KWQObjectSenderScope;

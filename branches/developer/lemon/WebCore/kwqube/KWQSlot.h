@@ -29,6 +29,10 @@
 #include "KWQGuardedPtr.h"
 
 class QString;
+
+#define SANDBOX
+#ifndef SANDBOX
+
 class KURL;
 
 namespace KIO {
@@ -39,8 +43,10 @@ namespace khtml {
     class CachedObject;
     class DocLoader;
 }
-#if KWIQ
+#if KWQUBE
 class KWIQResponse;
+#endif
+
 #endif
 
 // Like strcmp, but ignores spaces.
@@ -53,7 +59,8 @@ public:
     
     bool isEmpty() const { return !m_object; }
     void clear() { m_object = 0; }
-    
+
+#ifndef SANDBOX    
     void call() const;
     void call(bool) const;
     void call(int) const;
@@ -62,14 +69,13 @@ public:
     void call(khtml::DocLoader *, khtml::CachedObject *) const;
     void call(KIO::Job *, const char *, int) const;
     void call(KIO::Job *, const KURL &) const;
-#if !KWIQ
+#if !KWQUBE
     void call(KIO::Job *, void *) const;
 #else
     void call(KIO::Job *, KWIQResponse *) const;
-
 #endif
 
-    
+#endif /* SANDBOX */
 
     friend bool operator==(const KWQSlot &, const KWQSlot &);
 

@@ -1,3 +1,4 @@
+
 SubDir WEBCORE_TOP kwqube ;
 
 LOCATE_TARGET = [ FDirName $(WEBCORE_TOP) objects ] ;
@@ -22,7 +23,7 @@ StaticLibrary libKWQ.a
     QCompletion.cpp
     QConstString.cpp
     QDOMNode.cpp
-#    QDateTime.cpp
+    QDateTime.cpp
     QDictImpl.cpp
     QEvent.cpp
     QFile.cpp
@@ -36,7 +37,7 @@ StaticLibrary libKWQ.a
     QLogging.cpp
     QMapImpl.cpp
 #    QMovie.cpp
-#    QObject.cpp
+    QObject.cpp
     QPalette.cpp
     QPen.cpp
 #    QPixmap.cpp
@@ -46,7 +47,9 @@ StaticLibrary libKWQ.a
     QRect.cpp
     QRegExp.cpp
     QRegion.cpp
+    QSignal.cpp
     QSize.cpp
+    QSlot.cpp
     QString.cpp
     QStringList.cpp
     QTextCodec.cpp

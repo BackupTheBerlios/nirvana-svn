@@ -40,7 +40,8 @@ public:
     
     void connect(const KWQSlot &);
     void disconnect(const KWQSlot &);
-    
+
+#ifndef SANDBOX
     void call() const; // should be "emit"; can't be due to define in qobject.h
     void call(bool) const;
     void call(int) const;
@@ -55,6 +56,9 @@ public:
 #else
     void call(KIO::Job *, KWIQResponse *) const;
 #endif
+
+#endif /* SANDBOX */
+
  private:
     // forbid copying and assignment
     KWQSignal(const KWQSignal &);

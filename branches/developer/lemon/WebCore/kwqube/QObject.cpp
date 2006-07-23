@@ -22,8 +22,12 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
-#include "KWQObject.h"
 
+#include <AppKit.h>
+#include <sys/time.h>
+#include "glib.h"
+
+#include "KWQObject.h"
 #include "KWQVariant.h"
 #include "KWQAssertions.h"
 #include "KWQPtrList.h"
@@ -47,11 +51,11 @@ struct _initer {
 };
 static _initer _hack_initer;
 
-
-class KWQObjectTimerTarget
+class KWQObjectTimerTarget : BHandler
 {
-    GTimeVal firesAt;
+    struct timeval firesAt;
     guint sid; // GSource id
+    BMessageRunner *runner;
 
 public:
     QObject* target;
@@ -61,18 +65,20 @@ public:
 
     KWQObjectTimerTarget(QObject* target, int timerId);
     ~KWQObjectTimerTarget();
-
+    virtual void MessageReceived(BMessage *message);
+    
     // timer interface
     void scheduleWithInterval(int intervalMS);
     void scheduleWithFractionInterval(int firstIntervalMS, int intervalMS);
     void invalidate();
-    GTimeVal* fireTime() { return &firesAt; }
+    struct timeval* fireTime() { return &firesAt; }
 
     void sendTimerEvent();
     void timerFired();
 
 private:
-    void addTimeout(guint intervalMS, GSourceFunc func, gpointer data);
+    //void addTimeout(guint intervalMS, GSourceFunc func, gpointer data);
+    void addTimeout(guint intervalMS, gpointer data, int fraction);
 };
 
 KWQSignal *QObject::findSignal(const char *signalName) const
@@ -150,7 +156,7 @@ QObject::QObject(QObject *parent, const char *name)
 
 QObject::~QObject()
 {
-    _destroyed.call();
+    //_destroyed.call();
     ASSERT(_signalListHead == &_destroyed);
     killTimers();
 }
@@ -182,9 +188,9 @@ void QObject::pauseTimer (int timerId, const void *key)
 {
     KWQObjectTimerTarget* target = _find(&_timers, timerId);
     if (target) {
-	GTimeVal *tv = target->fireTime();
-	GTimeVal diff;
-	g_get_current_time(&diff);
+	timeval *tv = target->fireTime();
+	timeval diff;
+	gettimeofday(&diff, NULL);
 
 	diff.tv_sec = tv->tv_sec - diff.tv_sec;
 	diff.tv_usec = tv->tv_usec - diff.tv_usec;
@@ -252,11 +258,8 @@ void QObject::resumeTimers (const void *key, QObject *_target)
 int QObject::startTimer(int milliseconds)
 {
     KWQObjectTimerTarget *target = new KWQObjectTimerTarget(this, nextTimerID);
-   
     target->scheduleWithInterval(milliseconds);
-    
     _timers.append(target);
-
     return nextTimerID++;
 }
 
@@ -317,6 +320,18 @@ void QObject::setDefersTimers(bool defers)
     }
 }
 
+void KWQObjectTimerTarget::MessageReceived(BMessage *message)
+{
+    gpointer data;
+    message->FindPointer("data", &data);
+    int fraction = (int)message->FindInt32("fraction");
+    KWQObjectTimerTarget *p = static_cast<KWQObjectTimerTarget*>(data);
+    if (fraction) p->scheduleWithInterval(p->interval);
+    p->timerFired(); 
+    //return FALSE; // remove source
+    p->invalidate();
+}
+/*
 extern "C" { 
 static gboolean 
 frac_interval_timeout(gpointer data)
@@ -335,12 +350,12 @@ interval_timeout(gpointer data)
     return TRUE; // don't remove source
 }
 }
+*/
 
 KWQObjectTimerTarget::KWQObjectTimerTarget(QObject* t, int _timerId)
     :sid(0)
      ,target(t)
      ,timerId(_timerId)
-
      ,interval(0)
 {    
 }
@@ -350,41 +365,61 @@ KWQObjectTimerTarget::~KWQObjectTimerTarget()
     invalidate();
 }
 
-void KWQObjectTimerTarget::addTimeout(guint intervalMS, GSourceFunc func, gpointer data)
+//void KWQObjectTimerTarget::addTimeout(guint intervalMS, GSourceFunc func, gpointer data, int fraction)
+void KWQObjectTimerTarget::addTimeout(guint intervalMS, gpointer data, int fraction)
 {
     glong secs = (glong) (intervalMS/1000);
     glong usecs = (glong) ((intervalMS-(secs*1000)))*1000;
 
-    g_get_current_time(&firesAt);
+    gettimeofday(&firesAt, NULL);
     firesAt.tv_sec +=secs;
     firesAt.tv_usec +=usecs;
 
     // "If interval is 0, then the timer event occurs once every time there are no 
     // more window system events to process." --QT API Reference
+    /*
     if (interval==0) 
 	sid = g_idle_add_full(G_PRIORITY_HIGH_IDLE, func, data, NULL);    
     else 
 	sid = g_timeout_add_full(G_PRIORITY_HIGH_IDLE, intervalMS, func, data, NULL);
+    */
+
+    BMessage *message = new BMessage();
+    message->AddPointer("data", data);
+    message->AddInt32("fraction", fraction);
+    status_t error;
+    BMessenger *messanger = new BMessenger(this, NULL, &error);
+    
+    if (interval==0) {
+        message->AddInt32("forever", 1);
+	runner = new BMessageRunner(*messanger, message, -1, -1);
+    } else {
+        message->AddInt32("forever", 0);
+	runner = new BMessageRunner(*messanger, message, intervalMS, -1);
+    }
+    
 }
 
 void KWQObjectTimerTarget::scheduleWithInterval(int intervalMS)
 {
     invalidate();
     interval = intervalMS;
-    addTimeout(intervalMS,  (GSourceFunc) ::interval_timeout, this);
+    //addTimeout(intervalMS,  (GSourceFunc) ::interval_timeout, this);
+    addTimeout(intervalMS, this, FALSE);
 }
 
 void KWQObjectTimerTarget::scheduleWithFractionInterval(int firstIntervalMS, int intervalMS)
 {
     invalidate();
     interval = intervalMS;
-    addTimeout(firstIntervalMS, (GSourceFunc)::frac_interval_timeout, this);    
+    //addTimeout(firstIntervalMS, (GSourceFunc)::frac_interval_timeout, this);
+    addTimeout(firstIntervalMS, this, TRUE);
 }
 
 void KWQObjectTimerTarget::invalidate()
 {
-    if (sid!=0)
-	g_source_remove(sid);    
+    //if (sid!=0) g_source_remove(sid);    
+    if (runner) delete runner;
 }
 
 void KWQObjectTimerTarget::sendTimerEvent()
@@ -406,6 +441,9 @@ void KWQObjectTimerTarget::timerFired()
 
 bool QObject::inherits(const char *className) const
 {
+    // LEMON: nice stuff
+    // note that BeOS supports some kind of MOC
+    
     if (this==0) return false;
     
     if (strcmp(className, "KHTMLPart") == 0) {

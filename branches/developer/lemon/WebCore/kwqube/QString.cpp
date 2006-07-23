@@ -40,25 +40,17 @@
 #include "KWQRegExp.h"
 #include "KWQTextCodec.h"
 
-#if KWQUBE
-#include <glib.h>
+#include "glib.h"
 #include "KWIQMacros.h"
 const char QChar::null = 0; 
-#endif
 
 #define CHECK_FOR_HANDLE_LEAKS 0
-
-// Why can't I find this in a header anywhere?  It's too bad we have
-// to wire knowledge of allocation sizes, but it makes a huge diffence.
 #define malloc_good_size(size) size
-
 #define ALLOC_QCHAR_GOOD_SIZE(X) (malloc_good_size(X*sizeof(QChar))/sizeof(QChar))
 #define ALLOC_CHAR_GOOD_SIZE(X) (malloc_good_size(X))
-
 #define ALLOC_CHAR( N ) (char*) malloc(N)
 #define REALLOC_CHAR( P, N ) (char *) realloc(P,N)
 #define DELETE_CHAR( P ) free(P)
-
 #define ALLOC_QCHAR( N ) (QChar*) malloc(sizeof(QChar)*( N ))
 #define REALLOC_QCHAR( P, N ) (QChar *) realloc(P,sizeof(QChar)*( N ))
 #define DELETE_QCHAR( P ) free( P )
