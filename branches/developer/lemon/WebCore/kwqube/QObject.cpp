@@ -334,7 +334,8 @@ void KWQObjectTimerTarget::MessageReceived(BMessage *message)
     KWQObjectTimerTarget *p = static_cast<KWQObjectTimerTarget*>(data);
     if (fraction) p->scheduleWithInterval(p->interval);
     p->timerFired(); 
-    printf("Timer message recieved\n");
+    //printf("Timer message recieved\n");
+    //BHandler::MessageReceived(message);
     //return FALSE; // remove source
     //if (fraction) p->invalidate();
 }
@@ -399,12 +400,13 @@ void KWQObjectTimerTarget::addTimeout(guint intervalMS, gpointer data, int fract
     status_t error;
     if (looperForObjectTimers == NULL) looperForObjectTimers = new BLooper("QObject timers looper");
     looperForObjectTimers->AddHandler(static_cast<BHandler*>(this));
-    messenger = new BMessenger(NULL, looperForObjectTimers, &error);
+    
+    messenger = new BMessenger(this, looperForObjectTimers, &error);
     if (error != B_OK) ERROR("ERROR cannot create BMessenger");
     
     if (interval==0) {
         message->AddInt32("forever", 1);
-	runner = new BMessageRunner(*messenger, message, -1, -1);
+	runner = new BMessageRunner(*messenger, message, 0, -1);
     } else {
         message->AddInt32("forever", 0);
 	runner = new BMessageRunner(*messenger, message, intervalMS, -1);
@@ -430,9 +432,11 @@ void KWQObjectTimerTarget::scheduleWithFractionInterval(int firstIntervalMS, int
 
 void KWQObjectTimerTarget::invalidate()
 {
+/*
     //if (sid!=0) g_source_remove(sid);    
+    if (looperForObjectTimers) looperForObjectTimers->RemoveHandler(this);
     if (runner) delete runner;
-    if (looperForObjectTimers) looperForObjectTimers->RemoveHandler(static_cast<BHandler*>(this));
+*/
 }
 
 void KWQObjectTimerTarget::sendTimerEvent()
@@ -443,7 +447,6 @@ void KWQObjectTimerTarget::sendTimerEvent()
 
 void KWQObjectTimerTarget::timerFired()
 {
-    sendTimerEvent();
     if (deferringTimers) {
 	if (!deferredTimers.containsRef(this)) {
 	    deferredTimers.append(this);
