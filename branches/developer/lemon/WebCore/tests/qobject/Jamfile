@@ -1,0 +1,12 @@
+SubDir WEBCORE_TOP tests qobject ;
+
+LOCATE_TARGET = [ FDirName $(WEBCORE_TOP) objects ] ;
+
+SubDirHdrs [ FDirName $(WEBCORE_TOP) ForwardingHeaders ] ;
+SubDirHdrs [ FDirName $(WEBCORE_TOP) khtml ] ;
+SubDirHdrs [ FDirName $(WEBCORE_TOP) kwqube ] ;
+SubDirHdrs [ FDirName $(WEBCORE_TOP) glib ] ; 
+
+Application qobject_test : qobject_test.cpp ;
+LinkAgainst qobject_test : ;
+StdLibs qobject_test : be stdc++ WebCore ; 
