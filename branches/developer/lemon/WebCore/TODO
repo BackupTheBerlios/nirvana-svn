@@ -15,3 +15,8 @@ Date: 12/07/2006 lemon - Second Round
 Status: CSS XML DOM MISC RENDER and FRONT-END are compiled
 Problems: webkit.opendarwing.org, our project now is not so actual.
 Todo: KWQUBE Qt->BeOS Wrappers
+
+Date: 23/07/2006 lemon - Just Before GUI porting. All before-GUI work done.
+Status: CSS XML DOM MISC RENDER and FRONT-END are compiled
+Problems: kwqube/Jamfile list of complete KWQ classes. Some tests added for KWQ
+Todo: QWidget, QLineEdit, QListBox, QCheckBox, QRadioButton, QPushButton...
