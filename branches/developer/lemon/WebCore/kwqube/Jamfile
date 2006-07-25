@@ -15,6 +15,9 @@ StaticLibrary libKWQ.a
     QArrayImpl.cpp
     QAssertions.cpp
     QBuffer.cpp
+    QButtonGroup.cpp
+    QButton.cpp
+    QCheckBox.cpp
     QChar.cpp
     QCharsets.cpp
     QCollection.cpp
@@ -22,6 +25,7 @@ StaticLibrary libKWQ.a
     QColorGroup.cpp
     QCompletion.cpp
     QConstString.cpp
+    QCursor.cpp
     QDOMNode.cpp
     QDateTime.cpp
     QDictImpl.cpp
@@ -60,6 +64,7 @@ StaticLibrary libKWQ.a
     QXmlAttributes.cpp
     QXmlDefaultHandler.cpp
 #    QXmlSimpleReader.cpp
+    QWidget.cpp
     KCharsets.cpp
     WebCoreTextRenderer.cpp
     WebCoreTextRendererFactory.cpp

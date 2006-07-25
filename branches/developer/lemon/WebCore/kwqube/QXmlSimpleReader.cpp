@@ -25,8 +25,8 @@
 
 #include "KWQXmlSimpleReader.h"
 
-#include <libxml/parser.h>
-#include <libxml/parserInternals.h>
+//#include <libxml/parser.h>
+//#include <libxml/parserInternals.h>
 
 #include "KWQAssertions.h"
 #include "KWQXmlAttributes.h"

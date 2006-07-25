@@ -27,6 +27,8 @@
 #define QWIDGET_H_
 //#include <gdk/gdk.h>
 
+#include <AppKit.h>
+
 #include "KWQObject.h"
 #include "KWQPaintDevice.h"
 #include "KWQPainter.h"
@@ -39,18 +41,18 @@
 #include "KWQStyle.h"
 
 
-typedef struct _GtkWidget GtkWidget;
-typedef struct _PangoFontDescription PangoFontDescription;
+//typedef struct _GtkWidget GtkWidget;
+//typedef struct _PangoFontDescription PangoFontDescription;
 
-PangoFontDescription* createPangoFontDescription(const QFont* font) ;
+BFont* createPangoFontDescription(const QFont* font) ;
     
 class QWidgetPrivate;
 
-class QWidget : public QObject, public QPaintDevice {
+class QWidget : public BView, public QObject, public QPaintDevice {
 public:
   
     enum WidgetFlags {
-	WResizeNoErase = 1,
+	WResizeNoErase = 1 << 0,
 	WRepaintNoErase = 1 << 1,
 	WPaintUnclipped = 1 << 2,
     };
@@ -63,74 +65,66 @@ public:
         WheelFocus = 0x7
     };
 
+    enum BackgroundMode {
+	NoBackground
+    };
 
     QWidget(QWidget * parent = 0, const char * name = 0, int f = 0);
-    QWidget(GtkWidget*);
+    //QWidget(GtkWidget*);
 
     virtual ~QWidget();
-
-    virtual QSize sizeHint() const;
-    
+    virtual QSize sizeHint();
     virtual void setEnabled(bool);
-    virtual bool isEnabled() const;
+    virtual bool isEnabled();
+    //virtual void paint(QPainter *, const QRect &);
+    virtual QRect frameGeometry();
+    virtual void setFrameGeometry(const QRect &);
+    virtual int baselinePosition(int height); // relative to the top of the widget
+    virtual QPoint mapFromGlobal(const QPoint &);
+    virtual bool hasFocus();
+    virtual void setFocus();
+    virtual bool checksDescendantsForFocus();
+    virtual FocusPolicy focusPolicy();
+    virtual void setFocusProxy(QWidget *) {};
+    virtual void setPalette(const QPalette &);
+    virtual void setFont(const QFont &);
+    //virtual void setWritingDirection(QPainter::TextDirection direction);
+    virtual void setBView(BView* c);
+    virtual BView* getBView() { return _widget; }
     
     void setActiveWindow();
-
     void setAutoMask(bool) { }
     void setMouseTracking(bool) { }
-
-    long winId() const;
-    int x() const;
-    int y() const;
-    int width() const;
-    int height() const;
-    QSize size() const;
+    long winId();
+    int x();
+    int y();
+    int width();
+    int height();
+    QSize size();
     virtual void resize(int,int);
     void resize(const QSize &);
-    QPoint pos() const;
+    QPoint pos();
     void move(int, int);
     void move(const QPoint &);
-
-    virtual void paint(QPainter *, const QRect &);
-    
-    virtual QRect frameGeometry() const;
-    virtual void setFrameGeometry(const QRect &);
-
-    virtual int baselinePosition(int height) const; // relative to the top of the widget
-
-    virtual QPoint mapFromGlobal(const QPoint &) const;
-
-    virtual bool hasFocus() const;
-    virtual void setFocus();
-    
     void clearFocus();
-    virtual bool checksDescendantsForFocus() const;
-    
-    virtual FocusPolicy focusPolicy() const;
     void setFocusPolicy(FocusPolicy) {};
-    
-    virtual void setFocusProxy(QWidget *) {};
-
-    const QPalette& palette() const;
-    virtual void setPalette(const QPalette &);
+    const QPalette& palette();
     void unsetPalette();
-    
-    QStyle &style() const;
+    QStyle &style();
     void setStyle(QStyle *);
-    
-    QFont font() const;
-    virtual void setFont(const QFont &);
-    
-    void constPolish() const;
-    bool isVisible() const;
+    QFont font();
+    void constPolish();
+    bool isVisible();
     void setCursor(const QCursor &);
     QCursor cursor();
     void unsetCursor();
     virtual bool focusNextPrevChild(bool);
-    bool hasMouseTracking() const;
-
+    bool hasMouseTracking();
     void show();
     void hide();
+    void setBackgroundMode(BackgroundMode) { }
+    void setAcceptDrops(bool) { }
+    void setIsSelected(bool) { }
 
     void showEvent(QShowEvent *) { }
     void hideEvent(QHideEvent *) { }
@@ -140,15 +134,9 @@ public:
     void focusInEvent(QFocusEvent *) { }
     void focusOutEvent(QFocusEvent *) { }
 
-    enum BackgroundMode { NoBackground };    
-    void setBackgroundMode(BackgroundMode) { }
-
-    void setAcceptDrops(bool) { }
-
-    void setIsSelected(bool) { }
-    
-    void setGtkWidget(GtkWidget* widget);
-    GtkWidget* getGtkWidget() const { return _widget;}
+    //void setGtkWidget(GtkWidget* widget);
+    //GtkWidget* getGtkWidget() const { return _widget;}
+    //BView* getBView();
     
     void displayRect(int x, int y, int w, int h);
     void lockDrawingFocus();
@@ -156,15 +144,11 @@ public:
     void enableFlushDrawing();
     void disableFlushDrawing();
     void setDrawingAlpha(float alpha);
-
     void sendConsumedMouseUp();
-    
-    virtual void setWritingDirection(QPainter::TextDirection direction);
     
 private:
     QWidgetPrivate *data;
-    GtkWidget*  _widget;
-
+    BView* _widget; // for BControl
     
 };
 

@@ -21,7 +21,7 @@ LinkAgainst libWebCore.so
     libKWQ.a
     libG.a
     ;
-StdLibs libWebCore.so : be iconv stdc++ JavaScriptCore ;
+StdLibs libWebCore.so : be iconv stdc++ JavaScriptCore expat ;
 
 # 2. Build just libG. Its is standalone working globalization library
 #SharedLibrary libG.so ;
@@ -31,4 +31,4 @@ StdLibs libWebCore.so : be iconv stdc++ JavaScriptCore ;
 #SubInclude WEBCORE_TOP khtml ;
 SubInclude WEBCORE_TOP glib ;
 SubInclude WEBCORE_TOP kwqube ;
-#SubInclude WEBCORE_TOP tests ;
+SubInclude WEBCORE_TOP tests ;

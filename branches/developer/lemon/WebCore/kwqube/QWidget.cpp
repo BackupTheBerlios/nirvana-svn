@@ -1,90 +1,88 @@
 /*
- * Copyright (C) 2003 Apple Computer, Inc.  All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY APPLE COMPUTER, INC. ``AS IS'' AND ANY
- * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL APPLE COMPUTER, INC. OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
- * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
- */
+    Copyright (c) 2006 Maxim Sokhtasky (maxim@sokhatsky.com)
+*/
 
-//#include <gtk/gtk.h>
-
+#include <AppKit.h>
 #include "KWQWidget.h"
 #include "KWQKHTMLPart.h"
 #include "KWQLogging.h"
 #include "KWQWindowWidget.h"
-#include "WebCoreBridge.h"
-
-//#include "khtmlview.h"
-//#include "render_canvas.h"
-//#include "render_replaced.h"
-//#include "render_style.h"
-
 #include "KWQEvent.h"
 #include "KWQNamespace.h"
 #include "KWQApplication.h"
 
+//#include <gtk/gtk.h>
+//#include "WebCoreBridge.h"
+//#include "khtmlview.h"
+//#include "render_canvas.h"
+//#include "render_replaced.h"
+//#include "render_style.h"
 //#include "GObjectMisc.h"
 
 /** callbacks */
-extern "C" {
-static gboolean focus_inout(GtkWidget *widget, GdkEventFocus *event, gpointer data);
-}
+//extern "C" {
+//static gboolean focus_inout(GtkWidget *widget, GdkEventFocus *event, gpointer data);
+//}
+//using khtml::RenderWidget;
 
-
-using khtml::RenderWidget;
-
-
-class QWidgetPrivate
-{
-
+class QWidgetPrivate {
 public:
-    QWidgetPrivate()
-	:inPaint(0), geom(QRect(0,0,0,0)) {}
-
+    QWidgetPrivate() :inPaint(0), geom(QRect(0,0,0,0)) {}
     QStyle *style;
     QFont font;
     QPalette pal;
-    GPtr<GtkWidget> safe_widget;
+    //GPtr<GtkWidget> safe_widget;
+    BView* safe_widget;    
     bool visible;
-
     QWidget* parent;
     int inPaint;
     QRect geom;
     QCursor currentCursor;
-
 };
 
-
-QWidget::QWidget(QWidget * parent, const char * name , int f ) 
-    : data(new QWidgetPrivate)
-      ,_widget(0)
+//QWidget::QWidget(QWidget * parent, const char * name , int f ) 
+//    : data(new QWidgetPrivate)
+//      ,_widget(0)
+QWidget::QWidget( QWidget* parent, const char* name, int iiii )
+    :
+    BView(BRect( 0, 0, 200, 200 ), name, B_FOLLOW_ALL_SIDES,
+	B_WILL_DRAW | B_FRAME_EVENTS | B_FULL_UPDATE_ON_RESIZE ),
+    data(new QWidgetPrivate())
 {
     QOBJECT_TYPE(QWidget);
+
+    // LEMON: put widget into parent just now
+
+    if (parent) {
+	/*
+	QScrollView* scroll_view = dynamic_cast<QScrollView*>(parent);
+	if (scroll_view) {
+	    parent = scroll_view->viewport();
+	    if (parent == NULL) parent = scroll_view;
+	}
+	*/
+	parent->AddChild(this);
+	float height = parent->Bounds().Height()/(parent->CountChildren());
+	float width = parent->Bounds().Width();
+	for (int i=0; i<parent->CountChildren(); i++ ) {
+	    BView *v = parent->ChildAt( i );
+	    if (v)
+	    {
+		v->ResizeTo( width, floorf(height) );
+	        v->MoveTo( 0, ceilf(height*i) );
+		v->Frame().PrintToStream();
+	    }
+	}
+    }
 
     static QStyle defaultStyle;
     data->style = &defaultStyle;
     data->parent = parent;
     //data->widget = KWQRetain(view);
     data->visible = true;
+    
 }
-
+/*
 QWidget::QWidget(GtkWidget* awidget)
     : data(new QWidgetPrivate)
       ,_widget(0)
@@ -95,13 +93,13 @@ QWidget::QWidget(GtkWidget* awidget)
     data->style = &defaultStyle;
     //data->widget = KWQRetain(view);
     data->visible = true;
-
     setGtkWidget(awidget);
 }
-
+*/
 
 QWidget::~QWidget() 
 {
+/*
     if (_widget) {
 	// window of widget
 	if (_widget->window) 
@@ -109,26 +107,32 @@ QWidget::~QWidget()
 
 	data->safe_widget = 0; // unrefs etc
     }
-    
+*/    
     delete data;
 }
 
-QSize QWidget::sizeHint() const 
+QSize QWidget::sizeHint()
 {
     // May be overriden by subclasses.
-    ASSERT(_widget);
+    //ASSERT(_widget);
+    /*
     GtkRequisition r;
     gtk_widget_size_request(_widget, &r);
     return QSize(r.width, r.height);
+    */
+    return( QSize( 0.0f, 0.0f ) );
 }
 
 void QWidget::resize(int w, int h) 
 {
-    ASSERT(_widget);
+    //ASSERT(_widget);
     LOG(KwiqLog, "this:%x size:%d,%d", (int)this, w, h);
+    ResizeTo( w - 1, h - 1 ); 
+    /*
     QSize s(size());
     if (s.width()!=w || s.height()!=h)
 	gtk_widget_set_size_request(_widget, w, h);
+    */
 }
 
 void QWidget::setActiveWindow() 
@@ -139,46 +143,80 @@ void QWidget::setActiveWindow()
 
 void QWidget::setEnabled(bool enabled)
 {
-    gtk_widget_set_sensitive(_widget, enabled);
+//    gtk_widget_set_sensitive(_widget, enabled);
 }
 
-bool QWidget::isEnabled() const
+bool QWidget::isEnabled()
 {
-    return GTK_WIDGET_IS_SENSITIVE(_widget);
+//    return GTK_WIDGET_IS_SENSITIVE(_widget);
+    return true;
 }
 
-long QWidget::winId() const
+long QWidget::winId()
 {
     return (long)this;
 }
 
-int QWidget::x() const
+int QWidget::x()
 {
-    ASSERT(_widget);
-    return  _widget->allocation.x;
+    //ASSERT(_widget);
+    //return  _widget->allocation.x;
+    int fx(0);
+    if ( LockLooper() )
+    {
+	fx = int( Frame().left );
+	UnlockLooper();
+    }
+    return( fx ); 
 }
 
-int QWidget::y() const 
+int QWidget::y()
 {
-    ASSERT(_widget);
-    return _widget->allocation.y;
+    //ASSERT(_widget);
+    //return _widget->allocation.y;
+    int fy(0);
+    if ( LockLooper() ) {
+	fy = int( Frame().top );
+	UnlockLooper();
+    }
+    return( fy ); 
 }
 
-int QWidget::width() const 
+int QWidget::width()
 { 
-    ASSERT(_widget);
-    return _widget->allocation.width;
+    //ASSERT(_widget);
+    //return _widget->allocation.width;
+    
+    int fwidth(0);
+    if( LockLooper() ) {
+	fwidth = int(Frame().Width() + 1);
+	UnlockLooper();
+    }
+    return( fwidth ); 
 }
 
-int QWidget::height() const 
+int QWidget::height()
 {
-    ASSERT(_widget);
-    return _widget->allocation.height;
+    //ASSERT(_widget);
+    //return _widget->allocation.height;
+    
+    int fheight(0);
+    if( LockLooper() ) {
+	fheight = int(Frame().Height() + 1);
+	UnlockLooper();
+    }
+    return( fheight );  
 }
 
-QSize QWidget::size() const 
+QSize QWidget::size() 
 {
-    return QSize(_widget->allocation.width, _widget->allocation.height);
+    //return QSize(_widget->allocation.width, _widget->allocation.height);
+    BRect frame;
+    if( LockLooper() ) {
+	frame = Frame();
+	UnlockLooper();
+    }
+    return( QSize( frame.Width() + 1, frame.Height() + 1 ) ); 
 }
 
 void QWidget::resize(const QSize &s) 
@@ -186,13 +224,20 @@ void QWidget::resize(const QSize &s)
     resize(s.width(), s.height());
 }
 
-QPoint QWidget::pos() const 
+QPoint QWidget::pos()
 {
-    return QPoint(_widget->allocation.x, _widget->allocation.y);
+    //return QPoint(_widget->allocation.x, _widget->allocation.y);
+    BRect frame;
+    if( LockLooper() ) {
+	frame = Frame();
+	UnlockLooper();
+    }
+    return( QPoint( frame.left, frame.top ) ); 
 }
 
 void QWidget::move(int x, int y) 
 {
+/*
     LOG(KwiqLog, "this:%x, _widget:%x, size:%d,%d",(int)this, (int)_widget, x, y);
     ASSERT(_widget);
 
@@ -214,7 +259,13 @@ void QWidget::move(int x, int y)
 	    }
 	}
     }
+*/
 
+    // LEMON: what to do with Layout ?
+    if( LockLooper() ) {
+	MoveTo( x, y );
+	UnlockLooper();
+    }  
 }
 
 void QWidget::move(const QPoint &p) 
@@ -222,22 +273,22 @@ void QWidget::move(const QPoint &p)
     move(p.x(), p.y());
 }
 
-QRect QWidget::frameGeometry() const
+QRect QWidget::frameGeometry() 
 {
+    /*
     if (!_widget){
 	g_warning("widget was zero");
 	return QRect(-1,-1,-1,-1);
 	ASSERT(_widget);
     }
-
-    return QRect( _widget->allocation.x,
-		  _widget->allocation.y,
-		  _widget->allocation.width,
-		  _widget->allocation.height);
+    */
+    BRect rect = Frame();
+    return QRect(&rect);
 }
 
 void QWidget::setFrameGeometry(const QRect &rect)
 {
+/*
     LOG(KwiqLog, "this:%x, _widget==0, rect:(%d,%d; %d,%d)",
 	(int)this, 
 	rect.x(),
@@ -246,23 +297,27 @@ void QWidget::setFrameGeometry(const QRect &rect)
 	rect.height());
 
     ASSERT(_widget);
-
-    g_object_freeze_notify(G_OBJECT (_widget));
-    move(rect.x(), rect.y());
-    resize(rect.width(), rect.height());
-    g_object_thaw_notify(G_OBJECT (_widget));
+*/
+    //g_object_freeze_notify(G_OBJECT (_widget));
+    if (LockLooper()) {
+        move(rect.x(), rect.y());
+	resize(rect.width(), rect.height());
+	UnlockLooper();
+    }
+    //g_object_thaw_notify(G_OBJECT (_widget));
 }
 
 
-int QWidget::baselinePosition(int height) const
+int QWidget::baselinePosition(int height)
 {
     return (int)((16.0f/20.0f)*height);
 }
 
-bool QWidget::hasFocus() const
+bool QWidget::hasFocus() 
 {    
-    if (!_widget) return  false;
-    return GTK_WIDGET_HAS_FOCUS (_widget);
+    //if (!_widget) return  false;
+    //return GTK_WIDGET_HAS_FOCUS (_widget);
+    return IsFocus();
 }
 
 void QWidget::setFocus()
@@ -270,7 +325,9 @@ void QWidget::setFocus()
     if (hasFocus()) {
         return;
     }
-
+    
+    MakeFocus();
+/*
     // KHTML will call setFocus on us without first putting us in our
     // superview and positioning us. Normally layout computes the position
     // and the drawing process positions the widget. Do both things explicitly.
@@ -294,6 +351,7 @@ void QWidget::setFocus()
     if (GTK_WIDGET_CAN_FOCUS(_widget)) {
         KWQKHTMLPart::bridgeForWidget(this)->makeFirstResponder(_widget);
     }
+*/
 }
 
 void QWidget::clearFocus()
@@ -302,22 +360,22 @@ void QWidget::clearFocus()
         return;
     }
 
-    KWQKHTMLPart::clearDocumentFocus(this);
+    //KWQKHTMLPart::clearDocumentFocus(this);
 }
 
-bool QWidget::checksDescendantsForFocus() const
+bool QWidget::checksDescendantsForFocus() 
 {
     return false;
 }
 
-QWidget::FocusPolicy QWidget::focusPolicy() const
+QWidget::FocusPolicy QWidget::focusPolicy() 
 {
     // This provides support for controlling the widgets that take 
     // part in tab navigation. Widgets must:
     // 1. not be hidden by css
     // 2. be enabled
     // 3. accept first responder
-
+/*
     RenderWidget *widget = const_cast<RenderWidget *>
 	(static_cast<const RenderWidget *>(eventFilterObject()));
     if (widget->style()->visibility() != khtml::VISIBLE)
@@ -331,11 +389,11 @@ QWidget::FocusPolicy QWidget::focusPolicy() const
         return NoFocus;
     KWQ_UNBLOCK_EXCEPTIONS;
 #endif    
-
+*/
     return TabFocus;
 }
 
-const QPalette& QWidget::palette() const
+const QPalette& QWidget::palette() 
 {
     return data->pal;
 }
@@ -351,7 +409,7 @@ void QWidget::unsetPalette()
     // have to be rewritten.  Do nothing.
 }
 
-QStyle &QWidget::style() const
+QStyle &QWidget::style() 
 {
     return *data->style;
 }
@@ -366,7 +424,7 @@ void QWidget::setStyle(QStyle *style)
     data->style = style;
 }
 
-QFont QWidget::font() const
+QFont QWidget::font() 
 {
     return data->font;
 }
@@ -375,33 +433,43 @@ void QWidget::setFont(const QFont &font)
 {
     //g_warning("QWidget::setFont: size:%d, family:%s", font.pixelSize(), font.family().latin1());
     data->font = font;
+    /*
     if (_widget){
 	PangoFontDescription *fd =
         	createPangoFontDescription(&font);
 	gtk_widget_modify_font(_widget, fd);
 	pango_font_description_free(fd); //should be freed or not?
     }
+    */
+    
+    BFont *ghm_font = (BFont *)createPangoFontDescription(&font);
+    SetFont(ghm_font);
+    
 }
 
-void QWidget::constPolish() const
+void QWidget::constPolish() 
 {
 }
 
-bool QWidget::isVisible() const
+bool QWidget::isVisible() 
 {
+/*
     if (!_widget) 
 	return false;
 
     return GTK_WIDGET_VISIBLE(_widget);
+*/
 }
 
 void QWidget::setCursor(const QCursor &cur)
 {
+/*
     if (!_widget) return;
     if (_widget->window) {
 	gdk_window_set_cursor(_widget->window, cur.handle()); // NULL means parent
-	data->currentCursor = cur;
     }
+*/
+    data->currentCursor = cur;
 }
 
 
@@ -425,31 +493,36 @@ bool QWidget::focusNextPrevChild(bool)
     return false;
 }
 
-bool QWidget::hasMouseTracking() const
+bool QWidget::hasMouseTracking() 
 {
     return true;
 }
 
 void QWidget::show()
 {
+/*
     if (!_widget) return;
 
     if (!data || isVisible())
         return;
 
     gtk_widget_show_all( _widget );
+*/
+    Show();
 }
 
 void QWidget::hide()
 {
-    
+/*    
     if (!data || !isVisible())
         return;
 
     gtk_widget_hide( _widget );
+*/
+    Hide();
 }
 
-QPoint QWidget::mapFromGlobal(const QPoint &p) const
+QPoint QWidget::mapFromGlobal(const QPoint &p) 
 {
 #if 0
     NSPoint bp = {0,0};
@@ -462,7 +535,14 @@ QPoint QWidget::mapFromGlobal(const QPoint &p) const
     return QPoint();
 }
 
-void QWidget::setGtkWidget(GtkWidget* widget)
+void QWidget::setBView(BView* widget)
+{
+    _widget = widget;
+    data->safe_widget = widget;
+}
+
+/*
+void QWidget::setGtkWidget(BView* widget)
 {
     if (widget == _widget) return;
     
@@ -480,6 +560,7 @@ void QWidget::setGtkWidget(GtkWidget* widget)
 	    gdk_window_set_cursor(widget->window, NULL);
     }
 }
+*/
 
 void QWidget::lockDrawingFocus()
 {
@@ -506,12 +587,15 @@ void QWidget::setDrawingAlpha(float alpha)
     LOG(NotYetImplemented,"KWIQ");
 }
 
-void QWidget::paint(QPainter *p, const QRect &r)
-{
-    if (p->paintingDisabled()) {
-        return;
-    }
-    data->inPaint++;
+//void QWidget::paint(QPainter *p, const QRect &r)
+//{
+//    if (p->paintingDisabled()) {
+//        return;
+//    }
+    
+//    data->inPaint++;
+    
+    /*
     GdkEventExpose eev;
     eev.type = GDK_EXPOSE;
     eev.window = _widget->window;
@@ -525,8 +609,10 @@ void QWidget::paint(QPainter *p, const QRect &r)
     
     gtk_widget_send_expose(_widget, (GdkEvent*)&eev);
     gdk_region_destroy(eev.region);
-    data->inPaint--;
-}
+    */
+    
+//    data->inPaint--;
+//}
 
 void QWidget::sendConsumedMouseUp()
 {
@@ -542,10 +628,9 @@ void QWidget::sendConsumedMouseUp()
     LOG(NotYetImplemented, "KWIQ");
 }
 
-void QWidget::setWritingDirection(QPainter::TextDirection direction)
-{
-  
-  
+//void QWidget::setWritingDirection(QPainter::TextDirection direction)
+//{
+/*
     GtkWidget *w = getGtkWidget();
     PangoContext *pc = gtk_widget_get_pango_context( w );
     PangoDirection pdir = pango_context_get_base_dir( pc );    
@@ -563,15 +648,18 @@ void QWidget::setWritingDirection(QPainter::TextDirection direction)
   	pdir = PANGO_DIRECTION_RTL;
     }
 	
-    pango_context_set_base_dir( pc, pdir );
-}
+    //pango_context_set_base_dir( pc, pdir );
+*/
+//}
 
 // caller should destroy description
-PangoFontDescription* createPangoFontDescription(const QFont* font) 
-{
-    PangoFontDescription* descr;
-    descr = pango_font_description_new();
+//PangoFontDescription* createPangoFontDescription(const QFont* font) 
 
+BFont* createPangoFontDescription(const QFont* font)
+{
+    BFont* descr;
+    descr = new BFont();
+/*
     pango_font_description_set_family(descr,
 	font->family().latin1());
     
@@ -587,14 +675,14 @@ PangoFontDescription* createPangoFontDescription(const QFont* font)
    }
    else       
        pango_font_description_set_size(descr,(int)(PANGO_SCALE*font->pixelSize()));
-   
+ */ 
    return descr;
 }
 
-
+/*
 extern "C" {
 
-/** @return \TRUE if stops focus in event propagation, \FALSE if propagation continues */
+// @return \TRUE if stops focus in event propagation, \FALSE if propagation continues 
 static gboolean
 focus_inout(GtkWidget *widget, GdkEventFocus *event, gpointer data)
 {
@@ -620,4 +708,5 @@ focus_inout(GtkWidget *widget, GdkEventFocus *event, gpointer data)
     return FALSE;
 }
 
-} /* extern "C" */
+} 
+*/

@@ -29,7 +29,6 @@
 #include "KWQWidget.h"
 #include "KWQString.h"
 #include "KWQSignal.h"
-
 #include "KWQButtonGroup.h"
 //#include <glib.h> /* gulong */
 
@@ -40,29 +39,28 @@ public:
     ~QButton();
 
     virtual void setText(const QString &);
-    QString text() const;
+    virtual QString text();
 
-    void setWritingDirection(QPainter::TextDirection);
+    //void setWritingDirection(QPainter::TextDirection);
      
     virtual void clicked();
     virtual void click();
 
     // QWidget overrides
     virtual void setFont(const QFont &);
-    virtual FocusPolicy focusPolicy() const;    
-        
-#if KWIQ
+    virtual FocusPolicy focusPolicy();
+    
+    virtual void MessageReceived(BMessage* message);
+//    virtual void AttachedToWindow();
+//    virtual void AllAttached();  
     virtual QButtonGroup *group() { return &m_group;}
-    virtual void setGtkWidget(GtkWidget* widget);    
-#endif    
- private:    
+    //virtual void setGtkWidget(GtkWidget* widget);
+    
+private:    
     KWQSignal m_clicked;
-    
-#if KWIQ
-    gulong m_handlerid;
+    //gulong m_handlerid;
     QButtonGroup m_group;
-#endif
-    
+
 };
 
 

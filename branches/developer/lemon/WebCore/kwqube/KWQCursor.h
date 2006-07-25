@@ -26,26 +26,25 @@
 #ifndef QCURSOR_H
 #define QCURSOR_H
 
+#include <AppKit.h>
 #include "KWQPixmap.h"
 #include "KWQPointArray.h"
 
-typedef struct _GdkCursor GdkCursor;
+//typedef struct _GdkCursor GdkCursor;
 
 class QCursor {
 public:
     QCursor();
-    QCursor(const QPixmap &);
-    QCursor(GdkCursor *);
+//    QCursor(const QPixmap &);
+    QCursor(BCursor *);
     QCursor(const QCursor &);
-    
     ~QCursor();
-
     QCursor &operator=(const QCursor &);
-    
-    GdkCursor *handle() const;
-
+    //GdkCursor *handle() const;
+    BCursor *handle() const;
  private:
-    GdkCursor *cursor;
+    BCursor *cursor;
+//    GdkCursor *cursor;
 };
 
 #endif

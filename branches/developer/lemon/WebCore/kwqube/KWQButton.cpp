@@ -144,10 +144,12 @@ void QButton::setFont(const QFont &f)
 #endif    
 }
 
+/*
 void QButton::setWritingDirection(QPainter::TextDirection d)
 {
     QWidget::setWritingDirection(d);
 }
+*/
 
 QWidget::FocusPolicy QButton::focusPolicy() const
 {
