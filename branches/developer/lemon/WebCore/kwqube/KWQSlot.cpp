@@ -109,7 +109,7 @@ KWQSlot::KWQSlot(QObject *object, const char *member)
     CASE(slotReturnPressed, (), RenderLineEdit)
     CASE(slotSelected, (int), RenderSelect)
     CASE(slotSelectionChanged, (), RenderSelect)
-#if !KWIQ
+#if !KWQUBE
     CASE(slotSliderValueChanged, (), RenderSlider)
 #endif
     CASE(slotStateChanged, (int), RenderCheckBox)

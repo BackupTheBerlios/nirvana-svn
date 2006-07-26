@@ -41,11 +41,15 @@ public:
     void connect(const KWQSlot &);
     void disconnect(const KWQSlot &);
 
+    void connect(KWQSlot *);
+    void disconnect(KWQSlot *);
+
+    void call(); // should be "emit"; can't be due to define in qobject.h
+    void call(bool);
+    void call(int);
+    void call(const QString &);
+
 #ifndef SANDBOX
-    void call() const; // should be "emit"; can't be due to define in qobject.h
-    void call(bool) const;
-    void call(int) const;
-    void call(const QString &) const;
     void call(KIO::Job *) const;
     void call(khtml::DocLoader *, khtml::CachedObject *) const;
 
@@ -59,7 +63,7 @@ public:
 
 #endif /* SANDBOX */
 
- private:
+// private:
     // forbid copying and assignment
     KWQSignal(const KWQSignal &);
     KWQSignal &operator=(const KWQSignal &);

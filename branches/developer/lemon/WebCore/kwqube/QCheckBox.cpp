@@ -1,6 +1,7 @@
 
 #include <AppKit.h>
 #include <SupportKit.h>
+#include <stdio.h>
 #include "KWQCheckBox.h"
 
 // We empirically determined that check boxes have these dimensions.
@@ -38,6 +39,7 @@ QCheckBox::QCheckBox(QWidget * parent, const char * name, int f)
     check_box = box;
     setBView(check_box);
     AddChild(check_box);
+    box->SetTarget(this);
 }
 
 QSize QCheckBox::sizeHint()
@@ -66,7 +68,8 @@ void QCheckBox::clicked()
     // the clicked signal so that the corresponding JavaScript messages
     // go in the right order. A test for this at the time of this writing
     // was the languages radio buttons and check boxes at google.com prefs.
-    //m_stateChanged.call(isChecked() ? 2 : 0);
+    m_stateChanged.call(isChecked() ? 2 : 0);
+    m_clicked.call();
     QButton::clicked();
 }
 
@@ -89,8 +92,10 @@ void QCheckBox::MessageReceived(BMessage* message)
 {
     switch (message->what) {
     case SELECTION_MSG:
+	printf("QCheckBox::MessageReceived()\n");
+	fflush(stdout);
 	clicked();
-	//stateChanged.call();//(check_box->Value());
+	//stateChanged.call(check_box->Value());
 	break;
     default:
 	QButton::MessageReceived(message);

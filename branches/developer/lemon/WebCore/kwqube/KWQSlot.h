@@ -57,14 +57,16 @@ public:
     KWQSlot() : m_object(0) { }
     KWQSlot(QObject *, const char *member);
     
+    virtual char *version() const { return "KWQSlot"; }
     bool isEmpty() const { return !m_object; }
     void clear() { m_object = 0; }
 
+    virtual void call();
+    virtual void call(bool);
+    virtual void call(int);
+    virtual void call(const QString &);
+
 #ifndef SANDBOX    
-    void call() const;
-    void call(bool) const;
-    void call(int) const;
-    void call(const QString &) const;
     void call(KIO::Job *) const;
     void call(khtml::DocLoader *, khtml::CachedObject *) const;
     void call(KIO::Job *, const char *, int) const;
@@ -79,7 +81,7 @@ public:
 
     friend bool operator==(const KWQSlot &, const KWQSlot &);
 
-private:
+//protected: // LEMON: private -> protected
     QGuardedPtr<QObject> m_object;
     int m_function;
 };

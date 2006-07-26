@@ -154,8 +154,15 @@ public:
     virtual ~QObject();
     static BLooper *looper;
 
+    // WebCore KWQSlot Logic Append
     static void connect(const QObject *sender, const char *signal, const QObject *receiver, const char *member);
     static void disconnect(const QObject *sender, const char *signal, const QObject *receiver, const char *member);
+    
+    // LEMON:
+    // Custom Derived KWQSlot Logic Append
+    static void connect(const QObject *sender, const char *signal, KWQSlot *slot);
+    static void disconnect(const QObject *sender, const char *signal, KWQSlot *slot);
+    
     static void clearPausedTimers (const void *key);
     static const QObject *sender() { return _sender; }
     static bool defersTimers() { return _defersTimers; }
@@ -177,6 +184,7 @@ public:
     const QObject *eventFilterObject() const { return _eventFilterObject; }
     void blockSignals(bool b) { _signalsBlocked = b; }
     bool is_a(int t) const { return _class_type & t; }
+    KWQSignal *findSignal(const char *signalName) const;    
 
 protected:
     /** circumvent Qt class info construct and C++ RTTI with a bitfield.
@@ -186,7 +194,6 @@ private:
     // no copying or assignment
     QObject(const QObject &);
     QObject &operator=(const QObject &);  
-    KWQSignal *findSignal(const char *signalName) const;    
     QPtrList<QObject> _guardedPtrDummyList;
     mutable KWQSignal *_signalListHead;
     bool _signalsBlocked;

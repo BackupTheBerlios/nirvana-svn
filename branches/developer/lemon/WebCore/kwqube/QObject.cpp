@@ -97,6 +97,23 @@ KWQSignal *QObject::findSignal(const char *signalName) const
     return 0;
 }
 
+// LEMON Extension
+void QObject::connect(const QObject *sender, const char *signalName, KWQSlot *slot)
+{
+    if (!sender) return;
+    KWQSignal *signal = sender->findSignal(signalName);
+    if (!signal) return;
+    signal->connect(*slot);
+}
+
+// LEMON Extension
+void QObject::disconnect(const QObject *sender, const char *signalName, KWQSlot *slot)
+{
+    if (!sender) return;
+    KWQSignal *signal = sender->findSignal(signalName);
+    if (!signal) return;
+    signal->disconnect(*slot);
+}
 
 void QObject::connect(const QObject *sender, const char *signalName, const QObject *receiver, const char *member)
 {
@@ -162,7 +179,7 @@ QObject::QObject(QObject *parent, const char *name)
 
 QObject::~QObject()
 {
-    //_destroyed.call();
+    _destroyed.call();
     ASSERT(_signalListHead == &_destroyed);
     killTimers();
 }

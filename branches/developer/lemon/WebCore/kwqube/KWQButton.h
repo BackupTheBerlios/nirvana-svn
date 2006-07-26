@@ -56,7 +56,7 @@ public:
     virtual QButtonGroup *group() { return &m_group;}
     //virtual void setGtkWidget(GtkWidget* widget);
     
-private:    
+protected: // LEMON
     KWQSignal m_clicked;
     //gulong m_handlerid;
     QButtonGroup m_group;

@@ -49,7 +49,7 @@ void QButton::clicked()
     // Proper behavior of check boxes, at least, depends on this order.
     // [above is WebCore-specific comment, KWIQ status unknown]
     
-//    m_clicked.call();
+    m_clicked.call();
 }
 
 void QButton::click()
@@ -81,4 +81,14 @@ QWidget::FocusPolicy QButton::focusPolicy()
 
 void QButton::MessageReceived(BMessage* message)
 {
+/*
+    switch (message->what) {
+        case SELECTION_MSG:
+	    click();
+	    break;
+	default:
+	    BView::MessageReceived(message);
+	    break;
+    }
+*/
 }

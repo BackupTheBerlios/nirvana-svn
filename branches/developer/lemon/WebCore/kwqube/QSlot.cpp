@@ -56,6 +56,8 @@ using KIO::Job;
 using KJS::WindowQObject;
 using KJS::XMLHttpRequestQObject;
 
+#endif
+
 enum FunctionNumber {
     signalFinishedParsing,
     slotChildCompleted,
@@ -92,7 +94,6 @@ enum FunctionNumber {
     slotReceivedResponse
 };
 
-#endif
 
 KWQSlot::KWQSlot(QObject *object, const char *member)
 {
@@ -101,9 +102,9 @@ KWQSlot::KWQSlot(QObject *object, const char *member)
             ASSERT( QOBJECT_IS_A(object, type) ); \
             m_function = function; \
         } else
-	
+
 #ifndef SANDBOX
-    
+
     CASE(slotClicked, (), RenderFormElement)
     CASE(slotChildCompleted, (), KHTMLPart)
     CASE(slotChildStarted, (KIO::Job *), KHTMLPart)
@@ -185,9 +186,8 @@ KWQSlot::KWQSlot(QObject *object, const char *member)
     m_object = object;
 }
 
-#ifndef SANDBOX
     
-void KWQSlot::call() const
+void KWQSlot::call()
 {
     if (m_object.isNull()) {
         return;
@@ -199,9 +199,12 @@ void KWQSlot::call() const
             return;
     
     switch (m_function) {
+	
+#ifndef SANDBOX
+	
+        CASE(slotClicked, RenderFormElement, slotClicked)
         CASE(signalFinishedParsing, DocumentImpl, m_finishedParsing.call)
         CASE(slotChildCompleted, KHTMLPart, slotChildCompleted)
-        CASE(slotClicked, RenderFormElement, slotClicked)
         CASE(slotFinishedParsing, KHTMLPart, slotFinishedParsing)
         CASE(slotParentCompleted, KHTMLPart, slotParentCompleted)
         CASE(slotParentDestroyed, WindowQObject, parentDestroyed)
@@ -215,16 +218,21 @@ void KWQSlot::call() const
         CASE(slotSubmitFormAgain, KHTMLPart, submitFormAgain)
         CASE(slotTextChanged, RenderTextArea, slotTextChanged)
         CASE(slotWidgetDestructed, RenderWidget, slotWidgetDestructed)
+
+#endif	
+
     }
     
     #undef CASE
 }
 
-void KWQSlot::call(bool b) const
+void KWQSlot::call(bool b) 
 {
     if (m_object.isNull()) {
         return;
     }
+
+#ifndef SANDBOX
     
     #define CASE(member, type, function) \
         case member: \
@@ -236,15 +244,19 @@ void KWQSlot::call(bool b) const
     }
     
     #undef CASE
-    
+
+#endif    
+
     call();
 }
 
-void KWQSlot::call(int i) const
+void KWQSlot::call(int i) 
 {
     if (m_object.isNull()) {
         return;
     }
+
+#ifndef SANDBOX
     
     switch (m_function) {
         case slotStateChanged:
@@ -257,15 +269,19 @@ void KWQSlot::call(int i) const
             static_cast<RenderScrollMediator *>(m_object.pointer())->slotValueChanged(i);
             return;
     }
+
+#endif
     
     call();
 }
 
-void KWQSlot::call(const QString &string) const
+void KWQSlot::call(const QString &string) 
 {
     if (m_object.isNull()) {
         return;
     }
+    
+#ifndef SANDBOX
     
     switch (m_function) {
         case slotTextChangedWithString_RenderLineEdit:
@@ -277,9 +293,13 @@ void KWQSlot::call(const QString &string) const
             return;
 #endif	    
     }
-    
+
+#endif    
+
     call();
 }
+
+#ifndef SANDBOX
 
 void KWQSlot::call(Job *job) const
 {

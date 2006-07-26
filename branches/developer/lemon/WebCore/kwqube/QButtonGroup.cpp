@@ -7,7 +7,6 @@
 QButtonGroup::QButtonGroup(QWidget * parent, const char * name)
     :_parent(parent)
 {
-    
 }
 
 int QButtonGroup::insert(QButton* button, int id)

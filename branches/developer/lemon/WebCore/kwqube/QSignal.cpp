@@ -23,6 +23,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
+#include <stdio.h>
 #include "KWQSignal.h"
 
 #include "KWQObject.h"
@@ -69,8 +70,19 @@ void KWQSignal::connect(const KWQSlot &slot)
         ERROR("connecting the same slot to a signal twice, %s", _name);
     }
 #endif
+    printf("KWQSignal::connect() [%s]\n", slot.version()); fflush(stdout);
     _slots.append(slot);
 }
+
+void KWQSignal::connect(KWQSlot *slot) {
+    printf("KWQSignal::connect(*) [%s]\n", slot->version()); fflush(stdout);
+    _slots.append(*slot);
+}
+
+void KWQSignal::disconnect(KWQSlot *slot) {
+    _slots.remove(*slot);
+}
+
 
 void KWQSignal::disconnect(const KWQSlot &slot)
 {
@@ -87,22 +99,36 @@ void KWQSignal::disconnect(const KWQSlot &slot)
     _slots.remove(slot);
 }
 
-#ifndef SANDBOX
-
-void KWQSignal::call() const
+void KWQSignal::call() 
 {
+    printf("KWQSignal::call()\n"); fflush(stdout);
 //    LOG(KwiqLog,"KWQSignal::call() - %s\n",_name);
     if (!_object->_signalsBlocked) {
+	printf("signals is not blocked\n");
         KWQObjectSenderScope senderScope(_object);
         QValueList<KWQSlot> copiedSlots(_slots);
+	
+/*	
+	for (int i = 0; i < _slots.count(); i++) {
+	    KWQSlot *slot = _slots[i];
+	    KWQSlot s = &slot;
+	    printf("Slot version: %s\n", slot.version());
+	    slot.call();
+	    //dynamic_cast<KWQSlot*>(slot)->call();
+	}
+*/	
+	
         QValueListConstIterator<KWQSlot> end = copiedSlots.end();
         for (QValueListConstIterator<KWQSlot> it = copiedSlots.begin(); it != end; ++it) {
-            (*it).call();
+	    printf("SLOT: %x %i\n", (*it).m_object, (*it).m_function);
+	    KWQSlot *slot = (KWQSlot*)&(*it);
+	    printf("Version: %s\n", slot->version());
         }
+	
     }
 }
 
-void KWQSignal::call(bool b) const
+void KWQSignal::call(bool b) 
 {
 //    LOG(KwiqLog,"KWQSignal::call(bool) - %s\n",_name);
     if (!_object->_signalsBlocked) {
@@ -110,12 +136,12 @@ void KWQSignal::call(bool b) const
         QValueList<KWQSlot> copiedSlots(_slots);
         QValueListConstIterator<KWQSlot> end = copiedSlots.end();
         for (QValueListConstIterator<KWQSlot> it = copiedSlots.begin(); it != end; ++it) {
-            (*it).call(b);
+//            (*it).call(b);
         }
     }
 }
 
-void KWQSignal::call(int i) const
+void KWQSignal::call(int i) 
 {
 //    LOG(KwiqLog,"KWQSignal::call(int) - %s\n",_name);
     if (!_object->_signalsBlocked) {
@@ -123,12 +149,12 @@ void KWQSignal::call(int i) const
         QValueList<KWQSlot> copiedSlots(_slots);
         QValueListConstIterator<KWQSlot> end = copiedSlots.end();
         for (QValueListConstIterator<KWQSlot> it = copiedSlots.begin(); it != end; ++it) {
-            (*it).call(i);
+//            (*it).call(i);
         }
     }
 }
 
-void KWQSignal::call(const QString &s) const
+void KWQSignal::call(const QString &s)
 {
 //    LOG(KwiqLog,"KWQSignal::call(QString) - %s\n",_name);
     if (!_object->_signalsBlocked) {
@@ -136,10 +162,12 @@ void KWQSignal::call(const QString &s) const
         QValueList<KWQSlot> copiedSlots(_slots);
         QValueListConstIterator<KWQSlot> end = copiedSlots.end();
         for (QValueListConstIterator<KWQSlot> it = copiedSlots.begin(); it != end; ++it) {
-            (*it).call(s);
+//            (*it).call(s);
         }
     }
 }
+
+#ifndef SANDBOX
 
 void KWQSignal::call(Job *j) const
 {
@@ -217,4 +245,4 @@ void KWQSignal::call(Job *j, KWIQResponse *d) const
 }
 #endif
 
-#endif
+#endif /* SANDBOX */
