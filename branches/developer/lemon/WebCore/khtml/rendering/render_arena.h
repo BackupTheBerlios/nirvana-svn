@@ -43,21 +43,20 @@ static const size_t gMaxRecycledSize = 400;
 
 class RenderArena {
 public:
-   RenderArena(unsigned int arenaSize = 4096);
+    RenderArena(unsigned int arenaSize = 4096);
     ~RenderArena();
 
-  // Memory management functions
-  void* allocate(size_t size);
-  void  free(size_t size, void* ptr);
+    // Memory management functions
+    void* allocate(size_t size);
+    void  free(size_t size, void* ptr);
 
 private:
-  // Underlying arena pool
-  ArenaPool m_pool;
+    // Underlying arena pool
+    ArenaPool m_pool;
 
-  // The recycler array is sparse with the indices being multiples of 4,
-  // i.e., 0, 4, 8, 12, 16, 20, ...
-  void*       m_recyclers[gMaxRecycledSize >> 2];
+    // The recycler array is sparse with the indices being multiples of 4,
+    // i.e., 0, 4, 8, 12, 16, 20, ...
+    void* m_recyclers[gMaxRecycledSize >> 2];
 };
 
 #endif
-

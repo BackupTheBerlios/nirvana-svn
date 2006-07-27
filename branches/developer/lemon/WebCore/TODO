@@ -5,13 +5,13 @@ BeIDE. Let us use this file now to fixup changes checkpoints.
 
 History
 
-Date: 29/06/2006 lemon - First
+Date: 29/06/2006 lemon - First Import
 Status: some CSS XML ECMA and almost full DOM are compiled (~1.5BM of objects)
 Problems: NSStringEncoding, NSDictionary, NSMutableDictionary...
 Workarounds: I wrote BDictionary, maybe I should should use STL, but ...
 Todo: KWQCharsets to BDictionary
 
-Date: 12/07/2006 lemon - Second Round
+Date: 12/07/2006 lemon - Second Touch
 Status: CSS XML DOM MISC RENDER and FRONT-END are compiled
 Problems: webkit.opendarwing.org, our project now is not so actual.
 Todo: KWQUBE Qt->BeOS Wrappers
@@ -20,3 +20,8 @@ Date: 23/07/2006 lemon - Just Before GUI porting. All before-GUI work done.
 Status: CSS XML DOM MISC RENDER and FRONT-END are compiled
 Problems: kwqube/Jamfile list of complete KWQ classes. Some tests added for KWQ
 Todo: QWidget, QLineEdit, QListBox, QCheckBox, QRadioButton, QPushButton...
+
+Date: 27/07/2006 lemon - Some GUI Demo sandbox prepared.
+Status: QWidget QButton QCheckBox QSlot QSignal QDemo
+Problems: Text Rengering
+Todo: Text Rendering Investigation

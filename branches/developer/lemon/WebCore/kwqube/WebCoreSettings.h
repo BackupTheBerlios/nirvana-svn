@@ -25,7 +25,7 @@
 #ifndef KWIQSETTINGS_H
 #define KWIQSETTINGS_H
 
-#include <glib.h>
+#include "glib.h"
 
 class KHTMLSettings;
 
