@@ -62,7 +62,7 @@ KWQSignal::~KWQSignal()
     }
 }
 
-void KWQSignal::connect(const KWQSlot &slot)
+void KWQSignal::connect(KWQSlot *slot)
 {
 //    g_printerr("KWQSignal::connect() - %s\n",_name);
 #if !ERROR_DISABLED
@@ -70,21 +70,11 @@ void KWQSignal::connect(const KWQSlot &slot)
         ERROR("connecting the same slot to a signal twice, %s", _name);
     }
 #endif
-    printf("KWQSignal::connect() [%s]\n", slot.version()); fflush(stdout);
+    printf("KWQSignal::connect() [%s]\n", slot->version()); fflush(stdout);
     _slots.append(slot);
 }
 
-void KWQSignal::connect(KWQSlot *slot) {
-    printf("KWQSignal::connect(*) [%s]\n", slot->version()); fflush(stdout);
-    _slots.append(*slot);
-}
-
-void KWQSignal::disconnect(KWQSlot *slot) {
-    _slots.remove(*slot);
-}
-
-
-void KWQSignal::disconnect(const KWQSlot &slot)
+void KWQSignal::disconnect(KWQSlot *slot)
 {
 #if !ERROR_DISABLED
     if (!_slots.contains(slot)
@@ -101,44 +91,30 @@ void KWQSignal::disconnect(const KWQSlot &slot)
 
 void KWQSignal::call() 
 {
-    printf("KWQSignal::call()\n"); fflush(stdout);
-//    LOG(KwiqLog,"KWQSignal::call() - %s\n",_name);
+    printf("KWQSignal::call() - %s\n",_name);
     if (!_object->_signalsBlocked) {
-	printf("signals is not blocked\n");
-        KWQObjectSenderScope senderScope(_object);
-        QValueList<KWQSlot> copiedSlots(_slots);
-	
-/*	
-	for (int i = 0; i < _slots.count(); i++) {
-	    KWQSlot *slot = _slots[i];
-	    KWQSlot s = &slot;
-	    printf("Slot version: %s\n", slot.version());
-	    slot.call();
-	    //dynamic_cast<KWQSlot*>(slot)->call();
-	}
-*/	
-	
-        QValueListConstIterator<KWQSlot> end = copiedSlots.end();
-        for (QValueListConstIterator<KWQSlot> it = copiedSlots.begin(); it != end; ++it) {
-	    printf("SLOT: %x %i\n", (*it).m_object, (*it).m_function);
-	    KWQSlot *slot = (KWQSlot*)&(*it);
-	    printf("Version: %s\n", slot->version());
+        QValueListIterator<KWQSlot> begin = _slots.begin();
+        QValueListIterator<KWQSlot> end = _slots.end();
+        for (QValueListIterator<KWQSlot> it = begin; it != end; ++it) {
+	    KWQSlot *slot = it.value();
+	    slot->call();
         }
-	
     }
 }
 
 void KWQSignal::call(bool b) 
 {
-//    LOG(KwiqLog,"KWQSignal::call(bool) - %s\n",_name);
+    //LOG(KwiqLog,"KWQSignal::call(bool) - %s\n",_name);
     if (!_object->_signalsBlocked) {
         KWQObjectSenderScope senderScope(_object);
-        QValueList<KWQSlot> copiedSlots(_slots);
+        QValueListPtr<KWQSlot> copiedSlots(_slots);
         QValueListConstIterator<KWQSlot> end = copiedSlots.end();
         for (QValueListConstIterator<KWQSlot> it = copiedSlots.begin(); it != end; ++it) {
-//            (*it).call(b);
+	    KWQSlot *slot = (KWQSlot *)it.value();
+            slot->call(b);
         }
     }
+
 }
 
 void KWQSignal::call(int i) 
@@ -146,7 +122,7 @@ void KWQSignal::call(int i)
 //    LOG(KwiqLog,"KWQSignal::call(int) - %s\n",_name);
     if (!_object->_signalsBlocked) {
         KWQObjectSenderScope senderScope(_object);
-        QValueList<KWQSlot> copiedSlots(_slots);
+        QValueListPtr<KWQSlot> copiedSlots(_slots);
         QValueListConstIterator<KWQSlot> end = copiedSlots.end();
         for (QValueListConstIterator<KWQSlot> it = copiedSlots.begin(); it != end; ++it) {
 //            (*it).call(i);
@@ -159,7 +135,7 @@ void KWQSignal::call(const QString &s)
 //    LOG(KwiqLog,"KWQSignal::call(QString) - %s\n",_name);
     if (!_object->_signalsBlocked) {
         KWQObjectSenderScope senderScope(_object);
-        QValueList<KWQSlot> copiedSlots(_slots);
+        QValueListPtr<KWQSlot> copiedSlots(_slots);
         QValueListConstIterator<KWQSlot> end = copiedSlots.end();
         for (QValueListConstIterator<KWQSlot> it = copiedSlots.begin(); it != end; ++it) {
 //            (*it).call(s);

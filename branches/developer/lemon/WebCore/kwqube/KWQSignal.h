@@ -71,7 +71,7 @@ public:
     QObject *_object;
     KWQSignal *_next;
     const char *_name;
-    QValueList<KWQSlot> _slots;
+    QValueListPtr<KWQSlot> _slots;
     
     friend class QObject;
 };
