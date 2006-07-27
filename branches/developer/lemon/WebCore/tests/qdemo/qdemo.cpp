@@ -11,8 +11,7 @@
 
 class QSlotStorage : public QObject {
 public:
-    QSlotStorage() {
-    }
+    QSlotStorage() { }
     void onClick() {
 	printf("QSlotStorage::onClicked()\n");
 	fflush(stdout);

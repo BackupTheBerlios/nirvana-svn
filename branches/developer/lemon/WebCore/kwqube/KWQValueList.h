@@ -34,28 +34,29 @@
 #endif
 
 template <class T> class QValueList;
-template <class T> class QValueListPtr;
+//template <class T> class QValueListPtr;
 template <class T> class QValueListConstIterator;
 
 template<class T> class QValueListNode : private KWQValueListNodeImpl {
 public:
-    QValueListNode(const T &val) : value(val) { }
-    T value;
+    QValueListNode(const T &val) : value((T&)val) { }
+    T& value;
     friend class QValueList<T>;
 };
 
+/*
 template<class T> class QValueListNodePtr : private KWQValueListNodeImpl {
 public:
     QValueListNodePtr(T *val) { value = val; }
     T* value;
     friend class QValueListPtr<T>;
 };
-
+*/
 template<class T> class QValueListIterator {
 public: 
     QValueListIterator() { }
     T& operator*() const { return ((QValueListNode<T> *)impl.node())->value; } 
-    T* value() { return ((QValueListNodePtr<T> *)impl.node())->value;} // LEMON
+//    T* value() { return ((QValueListNodePtr<T> *)impl.node())->value;} // LEMON
     QValueListIterator &operator++() { ++impl; return *this; }    
     QValueListIterator &operator--() { --impl; return *this; }
     QValueListIterator operator++(int) { return impl++; }
@@ -66,7 +67,7 @@ private:
     QValueListIterator(const KWQValueListIteratorImpl &pImp) : impl(pImp) { }
     KWQValueListIteratorImpl impl;
     friend class QValueList<T>;
-    friend class QValueListPtr<T>;
+//    friend class QValueListPtr<T>;
     friend class QValueListConstIterator<T>;
 };
 
@@ -75,7 +76,7 @@ public:
     QValueListConstIterator() { }
     QValueListConstIterator(const QValueListIterator<T> &it) : impl(it.impl) { }
     const T& operator*() const { return ((const QValueListNode<T> *)impl.node())->value; }
-    const T* value() const { return ((QValueListNodePtr<T> *)impl.node())->value;} // LEMON used in signal
+//    const T* value() const { return ((QValueListNodePtr<T> *)impl.node())->value;} // LEMON used in signal
     QValueListConstIterator &operator++() { ++impl; return *this; }
     QValueListConstIterator &operator--() { --impl; return *this; }
     QValueListConstIterator operator++(int) { return impl++; }
@@ -86,12 +87,13 @@ private:
     QValueListConstIterator(const KWQValueListIteratorImpl &pImp) : impl(pImp) { }
     KWQValueListIteratorImpl impl;
     friend class QValueList<T>;
-    friend class QValueListPtr<T>;
+//    friend class QValueListPtr<T>;
 };
 
 template<class T> bool operator==(const QValueList<T> &a, const QValueList<T> &b);
-template<class T> bool operator==(const QValueListPtr<T> &a, const QValueListPtr<T> &b);
+//template<class T> bool operator==(const QValueListPtr<T> &a, const QValueListPtr<T> &b);
 
+/*
 template <class T> class QValueListPtr {
 public:
     typedef QValueListIterator<T> Iterator;
@@ -126,7 +128,7 @@ private:
     static KWQValueListNodeImpl *copyNodePtr(KWQValueListNodeImpl *node)
         { return new QValueListNodePtr<T>(((QValueListNodePtr<T> *)node)->value); }
 };
-
+*/
 template <class T> class QValueList {
 public:
     typedef QValueListIterator<T> Iterator;
@@ -173,7 +175,7 @@ template<class T>
 inline bool equals(const QValueList<T> &a, const QValueList<T> &b) {
     return a.impl.isEqual(b.impl, QValueList<T>::nodesEqual);
 }
-
+/*
 template<class T>
 inline bool operator==(const QValueListPtr<T> &a, const QValueListPtr<T> &b) {
     return a.impl.isEqual(b.impl, QValueListPtr<T>::nodesEqual);
@@ -183,7 +185,7 @@ template<class T>
 inline bool equals(const QValueListPtr<T> &a, const QValueListPtr<T> &b) {
     return a.impl.isEqual(b.impl, QValueListPtr<T>::nodesEqual);
 }
-
+*/
 #ifdef _KWQ_IOSTREAM_
 
 template<class T>

@@ -103,7 +103,7 @@ void QObject::connect(const QObject *sender, const char *signalName, KWQSlot *sl
     if (!sender) return;
     KWQSignal *signal = sender->findSignal(signalName);
     if (!signal) return;
-    signal->connect(slot);
+    signal->connect(*slot);
 }
 
 // LEMON Extension
@@ -112,7 +112,7 @@ void QObject::disconnect(const QObject *sender, const char *signalName, KWQSlot 
     if (!sender) return;
     KWQSignal *signal = sender->findSignal(signalName);
     if (!signal) return;
-    signal->disconnect(slot);
+    signal->disconnect(*slot);
 }
 
 void QObject::connect(const QObject *sender, const char *signalName, const QObject *receiver, const char *member)
@@ -138,7 +138,7 @@ void QObject::connect(const QObject *sender, const char *signalName, const QObje
         return;
     }
         
-    signal->connect(new KWQSlot(const_cast<QObject *>(receiver), member));
+    signal->connect(KWQSlot(const_cast<QObject *>(receiver), member));
 }
 
 void QObject::disconnect(const QObject *sender, const char *signalName, const QObject *receiver, const char *member)
@@ -152,7 +152,7 @@ void QObject::disconnect(const QObject *sender, const char *signalName, const QO
         // FIXME: ERROR
         return;
     }
-    signal->disconnect(new KWQSlot(const_cast<QObject *>(receiver), member));
+    signal->disconnect(KWQSlot(const_cast<QObject *>(receiver), member));
 }
 
 KWQObjectSenderScope::KWQObjectSenderScope(const QObject *o)

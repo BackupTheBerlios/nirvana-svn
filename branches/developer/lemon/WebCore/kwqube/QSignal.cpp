@@ -62,7 +62,10 @@ KWQSignal::~KWQSignal()
     }
 }
 
-void KWQSignal::connect(KWQSlot *slot)
+//void KWQSignal::connect(KWQSlot *slot) { connect(*slot); }
+//void KWQSignal::disconnect(KWQSlot *slot) { disconnect(*slot); }
+
+void KWQSignal::connect(const KWQSlot &slot)
 {
 //    g_printerr("KWQSignal::connect() - %s\n",_name);
 #if !ERROR_DISABLED
@@ -70,11 +73,11 @@ void KWQSignal::connect(KWQSlot *slot)
         ERROR("connecting the same slot to a signal twice, %s", _name);
     }
 #endif
-    printf("KWQSignal::connect() [%s]\n", slot->version()); fflush(stdout);
+    printf("KWQSignal::connect() [%s]\n", slot.version()); fflush(stdout);
     _slots.append(slot);
 }
 
-void KWQSignal::disconnect(KWQSlot *slot)
+void KWQSignal::disconnect(const KWQSlot &slot)
 {
 #if !ERROR_DISABLED
     if (!_slots.contains(slot)
@@ -96,14 +99,16 @@ void KWQSignal::call()
         QValueListIterator<KWQSlot> begin = _slots.begin();
         QValueListIterator<KWQSlot> end = _slots.end();
         for (QValueListIterator<KWQSlot> it = begin; it != end; ++it) {
-	    KWQSlot *slot = it.value();
-	    slot->call();
+	    //KWQSlot *slot = it.value();
+	    //slot->call();
+	    (*it).call();
         }
     }
 }
 
 void KWQSignal::call(bool b) 
 {
+/*
     //LOG(KwiqLog,"KWQSignal::call(bool) - %s\n",_name);
     if (!_object->_signalsBlocked) {
         KWQObjectSenderScope senderScope(_object);
@@ -114,11 +119,12 @@ void KWQSignal::call(bool b)
             slot->call(b);
         }
     }
-
+*/
 }
 
 void KWQSignal::call(int i) 
 {
+/*
 //    LOG(KwiqLog,"KWQSignal::call(int) - %s\n",_name);
     if (!_object->_signalsBlocked) {
         KWQObjectSenderScope senderScope(_object);
@@ -128,10 +134,12 @@ void KWQSignal::call(int i)
 //            (*it).call(i);
         }
     }
+*/
 }
 
 void KWQSignal::call(const QString &s)
 {
+/*
 //    LOG(KwiqLog,"KWQSignal::call(QString) - %s\n",_name);
     if (!_object->_signalsBlocked) {
         KWQObjectSenderScope senderScope(_object);
@@ -141,6 +149,7 @@ void KWQSignal::call(const QString &s)
 //            (*it).call(s);
         }
     }
+*/
 }
 
 #ifndef SANDBOX
