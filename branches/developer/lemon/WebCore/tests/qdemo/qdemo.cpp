@@ -20,12 +20,12 @@ public:
 };
 
 int main() {
-    BApplication *app = new BApplication("application/x.vnd-Procton.ABrowseTest1");
+    BApplication *app = new BApplication("application/x.vnd-Lemon-Nirvana");
     TestWindow *test = new TestWindow( BRect(30,30,700,500), "test1" );
     QWidget *widget = test->RootWidget();
     QCheckBox *check = new QCheckBox( widget ); 
-    
     QSlotStorage *storage = new QSlotStorage();
+    
     QObject::connect(check, SIGNAL(clicked()), new QSlot(storage, SLOT(onClick())));
     KWQSignal *signal = check->findSignal(SIGNAL(clicked()));
     printf("%s\n",signal->_name);
