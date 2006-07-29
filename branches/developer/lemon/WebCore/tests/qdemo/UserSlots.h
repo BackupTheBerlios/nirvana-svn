@@ -1,6 +1,6 @@
+
 #include <AppKit.h>
 #include <stdio.h>
-
 #include "KWQWidget.h"
 #include "KWQObject.h"
 #include "KWQCheckBox.h"
@@ -8,6 +8,15 @@
 #include "KWQSignal.h"
 #include "TestWindow.h"
 
+class QSlotStorage : public QObject {
+public:
+    QSlotStorage() { }
+    void onClick() {
+    printf("QSlotStorage::onClicked()\n");
+	fflush(stdout);
+    }
+};  
+			    
 enum FunctionNumberEx {
     onNull = 10000,
     onClick
@@ -58,3 +67,4 @@ void QSlot::call() {
 
     KWQSlot::call();
 }
+
