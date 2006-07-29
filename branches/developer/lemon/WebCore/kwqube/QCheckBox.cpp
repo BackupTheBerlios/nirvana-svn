@@ -1,3 +1,6 @@
+/*
+    Copyright (c) 2006 Maxim Sokhtasky (maxim@sokhatsky.com)
+*/
 
 #include <AppKit.h>
 #include <SupportKit.h>
@@ -11,7 +14,6 @@
 #define BOTTOM_MARGIN 3
 #define LEFT_MARGIN 3
 #define RIGHT_MARGIN 3
-
 #define WIDTH 12
 #define HEIGHT 12
 
@@ -27,11 +29,11 @@ enum {
     dimHeight
 };
 
-const int SELECTION_MSG = 'selM'; 
+const int SELECTION_MSG = 'selM';
 
-QCheckBox::QCheckBox(QWidget * parent, const char * name, int f)
-    : QButton(parent, name,f)
-      ,m_stateChanged(this, SIGNAL(stateChanged(int)))
+QCheckBox::QCheckBox(QWidget * parent, const char * name, int f) :
+    QButton(parent, name,f),
+    m_stateChanged(this, SIGNAL(stateChanged(int)))
 
 {
     BCheckBox *box = new BCheckBox(Bounds(), name, "",
@@ -95,7 +97,6 @@ void QCheckBox::MessageReceived(BMessage* message)
 	printf("QCheckBox::MessageReceived()\n");
 	fflush(stdout);
 	clicked();
-	//stateChanged.call(check_box->Value());
 	break;
     default:
 	QButton::MessageReceived(message);

@@ -1,17 +1,10 @@
+/*
+    Copyright (c) 2006 Maxim Sokhatsky (maxim@sokhatsky.com)
+*/
 
 #include <SupportKit.h>
-
 #include "KWQButton.h"
 #include "KWQAssertions.h"
-
-/*
-QButton::QButton(QWidget * parent, const char * name, int f) :
-    QWidget(parent,name,f),
-    m_clicked(this, SIGNAL(clicked())),
-    m_group(this)
-{
-}
-*/
 
 QButton::QButton(QWidget * parent, const char * name, int f) :
     QWidget(parent,name,f),

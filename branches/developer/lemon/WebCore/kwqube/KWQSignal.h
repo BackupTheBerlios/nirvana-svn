@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2006 Maxim Sokhatsky
+    Copyright (c) 2006 Maxim Sokhatsky (maxim@sokhatsky.com)
 */
 
 #ifndef KWQSIGNAL_H
