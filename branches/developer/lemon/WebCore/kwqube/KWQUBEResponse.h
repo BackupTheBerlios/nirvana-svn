@@ -1,9 +1,8 @@
+
 #ifndef KWIQRESPONSE_H
 #define KWIQRESPONSE_H
 
 #include "WebCoreFoundation.h"
-
-//#include <glib.h>
 
 typedef int32 GTime;
 

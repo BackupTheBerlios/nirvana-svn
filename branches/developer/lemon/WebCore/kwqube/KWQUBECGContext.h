@@ -12,13 +12,10 @@ public:
     //GdkRegion* clip;
     BRegion *clip;
     BView *view;
-
     virtual ~CGContext() {};
     virtual void addClip(BRect* rect) = 0;
-
     virtual void saveGraphicsState() = 0;
     virtual void restoreGraphicsState() = 0;
-
 };
 
 typedef CGContext* CGContextRef;
