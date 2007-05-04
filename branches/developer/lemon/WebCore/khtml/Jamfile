@@ -4,20 +4,20 @@ LOCATE_TARGET = [ FDirName $(WEBCORE_TOP) objects ] ;
 
 SubDirHdrs [ FDirName $(WEBCORE_TOP) ForwardingHeaders ] ;
 SubDirHdrs [ FDirName $(WEBCORE_TOP) kwqube ] ;
+SubDirHdrs [ FDirName $(WEBCORE_TOP) glib ] ;
 
 StaticLibrary libKHTML.a :
     BDictionary.cpp
     khtml_events.cpp
     khtml_part.cpp
-    khtmlview.cpp
+#    khtmlview.cpp
     ;
 
-#SubInclude WEBCORE_TOP khtml css ;
-SubInclude WEBCORE_TOP khtml xml ;
+SubInclude WEBCORE_TOP khtml css ;
 SubInclude WEBCORE_TOP khtml dom ;
 SubInclude WEBCORE_TOP khtml misc ;
-#SubInclude WEBCORE_TOP khtml html ;
-#SubInclude WEBCORE_TOP khtml rendering ;
-#SubInclude WEBCORE_TOP khtml ecma ;
-
-#SubInclude WEBCORE_TOP khtml editing ;
+SubInclude WEBCORE_TOP khtml html ;
+SubInclude WEBCORE_TOP khtml rendering ;
+SubInclude WEBCORE_TOP khtml ecma ;
+SubInclude WEBCORE_TOP khtml xml ;
+SubInclude WEBCORE_TOP khtml editing ;

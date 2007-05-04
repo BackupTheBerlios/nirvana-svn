@@ -5,6 +5,7 @@ LOCATE_TARGET = [ FDirName $(WEBCORE_TOP) objects ] ;
 SubDirHdrs [ FDirName $(WEBCORE_TOP) ForwardingHeaders ] ;
 SubDirHdrs [ FDirName $(WEBCORE_TOP) khtml ] ;
 SubDirHdrs [ FDirName $(WEBCORE_TOP) kwqube ] ;
+SubDirHdrs [ FDirName $(WEBCORE_TOP) glib ] ;
 
 StaticLibrary libCSS.a :
     css_base.cpp

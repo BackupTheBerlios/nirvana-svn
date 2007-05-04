@@ -30,7 +30,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include "NRCore/WebCoreUnicode.h"
+#include "WebCoreUnicode.h"
 
 // unicode functions needed by webcore
 

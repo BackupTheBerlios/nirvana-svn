@@ -99,6 +99,8 @@ public:
     
     bool operator==(const KURL &);//, const KURL &);
 
+    QString urlString;
+
 private:
     void parse(const char *url, const QString *originalString);
 
@@ -113,8 +115,8 @@ private:
     QString _pass() const;
     QString _host() const;
 #endif
+
     
-    QString urlString;
     bool m_isValid;
     int schemeEndPos;
     int userStartPos;

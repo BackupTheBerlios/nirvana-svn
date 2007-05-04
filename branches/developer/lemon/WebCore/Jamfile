@@ -10,17 +10,18 @@ LOCATE_TARGET = [ FDirName $(WEBCORE_TOP) objects ] ;
 SharedLibrary libWebCore.so : WebCore.cpp ;
 LinkAgainst libWebCore.so
     :
-#    libKHTML.a
-#    libCSS.a
-#    libXML.a
-#    libDOM.a
-#    libRENDERING.a
+    libKHTML.a
+    libCSS.a
+    libXML.a
+    libDOM.a
+    libRENDERING.a
 #    libECMA.a
-#    libHTML.a
-#    libMISC.a
+    libHTML.a
+    libMISC.a
     libKWQ.a
     libG.a
     ;
+
 StdLibs libWebCore.so : be iconv stdc++ JavaScriptCore expat ;
 
 # 2. Build just libG. Its is standalone working globalization library
@@ -28,7 +29,7 @@ StdLibs libWebCore.so : be iconv stdc++ JavaScriptCore expat ;
 #LinkAgainst libG.so : libG.a ;
 #StdLibs libG.so : be iconv ;
 
-#SubInclude WEBCORE_TOP khtml ;
+SubInclude WEBCORE_TOP khtml ;
 SubInclude WEBCORE_TOP glib ;
 SubInclude WEBCORE_TOP kwqube ;
-SubInclude WEBCORE_TOP tests ;
+#SubInclude WEBCORE_TOP tests ;

@@ -289,7 +289,7 @@ KURL::KURL(const QString &url)
     }
 }
 
-#if !KWIQ
+#if !KWQUBE
 KURL::KURL(NSURL *url)
 {
     if (url) {
@@ -414,7 +414,7 @@ KURL::KURL(const KURL &base, const QString &relative, const QTextCodec *codec)
             ++p;
         }
         if (*p == ':') {
-            if (p[1] != '/' && base.protocol().lower() == QString(str, p - str).lower())
+            if (p[1] != '/' && QString::equals(base.protocol().lower(),QString(str, p - str).lower()))
                 str = p + 1;
             else
                 absolute = true;
@@ -1446,7 +1446,7 @@ void KURL::parse(const char *url, const QString *originalString)
 
 bool operator==(const KURL &a, const KURL &b)
 {
-    return a.urlString == b.urlString;
+    return QString::equals(a.urlString,b.urlString);
 }
 
 bool urlcmp(const QString &a, const QString &b, bool ignoreTrailingSlash, bool ignoreRef)
@@ -1455,10 +1455,10 @@ bool urlcmp(const QString &a, const QString &b, bool ignoreTrailingSlash, bool i
         KURL aURL(a);
         KURL bURL(b);
         if (aURL.m_isValid && bURL.m_isValid) {
-            return aURL.urlString.left(aURL.queryEndPos) == bURL.urlString.left(bURL.queryEndPos);
+            return QString::equals(aURL.urlString.left(aURL.queryEndPos), bURL.urlString.left(bURL.queryEndPos));
         }
     }
-    return a == b;
+    return QString::equals(a, b);
 }
 
 QString KURL::encode_string(const QString& notEncodedString)
@@ -1498,7 +1498,7 @@ QString KURL::encode_string(const QString& notEncodedString)
     return result;
 }
 
-#if !KWIQ
+#if !KWQUBE
 NSURL *KURL::getNSURL() const
 {
     const UInt8 *bytes = (const UInt8 *)(urlString.latin1());

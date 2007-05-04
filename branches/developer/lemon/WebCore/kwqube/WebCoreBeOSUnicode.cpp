@@ -32,7 +32,7 @@
  */
 #include <glib.h>
 
-#include "UnicodeImpl.h"
+#include "WebCoreBeOSUnicode.h"
 
 extern "C" 
 {
@@ -45,7 +45,7 @@ int UnicodeImplDigitValueFunction(UChar32 c)
 
 WebCoreUnicodeDirection UnicodeImplDirectionFunction(UChar32 c)
 {
-    GUnicodeType type = g_unichar_type(reinterpret_cast<gunichar>(c));
+    GUnicodeType type = g_unichar_type((gunichar)(c));
     switch (type){
     case G_UNICODE_CONTROL:
 	// this tells the direction?
